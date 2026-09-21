@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Store, ShieldCheck, Heart, ShoppingBag } from 'lucide-react';
+import { Home, Store, ShieldCheck, Heart, ShoppingBag, User, LogIn } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export default function BottomNavigation() {
-  const { cartItemCount, setIsCartOpen } = useApp();
+  const { cartItemCount, setIsCartOpen, isAuthenticated, isMerchant, isAdmin } = useApp();
 
   return (
     <nav className="fixed bottom-0 inset-x-0 z-40 bg-surface-container-lowest/95 backdrop-blur-lg border-t border-surface-container-high md:hidden pb-safe">
@@ -34,7 +34,7 @@ export default function BottomNavigation() {
           <span className="text-[10px] tracking-tight">Favoritos</span>
         </NavLink>
 
-        {/* Cart Quick Button in Mobile Bar */}
+        {/* Cart Quick Button */}
         <button
           type="button"
           onClick={() => setIsCartOpen(true)}
@@ -51,28 +51,47 @@ export default function BottomNavigation() {
           <span className="text-[10px] tracking-tight">Carrito</span>
         </button>
 
-        <NavLink
-          to="/panel/gondola"
-          className={({ isActive }) =>
-            `flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
-              isActive ? 'text-amber-600 font-bold' : 'text-on-surface-variant hover:text-on-surface'
-            }`
-          }
-        >
-          <Store className="w-5 h-5" />
-          <span className="text-[10px] tracking-tight">Comercio</span>
-        </NavLink>
+        {/* Merchant Panel Tab (Only if Merchant) */}
+        {isMerchant && (
+          <NavLink
+            to="/panel/gondola"
+            className={({ isActive }) =>
+              `flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
+                isActive ? 'text-amber-600 font-bold' : 'text-on-surface-variant hover:text-on-surface'
+              }`
+            }
+          >
+            <Store className="w-5 h-5" />
+            <span className="text-[10px] tracking-tight">Comercio</span>
+          </NavLink>
+        )}
 
+        {/* Admin Tab (Only if Admin) */}
+        {isAdmin && (
+          <NavLink
+            to="/admin"
+            className={({ isActive }) =>
+              `flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
+                isActive ? 'text-indigo-600 font-bold' : 'text-on-surface-variant hover:text-on-surface'
+              }`
+            }
+          >
+            <ShieldCheck className="w-5 h-5" />
+            <span className="text-[10px] tracking-tight">Admin</span>
+          </NavLink>
+        )}
+
+        {/* Profile / Login */}
         <NavLink
-          to="/admin"
+          to="/login"
           className={({ isActive }) =>
             `flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
-              isActive ? 'text-indigo-600 font-bold' : 'text-on-surface-variant hover:text-on-surface'
+              isActive ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-on-surface'
             }`
           }
         >
-          <ShieldCheck className="w-5 h-5" />
-          <span className="text-[10px] tracking-tight">Admin</span>
+          {isAuthenticated ? <User className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
+          <span className="text-[10px] tracking-tight">{isAuthenticated ? 'Perfil' : 'Ingresar'}</span>
         </NavLink>
 
       </div>
