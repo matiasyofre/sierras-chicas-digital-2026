@@ -1,9 +1,23 @@
 -- ==========================================================
--- SIERRAS CHICAS DIGITAL - SUPABASE DATABASE SCHEMA
+-- SIERRAS CHICAS DIGITAL - SUPABASE DATABASE SCHEMA (ACTUALIZADO)
 -- ==========================================================
 
 -- Habilitar extensión UUID
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- 0. TABLA DE PERFILES DE USUARIO & ROLES (RBAC)
+CREATE TABLE IF NOT EXISTS profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    full_name VARCHAR(150),
+    role VARCHAR(30) NOT NULL DEFAULT 'user', -- 'user' (Vecino/Turista), 'merchant' (Comercio), 'admin' (SuperAdmin)
+    business_id UUID, -- Si es merchant, ID de su comercio
+    location VARCHAR(100) DEFAULT 'Río Ceballos',
+    avatar_url TEXT,
+    phone VARCHAR(50),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
 
 -- 1. LOCALIDADES DE SIERRAS CHICAS
 CREATE TABLE IF NOT EXISTS locations (
@@ -46,7 +60,7 @@ CREATE TABLE IF NOT EXISTS plans (
     name VARCHAR(100) NOT NULL,
     slug VARCHAR(50) NOT NULL UNIQUE,
     price_ars NUMERIC(12, 2) NOT NULL DEFAULT 0.00,
-    billing_period VARCHAR(20) DEFAULT 'monthly', -- 'monthly', 'annual'
+    billing_period VARCHAR(20) DEFAULT 'monthly',
     features JSONB DEFAULT '[]'::JSONB,
     max_products INT DEFAULT 50,
     is_featured BOOLEAN DEFAULT FALSE,
@@ -57,7 +71,7 @@ CREATE TABLE IF NOT EXISTS plans (
 -- 4. COMERCIOS & PRESTADORES
 CREATE TABLE IF NOT EXISTS businesses (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID, -- Opcional link con auth.users
+    user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     name VARCHAR(200) NOT NULL,
     slug VARCHAR(200) NOT NULL UNIQUE,
     tagline VARCHAR(255),
@@ -115,9 +129,9 @@ CREATE TABLE IF NOT EXISTS orders (
     customer_phone VARCHAR(50) NOT NULL,
     customer_address VARCHAR(255),
     customer_notes TEXT,
-    delivery_method VARCHAR(50) DEFAULT 'delivery', -- 'delivery', 'takeaway', 'dine_in'
+    delivery_method VARCHAR(50) DEFAULT 'delivery',
     table_number VARCHAR(20),
-    payment_method VARCHAR(50) DEFAULT 'efectivo', -- 'efectivo', 'mercadopago', 'transferencia'
+    payment_method VARCHAR(50) DEFAULT 'efectivo',
     status VARCHAR(50) DEFAULT 'pending', -- 'pending', 'preparing', 'ready', 'delivered', 'cancelled'
     subtotal NUMERIC(12, 2) NOT NULL DEFAULT 0.00,
     delivery_fee NUMERIC(12, 2) DEFAULT 0.00,
@@ -147,7 +161,7 @@ CREATE TABLE IF NOT EXISTS quotes (
     client_location VARCHAR(100),
     service_required VARCHAR(200),
     message TEXT NOT NULL,
-    status VARCHAR(50) DEFAULT 'new', -- 'new', 'contacted', 'closed'
+    status VARCHAR(50) DEFAULT 'new',
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -156,7 +170,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
     plan_id UUID NOT NULL REFERENCES plans(id),
-    status VARCHAR(50) DEFAULT 'active', -- 'active', 'past_due', 'canceled'
+    status VARCHAR(50) DEFAULT 'active',
     current_period_start TIMESTAMPTZ DEFAULT NOW(),
     current_period_end TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '1 month'),
     amount NUMERIC(12, 2) NOT NULL,
@@ -172,7 +186,7 @@ CREATE TABLE IF NOT EXISTS platform_settings (
     contact_whatsapp VARCHAR(50) DEFAULT '+5493512345678',
     contact_email VARCHAR(150) DEFAULT 'hola@sierraschicasdigital.com',
     hero_title VARCHAR(255) DEFAULT 'Encontrá lo que buscas cerca tuyo.',
-    hero_subtitle TEXT DEFAULT 'Los mejores comercios, alojamientos, servicios y gastronomía en toda la región de Sierras Chicas al instante. Directo y sin comisiones.',
+    hero_subtitle TEXT DEFAULT 'Los mejores comercios, alojamientos, servicios y gastronomía en toda la región de Sierras Chicas al instante.',
     featured_banner_active BOOLEAN DEFAULT TRUE,
     featured_banner_text VARCHAR(255) DEFAULT '¡Sumá tu negocio gratis hoy mismo y comenzá a vender por WhatsApp!',
     pwa_theme_color VARCHAR(20) DEFAULT '#00685f',
@@ -180,19 +194,9 @@ CREATE TABLE IF NOT EXISTS platform_settings (
 );
 
 -- ==========================================================
--- ÍNDICES PARA OPTIMIZAR RENDIMIENTO
--- ==========================================================
-CREATE INDEX IF NOT EXISTS idx_businesses_location ON businesses(location_id);
-CREATE INDEX IF NOT EXISTS idx_businesses_category ON businesses(category_id);
-CREATE INDEX IF NOT EXISTS idx_businesses_status ON businesses(status);
-CREATE INDEX IF NOT EXISTS idx_businesses_slug ON businesses(slug);
-CREATE INDEX IF NOT EXISTS idx_products_business ON products(business_id);
-CREATE INDEX IF NOT EXISTS idx_orders_business ON orders(business_id);
-CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
-
--- ==========================================================
 -- POLÍTICAS ROW LEVEL SECURITY (RLS)
 -- ==========================================================
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE locations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE subcategories ENABLE ROW LEVEL SECURITY;
@@ -205,23 +209,19 @@ ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE platform_settings ENABLE ROW LEVEL SECURITY;
 
--- Políticas públicas de lectura para el PWA
-CREATE POLICY "Public locations read access" ON locations FOR SELECT USING (true);
-CREATE POLICY "Public categories read access" ON categories FOR SELECT USING (true);
-CREATE POLICY "Public subcategories read access" ON subcategories FOR SELECT USING (true);
-CREATE POLICY "Public plans read access" ON plans FOR SELECT USING (true);
-CREATE POLICY "Public businesses read access" ON businesses FOR SELECT USING (status = 'active');
-CREATE POLICY "Public products read access" ON products FOR SELECT USING (is_active = true);
-CREATE POLICY "Public platform_settings read access" ON platform_settings FOR SELECT USING (true);
-
--- Permitir creación pública de pedidos y cotizaciones desde el PWA
+-- Políticas públicas
+CREATE POLICY "Public profiles read" ON profiles FOR SELECT USING (true);
+CREATE POLICY "Public locations read" ON locations FOR SELECT USING (true);
+CREATE POLICY "Public categories read" ON categories FOR SELECT USING (true);
+CREATE POLICY "Public plans read" ON plans FOR SELECT USING (true);
+CREATE POLICY "Public businesses read" ON businesses FOR SELECT USING (status = 'active');
+CREATE POLICY "Public products read" ON products FOR SELECT USING (is_active = true);
+CREATE POLICY "Public platform_settings read" ON platform_settings FOR SELECT USING (true);
 CREATE POLICY "Public insert orders" ON orders FOR INSERT WITH CHECK (true);
-CREATE POLICY "Public insert order_items" ON order_items FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert quotes" ON quotes FOR INSERT WITH CHECK (true);
 
--- Acceso completo para usuarios autenticados / administradores
-CREATE POLICY "Authenticated businesses full access" ON businesses FOR ALL TO authenticated USING (true);
-CREATE POLICY "Authenticated products full access" ON products FOR ALL TO authenticated USING (true);
-CREATE POLICY "Authenticated orders full access" ON orders FOR ALL TO authenticated USING (true);
-CREATE POLICY "Authenticated order_items full access" ON order_items FOR ALL TO authenticated USING (true);
-CREATE POLICY "Authenticated settings full access" ON platform_settings FOR ALL TO authenticated USING (true);
+-- Políticas autenticadas
+CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "Merchants full access own business" ON businesses FOR ALL TO authenticated USING (auth.uid() = user_id OR EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'));
+CREATE POLICY "Merchants full access own products" ON products FOR ALL TO authenticated USING (EXISTS (SELECT 1 FROM businesses WHERE businesses.id = products.business_id AND (businesses.user_id = auth.uid() OR EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'))));
+CREATE POLICY "Merchants full access own orders" ON orders FOR ALL TO authenticated USING (EXISTS (SELECT 1 FROM businesses WHERE businesses.id = orders.business_id AND (businesses.user_id = auth.uid() OR EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.role = 'admin'))));

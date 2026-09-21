@@ -5,13 +5,16 @@ import {
   Store, 
   ShoppingBag, 
   MapPin, 
-  Search, 
   ShieldCheck, 
   Heart, 
   ChevronDown, 
   Menu, 
   X,
-  Smartphone
+  Smartphone,
+  LogIn,
+  LogOut,
+  User,
+  Sparkles
 } from 'lucide-react';
 
 export default function AppNavbar() {
@@ -21,8 +24,12 @@ export default function AppNavbar() {
     setSelectedLocation, 
     cartItemCount, 
     setIsCartOpen,
+    currentUser,
     userRole,
-    setUserRole,
+    isAuthenticated,
+    isMerchant,
+    isAdmin,
+    logout,
     favorites
   } = useApp();
   
@@ -30,12 +37,19 @@ export default function AppNavbar() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   const isHome = location.pathname === '/';
-  const isMerchant = location.pathname.startsWith('/panel');
-  const isAdmin = location.pathname.startsWith('/admin');
+  const isMerchantRoute = location.pathname.startsWith('/panel');
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   const selectedLocObj = locations.find(l => l.slug === selectedLocation);
+
+  const handleLogout = () => {
+    logout();
+    setUserDropdownOpen(false);
+    navigate('/');
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-xl border-b border-surface-container-high transition-all">
@@ -57,7 +71,7 @@ export default function AppNavbar() {
                 </span>
               </div>
               <span className="text-[11px] text-on-surface-variant hidden sm:inline-block font-medium">
-                Directorio & Marketplace Regional
+                Directorio & Portal Regional
               </span>
             </div>
           </Link>
@@ -101,7 +115,7 @@ export default function AppNavbar() {
             )}
           </div>
 
-          {/* Desktop Navigation Links */}
+          {/* Role-Specific Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1 bg-surface-container-low p-1 rounded-2xl border border-surface-container-high">
             <Link
               to="/"
@@ -113,28 +127,34 @@ export default function AppNavbar() {
               <span>Directorio PWA</span>
             </Link>
 
-            <Link
-              to="/panel/gondola"
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                isMerchant ? 'bg-surface-container-lowest text-tertiary-container shadow-sm' : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              <Store className="w-4 h-4" />
-              <span>Panel Comercio</span>
-            </Link>
+            {/* Merchant-Only Link */}
+            {isMerchant && (
+              <Link
+                to="/panel/gondola"
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  isMerchantRoute ? 'bg-surface-container-lowest text-amber-600 shadow-sm' : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                <Store className="w-4 h-4 text-amber-600" />
+                <span>Panel Comercio</span>
+              </Link>
+            )}
 
-            <Link
-              to="/admin"
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                isAdmin ? 'bg-surface-container-lowest text-secondary shadow-sm' : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              <ShieldCheck className="w-4 h-4" />
-              <span>SuperAdmin SaaS</span>
-            </Link>
+            {/* Admin-Only Link */}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  isAdminRoute ? 'bg-surface-container-lowest text-indigo-600 shadow-sm' : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                <span>SuperAdmin SaaS</span>
+              </Link>
+            )}
           </nav>
 
-          {/* Right Action Icons */}
+          {/* Right Actions: Cart + Favorites + User Menu / Login */}
           <div className="flex items-center gap-2">
             
             {/* Favorites Icon */}
@@ -164,6 +184,96 @@ export default function AppNavbar() {
               )}
             </button>
 
+            {/* User Profile / Login Button */}
+            {isAuthenticated ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  className="flex items-center gap-2 p-1.5 pr-2.5 rounded-2xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high transition-colors"
+                >
+                  <img
+                    src={currentUser.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'}
+                    alt={currentUser.fullName}
+                    className="w-7 h-7 rounded-xl object-cover ring-2 ring-primary/20"
+                  />
+                  <div className="hidden sm:flex flex-col text-left">
+                    <span className="text-xs font-bold text-on-surface truncate max-w-[100px]">
+                      {currentUser.fullName.split(' ')[0]}
+                    </span>
+                    <span className={`text-[9px] font-extrabold uppercase px-1 rounded-sm w-fit ${
+                      userRole === 'admin' ? 'bg-indigo-100 text-indigo-800' : userRole === 'merchant' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
+                    }`}>
+                      {userRole}
+                    </span>
+                  </div>
+                  <ChevronDown className="w-3.5 h-3.5 text-outline" />
+                </button>
+
+                {userDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-modal p-2 z-50 space-y-1 animate-in fade-in zoom-in-95">
+                    <div className="p-2 border-b border-surface-container-high">
+                      <p className="text-xs font-bold text-on-surface truncate">{currentUser.fullName}</p>
+                      <p className="text-[10px] text-on-surface-variant truncate">{currentUser.email}</p>
+                      <span className={`inline-block mt-1 text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded-full ${
+                        userRole === 'admin' ? 'bg-indigo-100 text-indigo-800' : userRole === 'merchant' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
+                      }`}>
+                        Rol: {userRole}
+                      </span>
+                    </div>
+
+                    {isMerchant && (
+                      <Link
+                        to="/panel/gondola"
+                        onClick={() => setUserDropdownOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-on-surface hover:bg-surface-container"
+                      >
+                        <Store className="w-4 h-4 text-amber-600" />
+                        <span>Mi Panel de Comercio</span>
+                      </Link>
+                    )}
+
+                    {isAdmin && (
+                      <Link
+                        to="/admin"
+                        onClick={() => setUserDropdownOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-on-surface hover:bg-surface-container"
+                      >
+                        <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                        <span>Consola SuperAdmin</span>
+                      </Link>
+                    )}
+
+                    <Link
+                      to="/login"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-on-surface hover:bg-surface-container"
+                    >
+                      <Sparkles className="w-4 h-4 text-primary" />
+                      <span>Cambiar de Cuenta / Rol</span>
+                    </Link>
+
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors text-left pt-1 border-t border-surface-container-high"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Cerrar Sesión</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="px-3.5 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xs"
+              >
+                <LogIn className="w-3.5 h-3.5 text-primary" />
+                <span>Ingresar</span>
+              </Link>
+            )}
+
             {/* Mobile Menu Toggle Button */}
             <button
               type="button"
@@ -180,32 +290,68 @@ export default function AppNavbar() {
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-surface-container-high bg-surface-container-lowest px-4 pt-3 pb-5 space-y-3 animate-in slide-in-from-top-2">
+          
+          {/* User Status Bar in Mobile */}
+          {isAuthenticated ? (
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-surface border border-surface-container-high">
+              <div className="flex items-center gap-2.5">
+                <img src={currentUser.avatarUrl} alt={currentUser.fullName} className="w-8 h-8 rounded-xl object-cover" />
+                <div>
+                  <h4 className="text-xs font-bold text-on-surface">{currentUser.fullName}</h4>
+                  <span className="text-[10px] text-outline uppercase font-extrabold">Rol: {userRole}</span>
+                </div>
+              </div>
+              <button
+                onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                className="text-xs font-bold text-rose-600 p-1.5 hover:bg-rose-50 rounded-lg"
+              >
+                Salir
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-2.5 rounded-xl bg-primary text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Iniciar Sesión / Acceso por Rol</span>
+            </Link>
+          )}
+
           <div className="space-y-1">
-            <span className="text-[11px] font-bold text-outline uppercase tracking-wider px-2">Vistas Principales</span>
+            <span className="text-[11px] font-bold text-outline uppercase tracking-wider px-2">Vistas Habilitadas</span>
+            
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-on-surface hover:bg-surface-container"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-on-surface hover:bg-surface-container"
             >
-              <Smartphone className="w-5 h-5 text-primary" />
-              <span>1. Directorio Vecino & Turista PWA</span>
+              <Smartphone className="w-4 h-4 text-primary" />
+              <span>Directorio Regional Vecinos</span>
             </Link>
-            <Link
-              to="/panel/gondola"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-on-surface hover:bg-surface-container"
-            >
-              <Store className="w-5 h-5 text-amber-600" />
-              <span>2. Panel de Comercio (Góndola & POS)</span>
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-on-surface hover:bg-surface-container"
-            >
-              <ShieldCheck className="w-5 h-5 text-indigo-600" />
-              <span>3. SuperAdmin Central SaaS</span>
-            </Link>
+
+            {isMerchant && (
+              <Link
+                to="/panel/gondola"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-on-surface hover:bg-surface-container"
+              >
+                <Store className="w-4 h-4 text-amber-600" />
+                <span>Panel de Mi Comercio (Góndola & POS)</span>
+              </Link>
+            )}
+
+            {isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-on-surface hover:bg-surface-container"
+              >
+                <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                <span>Consola Central SuperAdmin</span>
+              </Link>
+            )}
           </div>
 
           <div className="pt-2 border-t border-surface-container-high">

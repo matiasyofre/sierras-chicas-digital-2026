@@ -5,19 +5,23 @@ import BottomNavigation from './components/layout/BottomNavigation';
 import AppFooter from './components/layout/AppFooter';
 import CartSlideOver from './components/common/CartSlideOver';
 import PwaInstallPrompt from './components/common/PwaInstallPrompt';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
-// Views
+// Auth View
+import LoginView from './views/auth/LoginView';
+
+// Vecino / Turista Views
 import HomeDirectoryView from './views/pwa/HomeDirectoryView';
 import ProfessionalProfileView from './views/pwa/ProfessionalProfileView';
 import StoreCartCheckoutView from './views/pwa/StoreCartCheckoutView';
 import FavoritesView from './views/pwa/FavoritesView';
 
-// Merchant Views
+// Merchant Views (Protected)
 import GondolaDataGridView from './views/merchant/GondolaDataGridView';
 import PosKanbanView from './views/merchant/PosKanbanView';
 import MerchantProfileView from './views/merchant/MerchantProfileView';
 
-// Admin Views
+// Admin Views (Protected)
 import AdminDashboardView from './views/admin/AdminDashboardView';
 import AdminMerchantsView from './views/admin/AdminMerchantsView';
 import AdminSubscriptionsView from './views/admin/AdminSubscriptionsView';
@@ -27,32 +31,90 @@ import AdminSettingsView from './views/admin/AdminSettingsView';
 export default function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const isAuthPage = location.pathname === '/login';
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface">
       {/* Top Navbar */}
       <AppNavbar />
 
-      {/* Main Routes */}
+      {/* Main Routes with Role-Based Protection */}
       <div className="flex-1 flex flex-col">
         <Routes>
-          {/* Vecino / Turista PWA Routes */}
+          {/* Public & Vecino / Turista PWA Routes */}
           <Route path="/" element={<HomeDirectoryView />} />
           <Route path="/comercio/:slug" element={<ProfessionalProfileView />} />
           <Route path="/tienda/:slug" element={<StoreCartCheckoutView />} />
           <Route path="/favoritos" element={<FavoritesView />} />
+          <Route path="/login" element={<LoginView />} />
 
-          {/* Merchant Routes */}
-          <Route path="/panel/gondola" element={<GondolaDataGridView />} />
-          <Route path="/panel/pos" element={<PosKanbanView />} />
-          <Route path="/panel/perfil" element={<MerchantProfileView />} />
+          {/* Merchant Routes (Restricted to 'merchant' and 'admin') */}
+          <Route
+            path="/panel/gondola"
+            element={
+              <ProtectedRoute allowedRoles={['merchant', 'admin']}>
+                <GondolaDataGridView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/panel/pos"
+            element={
+              <ProtectedRoute allowedRoles={['merchant', 'admin']}>
+                <PosKanbanView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/panel/perfil"
+            element={
+              <ProtectedRoute allowedRoles={['merchant', 'admin']}>
+                <MerchantProfileView />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminDashboardView />} />
-          <Route path="/admin/comercios" element={<AdminMerchantsView />} />
-          <Route path="/admin/suscripciones" element={<AdminSubscriptionsView />} />
-          <Route path="/admin/categorias" element={<AdminTaxonomyView />} />
-          <Route path="/admin/configuracion" element={<AdminSettingsView />} />
+          {/* SuperAdmin Routes (Restricted strictly to 'admin') */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminDashboardView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/comercios"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminMerchantsView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/suscripciones"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminSubscriptionsView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/categorias"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminTaxonomyView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/configuracion"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminSettingsView />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
 
@@ -62,8 +124,8 @@ export default function App() {
       {/* PWA Install Prompt */}
       <PwaInstallPrompt />
 
-      {/* Footer (Not on admin pages) */}
-      {!isAdmin && <AppFooter />}
+      {/* Footer (Not on admin pages or login) */}
+      {!isAdmin && !isAuthPage && <AppFooter />}
 
       {/* Mobile Bottom Navigation */}
       <BottomNavigation />

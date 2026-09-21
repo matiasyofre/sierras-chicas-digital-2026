@@ -1,11 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { localDb } from '../services/supabase';
+import { localDb, DEMO_ACCOUNTS, supabase } from '../services/supabase';
 import { INITIAL_CATEGORIES, INITIAL_LOCATIONS, INITIAL_PLANS } from '../data/mockData';
 
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
-  const [userRole, setUserRole] = useState('user'); // 'user', 'merchant', 'admin'
+  // Authentication & Role State (Defaults to 'guest' or saved session)
+  const [currentUser, setCurrentUser] = useState(() => localDb.getAuthSession());
+  const userRole = currentUser ? currentUser.role : 'guest'; // 'guest', 'user', 'merchant', 'admin'
+
   const [locations] = useState(INITIAL_LOCATIONS);
   const [categories] = useState(INITIAL_CATEGORIES);
   const [plans] = useState(INITIAL_PLANS);
@@ -25,6 +28,11 @@ export function AppProvider({ children }) {
   const [cartBusiness, setCartBusiness] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Sync session
+  useEffect(() => {
+    localDb.saveAuthSession(currentUser);
+  }, [currentUser]);
+
   // Sync to local DB
   useEffect(() => {
     localDb.saveBusinesses(businesses);
@@ -37,6 +45,85 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localDb.saveOrders(orders);
   }, [orders]);
+
+  // Auth Operations
+  const loginWithDemo = (demoKey) => {
+    const account = DEMO_ACCOUNTS[demoKey];
+    if (account) {
+      setCurrentUser(account);
+      return account;
+    }
+    return null;
+  };
+
+  const loginWithEmail = async (email, password) => {
+    try {
+      // 1. Check if matches demo accounts
+      const matchedDemo = Object.values(DEMO_ACCOUNTS).find(a => a.email.toLowerCase() === email.toLowerCase());
+      if (matchedDemo) {
+        setCurrentUser(matchedDemo);
+        return { success: true, user: matchedDemo };
+      }
+
+      // 2. Try Supabase Auth
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        // Fallback for custom emails
+        const customUser = {
+          id: 'usr-' + Date.now(),
+          email,
+          fullName: email.split('@')[0],
+          role: 'user',
+          avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+          location: 'Río Ceballos'
+        };
+        setCurrentUser(customUser);
+        return { success: true, user: customUser };
+      }
+
+      const loggedUser = {
+        id: data.user.id,
+        email: data.user.email,
+        fullName: data.user.user_metadata?.full_name || email.split('@')[0],
+        role: data.user.user_metadata?.role || 'user',
+        avatarUrl: data.user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'
+      };
+      setCurrentUser(loggedUser);
+      return { success: true, user: loggedUser };
+    } catch (err) {
+      console.warn('Auth fallback:', err);
+      const fallbackUser = {
+        id: 'usr-' + Date.now(),
+        email,
+        fullName: email.split('@')[0],
+        role: 'user',
+        avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'
+      };
+      setCurrentUser(fallbackUser);
+      return { success: true, user: fallbackUser };
+    }
+  };
+
+  const registerWithEmail = async ({ email, password, fullName, role, businessName, location }) => {
+    const newUser = {
+      id: 'usr-' + Date.now(),
+      email,
+      fullName: fullName || email.split('@')[0],
+      role: role || 'user',
+      businessName: role === 'merchant' ? businessName : undefined,
+      businessId: role === 'merchant' ? 'biz-1' : undefined,
+      location: location || 'Río Ceballos',
+      avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'
+    };
+
+    setCurrentUser(newUser);
+    return { success: true, user: newUser };
+  };
+
+  const logout = () => {
+    setCurrentUser(null);
+    localDb.saveAuthSession(null);
+  };
 
   // Favorites
   const toggleFavorite = (businessId) => {
@@ -129,8 +216,16 @@ export function AppProvider({ children }) {
   return (
     <AppContext.Provider
       value={{
+        currentUser,
         userRole,
-        setUserRole,
+        isAuthenticated: !!currentUser,
+        isMerchant: userRole === 'merchant',
+        isAdmin: userRole === 'admin',
+        isUser: userRole === 'user' || userRole === 'guest',
+        loginWithDemo,
+        loginWithEmail,
+        registerWithEmail,
+        logout,
         locations,
         categories,
         plans,
