@@ -52,3 +52,135 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ======================================================== */
+/* HyperFrames Motion & Animation Engine */
+/* ======================================================== */
+@keyframes hfFloatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0.8deg);
+  }
+}
+
+@keyframes hfFloatReverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(-0.8deg);
+  }
+}
+
+@keyframes hfGlowPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes hfRadar {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes hfMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes hfShimmerSweep {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+@keyframes hfBadgeGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.5);
+  }
+}
+
+.hf-float-slow {
+  animation: hfFloatSlow 6s ease-in-out infinite;
+}
+
+.hf-float-reverse {
+  animation: hfFloatReverse 7s ease-in-out infinite;
+}
+
+.hf-glow-pulse {
+  animation: hfGlowPulse 5s ease-in-out infinite;
+}
+
+.hf-radar-ripple {
+  animation: hfRadar 2.8s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.hf-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: hfMarquee 40s linear infinite;
+}
+
+.hf-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.hf-badge-glow {
+  animation: hfBadgeGlow 3s ease-in-out infinite;
+}
+
+.hf-shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.hf-shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 40%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.35) 60%,
+    transparent 80%
+  );
+  transform: translateX(-100%) skewX(-20deg);
+  transition: none;
+}
+
+.hf-shimmer-btn:hover::after {
+  animation: hfShimmerSweep 1.2s ease-in-out;
+}
