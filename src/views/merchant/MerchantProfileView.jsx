@@ -15,21 +15,24 @@ import {
 } from 'lucide-react';
 
 export default function MerchantProfileView() {
-  const { businesses, updateBusiness } = useApp();
+  const { businesses, updateBusiness, categories, locations } = useApp();
   const currentBiz = businesses[0]; // Cafe de las Sierras
 
   const [formData, setFormData] = useState({
     name: currentBiz.name,
     tagline: currentBiz.tagline,
     description: currentBiz.description,
-    locationName: currentBiz.locationName,
+    categoryId: currentBiz.categoryId || 'cat-1',
+    categoryName: currentBiz.categoryName || 'Gastronomía',
+    locationId: currentBiz.locationId || 'loc-1',
+    locationName: currentBiz.locationName || 'Río Ceballos',
     address: currentBiz.address,
     phone: currentBiz.phone,
     whatsapp: currentBiz.whatsapp,
     email: currentBiz.email,
     instagram: currentBiz.instagram,
     openingHours: currentBiz.openingHours,
-    businessMode: currentBiz.businessMode, // tienda, servicios, catalogo
+    businessMode: currentBiz.businessMode || 'tienda', // aviso, tienda, servicios
     logoUrl: currentBiz.logoUrl,
     coverUrl: currentBiz.coverUrl
   });
@@ -56,10 +59,10 @@ export default function MerchantProfileView() {
               Configuración de Perfil
             </span>
             <h1 className="text-lg sm:text-xl font-extrabold text-on-surface mt-1">
-              Ficha del Negocio & Modalidad de Venta
+              Ficha del Negocio & Modalidad de Presencia
             </h1>
             <p className="text-xs text-on-surface-variant mt-0.5">
-              Definí cómo interactúan los clientes de Sierras Chicas con tu ficha pública.
+              Definí cómo interactúan los vecinos y turistas de Sierras Chicas con tu ficha pública.
             </p>
           </div>
 
@@ -88,57 +91,62 @@ export default function MerchantProfileView() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Opción 1: Aviso */}
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, businessMode: 'aviso' })}
+                className={`p-4 rounded-2xl border text-left space-y-1.5 transition-all ${
+                  formData.businessMode === 'aviso' || formData.businessMode === 'catalogo'
+                    ? 'bg-amber-50 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
+                    : 'bg-surface border-surface-container-high hover:bg-surface-container'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-on-surface">📢 Aviso Publicitario</span>
+                  {(formData.businessMode === 'aviso' || formData.businessMode === 'catalogo') && (
+                    <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+                  )}
+                </div>
+                <p className="text-[11px] text-on-surface-variant leading-relaxed">
+                  Para quienes solo quieren publicitar: ficha institucional con fotos, datos y WhatsApp directo sin carrito.
+                </p>
+              </button>
+
+              {/* Opción 2: Tienda */}
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, businessMode: 'tienda' })}
                 className={`p-4 rounded-2xl border text-left space-y-1.5 transition-all ${
                   formData.businessMode === 'tienda'
-                    ? 'bg-amber-50 border-amber-500 shadow-sm'
+                    ? 'bg-amber-50 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
                     : 'bg-surface border-surface-container-high hover:bg-surface-container'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-on-surface">🛍️ Tienda & Carrito</span>
-                  {formData.businessMode === 'tienda' && <CheckCircle2 className="w-4 h-4 text-amber-600" />}
+                  <span className="text-xs font-extrabold text-on-surface">🛍️ Tienda Virtual & Carrito</span>
+                  {formData.businessMode === 'tienda' && <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />}
                 </div>
                 <p className="text-[11px] text-on-surface-variant leading-relaxed">
-                  Para gastronomía y tiendas: catálogo interactivo con carrito y checkout directo por WhatsApp.
+                  Para gastronomía y comercios: catálogo con precios, carrito lateral y checkout automático por WhatsApp.
                 </p>
               </button>
 
+              {/* Opción 3: Servicios */}
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, businessMode: 'servicios' })}
                 className={`p-4 rounded-2xl border text-left space-y-1.5 transition-all ${
                   formData.businessMode === 'servicios'
-                    ? 'bg-amber-50 border-amber-500 shadow-sm'
+                    ? 'bg-amber-50 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
                     : 'bg-surface border-surface-container-high hover:bg-surface-container'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-on-surface">🔧 Servicios Pro</span>
-                  {formData.businessMode === 'servicios' && <CheckCircle2 className="w-4 h-4 text-amber-600" />}
+                  <span className="text-xs font-extrabold text-on-surface">🔧 Servicios & Presupuesto</span>
+                  {formData.businessMode === 'servicios' && <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />}
                 </div>
                 <p className="text-[11px] text-on-surface-variant leading-relaxed">
-                  Para electricistas, gasistas, cabañas: formulario directo de cotización y presupuesto.
-                </p>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, businessMode: 'catalogo' })}
-                className={`p-4 rounded-2xl border text-left space-y-1.5 transition-all ${
-                  formData.businessMode === 'catalogo'
-                    ? 'bg-amber-50 border-amber-500 shadow-sm'
-                    : 'bg-surface border-surface-container-high hover:bg-surface-container'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-on-surface">📖 Catálogo Informativo</span>
-                  {formData.businessMode === 'catalogo' && <CheckCircle2 className="w-4 h-4 text-amber-600" />}
-                </div>
-                <p className="text-[11px] text-on-surface-variant leading-relaxed">
-                  Para ferreterías o corralones: listado de productos de referencia sin carrito.
+                  Para profesionales, técnicos y cabañas: cotizador y generador interactivo de presupuestos por WhatsApp.
                 </p>
               </button>
             </div>
@@ -173,6 +181,53 @@ export default function MerchantProfileView() {
               </div>
             </div>
 
+            {/* Category & Location Selectors */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="font-bold text-on-surface block mb-1">Rubro / Categoría Principal *</label>
+                <select
+                  value={formData.categoryId}
+                  onChange={e => {
+                    const selectedCat = categories.find(c => c.id === e.target.value);
+                    setFormData({
+                      ...formData,
+                      categoryId: e.target.value,
+                      categoryName: selectedCat ? selectedCat.name : formData.categoryName
+                    });
+                  }}
+                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-medium"
+                >
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.emoji} {cat.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="font-bold text-on-surface block mb-1">Localidad en Sierras Chicas *</label>
+                <select
+                  value={formData.locationName}
+                  onChange={e => {
+                    const selectedLoc = locations.find(l => l.name === e.target.value);
+                    setFormData({
+                      ...formData,
+                      locationName: e.target.value,
+                      locationId: selectedLoc ? selectedLoc.id : formData.locationId
+                    });
+                  }}
+                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-medium"
+                >
+                  {locations.map(loc => (
+                    <option key={loc.id} value={loc.name}>
+                      📍 {loc.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
             <div>
               <label className="font-bold text-on-surface block mb-1">Descripción Completa</label>
               <textarea
@@ -183,17 +238,7 @@ export default function MerchantProfileView() {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <label className="font-bold text-on-surface block mb-1">Localidad en Sierras Chicas</label>
-                <input
-                  type="text"
-                  value={formData.locationName}
-                  onChange={e => setFormData({ ...formData, locationName: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
-                />
-              </div>
-
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="font-bold text-on-surface block mb-1">Dirección Física</label>
                 <input
@@ -213,6 +258,7 @@ export default function MerchantProfileView() {
                   className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
                 />
               </div>
+            </div>
             </div>
           </div>
 

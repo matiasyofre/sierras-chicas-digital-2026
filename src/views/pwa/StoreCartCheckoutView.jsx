@@ -179,9 +179,27 @@ export default function StoreCartCheckoutView() {
         </div>
 
         {/* Search in Menu & Categories Strip */}
-        <div className="space-y-3 sticky top-20 z-30 bg-surface/95 backdrop-blur-md py-2">
-          {/* Search */}
-          <div className="bg-surface-container-lowest px-3 py-2 rounded-2xl border border-surface-container-high shadow-xs flex items-center gap-2">
+        <div className="bg-surface-container-lowest p-4 sm:p-5 rounded-3xl border border-surface-container-high shadow-subtle space-y-3.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h2 className="text-sm sm:text-base font-extrabold text-on-surface">
+                Carta & Catálogo Disponible ({filteredProducts.length})
+              </h2>
+              <p className="text-xs text-on-surface-variant">Precios actualizados en tiempo real</p>
+            </div>
+            {selectedCategory !== 'all' && (
+              <button
+                type="button"
+                onClick={() => setSelectedCategory('all')}
+                className="text-xs text-primary font-bold hover:underline self-start sm:self-auto"
+              >
+                Ver todos los ítems
+              </button>
+            )}
+          </div>
+
+          {/* Search Box */}
+          <div className="bg-surface px-3.5 py-2.5 rounded-2xl border border-surface-container-high shadow-2xs flex items-center gap-2.5 focus-within:border-primary transition-colors">
             <Search className="w-4 h-4 text-outline shrink-0" />
             <input
               type="text"
@@ -198,14 +216,14 @@ export default function StoreCartCheckoutView() {
           </div>
 
           {/* Categories Pill Strip */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 pb-0.5">
             <button
               type="button"
               onClick={() => setSelectedCategory('all')}
               className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 selectedCategory === 'all'
                   ? 'bg-primary text-white shadow-sm'
-                  : 'bg-surface-container-lowest text-on-surface hover:bg-surface-container border border-surface-container-high'
+                  : 'bg-surface text-on-surface hover:bg-surface-container border border-surface-container-high'
               }`}
             >
               Todos los Ítems
@@ -218,7 +236,7 @@ export default function StoreCartCheckoutView() {
                 className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   selectedCategory === catName
                     ? 'bg-primary text-white shadow-sm'
-                    : 'bg-surface-container-lowest text-on-surface hover:bg-surface-container border border-surface-container-high'
+                    : 'bg-surface text-on-surface hover:bg-surface-container border border-surface-container-high'
                 }`}
               >
                 {catName}
@@ -229,13 +247,6 @@ export default function StoreCartCheckoutView() {
 
         {/* Products Grid (Mobile: 1 col, Tablet: 2 cols, Desktop: 3 cols) */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base sm:text-lg font-extrabold text-on-surface">
-              Carta & Catálogo Disponible ({filteredProducts.length})
-            </h2>
-            <span className="text-xs text-on-surface-variant font-medium">Precios actualizados</span>
-          </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredProducts.map(prod => (
               <div
