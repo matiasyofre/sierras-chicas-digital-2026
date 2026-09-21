@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { localDb, DEMO_ACCOUNTS, supabase } from '../services/supabase';
-import { INITIAL_CATEGORIES, INITIAL_LOCATIONS, INITIAL_PLANS } from '../data/mockData';
+import { INITIAL_CATEGORIES, INITIAL_LOCATIONS, INITIAL_PLANS, INITIAL_SETTINGS, INITIAL_TAGS } from '../data/mockData';
 
 const AppContext = createContext(null);
 
