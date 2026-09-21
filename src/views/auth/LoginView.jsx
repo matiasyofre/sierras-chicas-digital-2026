@@ -4,12 +4,10 @@ import { useApp } from '../../context/AppContext';
 import { 
   LogIn, 
   Store, 
-  ShieldCheck, 
   Sparkles, 
   ArrowLeft, 
   Lock, 
-  Mail, 
-  CheckCircle2
+  Mail 
 } from 'lucide-react';
 
 export default function LoginView() {
@@ -84,12 +82,14 @@ export default function LoginView() {
             <span className="material-symbols-outlined text-[28px]">landscape</span>
           </div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-on-surface tracking-tight">
-            Portal de Gestión & Autogestión
+            Portal de Comercios & Negocios
           </h1>
           <p className="text-xs text-on-surface-variant max-w-sm mx-auto">
-            Acceso exclusivo para Dueños de Comercios y Administradores de Sierras Chicas Digital.
+            Acceso exclusivo para Dueños de Comercios y Prestadores de Servicios de Sierras Chicas.
           </p>
-        </div>        {/* 1-Click Demo Account for Merchant */}
+        </div>
+
+        {/* 1-Click Demo Account for Merchant */}
         <div className="bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle space-y-3">
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-amber-500" />
@@ -117,7 +117,7 @@ export default function LoginView() {
               </p>
             </button>
           </div>
-        </div>  </div>
+        </div>
 
         {/* Traditional Login Form */}
         <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-high shadow-card space-y-4">
