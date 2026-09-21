@@ -19,7 +19,13 @@ import {
   Zap,
   SlidersHorizontal,
   ChevronRight,
-  X
+  X,
+  ShieldCheck,
+  PhoneCall,
+  Smartphone,
+  TrendingUp,
+  Award,
+  Compass
 } from 'lucide-react';
 
 export default function HomeDirectoryView() {
@@ -44,7 +50,11 @@ export default function HomeDirectoryView() {
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'aviso', 'tienda', 'servicios'
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+  
   const searchContainerRef = useRef(null);
+  const directorySectionRef = useRef(null);
 
   // Close search suggestions on outside click
   useEffect(() => {
@@ -77,10 +87,6 @@ export default function HomeDirectoryView() {
         (item.parentName && item.parentName.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     : [];
-
-  // Current active category object & subcategories
-  const activeCategoryObj = categories.find(c => c.slug === selectedCategory);
-  const currentSubcategories = activeCategoryObj?.subcategories || [];
 
   // Filter businesses with multi-level taxonomy, products, tags, and locations
   const filteredBusinesses = businesses.filter(biz => {
@@ -144,6 +150,12 @@ export default function HomeDirectoryView() {
     return true;
   });
 
+  const scrollToDirectory = () => {
+    if (directorySectionRef.current) {
+      directorySectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSelectTaxonomyItem = (item) => {
     if (item.type === 'rubro') {
       setSelectedCategory(item.catSlug);
@@ -155,114 +167,131 @@ export default function HomeDirectoryView() {
       setSearchQuery('');
     }
     setIsSearchFocused(false);
+    scrollToDirectory();
+  };
+
+  const handleCategoryCardClick = (catSlug) => {
+    setSelectedCategory(catSlug);
+    setSelectedSubcategory('all');
+    scrollToDirectory();
+  };
+
+  const handleSubcategoryClick = (catSlug, subName) => {
+    setSelectedCategory(catSlug);
+    setSelectedSubcategory(subName);
+    scrollToDirectory();
+  };
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) return;
+    setNewsletterSuccess(true);
+    setTimeout(() => {
+      setNewsletterSuccess(false);
+      setNewsletterEmail('');
+    }, 4000);
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full pb-24 md:pb-16 animate-in fade-in">
+    <div className="flex-1 flex flex-col w-full pb-24 md:pb-16 animate-in fade-in bg-[#f8fafc]">
       
-      {/* Hero Section with Animated Background & Search Bar */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-teal-950 via-slate-900 to-slate-950 text-white pt-8 sm:pt-12 pb-12 px-4 sm:px-6 lg:px-8 border-b border-teal-900/40">
+      {/* ======================================================== */}
+      {/* 1. HERO SECTION (Reference Structure: Deep Blue + Dual Search Box) */}
+      {/* ======================================================== */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white pt-12 sm:pt-16 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
         
-        {/* Animated Background Lights & Vector Mountain Contours */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-emerald-500/15 blur-3xl animate-pulse"></div>
-          <div className="absolute top-1/2 -right-20 w-80 h-80 rounded-full bg-teal-400/10 blur-3xl"></div>
-          
-          <svg 
-            className="absolute bottom-0 left-0 right-0 w-full h-24 sm:h-36 opacity-25 text-teal-800 preserve-3d" 
-            viewBox="0 0 1440 320" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path 
-              fill="currentColor" 
-              d="M0,224L48,208C96,192,192,160,288,165.3C384,171,480,213,576,218.7C672,224,768,192,864,165.3C960,139,1056,117,1152,122.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            />
-            <path 
-              fill="#0f766e" 
-              opacity="0.4"
-              d="M0,128L40,149.3C80,171,160,213,240,208C320,203,400,149,480,138.7C560,128,640,160,720,186.7C800,213,880,235,960,224C1040,213,1120,171,1200,165.3C1280,160,1360,192,1400,208L1440,224L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
-            />
-          </svg>
+        {/* Background Image / Ambient Lighting */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80"
+            alt="Valle de Sierras Chicas"
+            className="w-full h-full object-cover mix-blend-overlay"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/70 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto space-y-5">
+        <div className="relative z-10 max-w-5xl mx-auto space-y-6 text-center">
           
-          {/* Badge & Regional Tag */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-400/30 text-xs font-black shadow-inner backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-teal-300 animate-spin" style={{ animationDuration: '6s' }} />
-              <span>Plataforma Oficial Sierras Chicas 2026</span>
-            </span>
-            <span className="text-xs font-semibold text-teal-200/80 hidden sm:inline">
-              Río Ceballos · Unquillo · Mendiolaza · Villa Allende · Salsipuedes · La Granja · La Calera
-            </span>
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-amber-400 border border-white/10 text-xs font-black backdrop-blur-md shadow-inner">
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>DIRECTORIO & RED COMERCIAL DE SIERRAS CHICAS</span>
           </div>
 
-          {/* Hero Titles */}
-          <div className="space-y-2">
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-              Encontrá lo que <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-300">buscás</span> cerca tuyo.
-            </h1>
-            <p className="text-xs sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-              Comercios, gastronomía, prestadores profesionales y turismo en todo el corredor serrano. Comprá directo, rápido y sin intermediarios.
-            </p>
-          </div>
+          {/* Hero Main Headline (Matching reference style: "Listovo puede ayudarte a tomar una decisión inteligente") */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto">
+            Sierras Chicas Digital puede <span className="text-amber-400">ayudarte a tomar una decisión inteligente.</span>
+          </h1>
+          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Encontrá comercios verificados, gastronomía artesanal, prestadores profesionales y cabañas en todo el valle.
+          </p>
 
-          {/* Universal Search Bar with Full Taxonomy Autocomplete */}
-          <div ref={searchContainerRef} className="relative max-w-3xl">
-            <div className="bg-surface-container-lowest/95 backdrop-blur-md p-2 rounded-2xl shadow-2xl border border-white/20 flex items-center gap-2">
-              <Search className="w-5 h-5 text-outline ml-2 shrink-0" />
-              <input
-                type="text"
-                list="taxonomy-datalist"
-                value={searchQuery}
-                onFocus={() => setIsSearchFocused(true)}
-                onChange={e => {
-                  setSearchQuery(e.target.value);
-                  setIsSearchFocused(true);
-                }}
-                placeholder="Buscá por rubro, categoría, subcategoría, comercio o producto..."
-                className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none py-1.5 font-medium"
-              />
+          {/* Dual Search Box (Matching reference style: [¿Qué buscas?] [Localidad] [Buscar Button]) */}
+          <div ref={searchContainerRef} className="relative max-w-3xl mx-auto pt-2">
+            <div className="bg-white rounded-2xl sm:rounded-full p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-slate-200">
+              
+              {/* Input 1: Search Query */}
+              <div className="flex items-center gap-2 w-full sm:flex-1 px-3 py-1.5">
+                <Search className="w-5 h-5 text-slate-400 shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onChange={e => {
+                    setSearchQuery(e.target.value);
+                    setIsSearchFocused(true);
+                  }}
+                  placeholder="¿Qué estás buscando? (Ej: Panadería, Electricista, Cabaña...)"
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none font-medium"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="text-slate-400 hover:text-slate-600 p-1"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
 
-              {/* Native Datalist for browser autocomplete */}
-              <datalist id="taxonomy-datalist">
-                {allTaxonomyItems.map((item, idx) => (
-                  <option key={idx} value={item.label}>
-                    {item.type === 'subcategoria' ? `${item.parentName} ➔ ${item.label}` : 'Rubro Principal'}
-                  </option>
-                ))}
-                {locations.map(loc => (
-                  <option key={loc.id} value={loc.name}>Localidad</option>
-                ))}
-              </datalist>
+              {/* Separator on desktop */}
+              <div className="hidden sm:block w-px h-8 bg-slate-200"></div>
 
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="text-xs text-outline hover:text-on-surface px-2"
+              {/* Input 2: Locality Selector */}
+              <div className="flex items-center gap-2 w-full sm:w-56 px-3 py-1.5">
+                <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+                <select
+                  value={selectedLocation}
+                  onChange={e => setSelectedLocation(e.target.value)}
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-800 font-semibold focus:outline-none cursor-pointer"
                 >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+                  <option value="all">Todas las Localidades</option>
+                  {locations.map(loc => (
+                    <option key={loc.id} value={loc.slug}>{loc.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Action Button */}
               <button
                 type="button"
-                className="bg-teal-600 hover:bg-teal-500 text-white px-5 sm:px-7 py-2.5 rounded-xl text-xs sm:text-sm font-bold shrink-0 shadow-lg shadow-teal-950/40 transition-transform active:scale-95"
+                onClick={scrollToDirectory}
+                className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 sm:px-8 py-3 rounded-xl sm:rounded-full text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30 transition-transform active:scale-95 shrink-0"
               >
-                Buscar
+                <Search className="w-4 h-4 text-slate-950" />
+                <span>Buscar</span>
               </button>
             </div>
 
             {/* Interactive Taxonomy Search Dropdown */}
             {isSearchFocused && matchingTaxonomy.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-2xl p-3 z-50 animate-in fade-in space-y-2 max-h-72 overflow-y-auto">
-                <div className="flex items-center justify-between pb-1 border-b border-surface-container-high">
-                  <span className="text-[11px] font-bold text-outline uppercase tracking-wider">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-2xl p-3 z-50 animate-in fade-in space-y-2 max-h-72 overflow-y-auto text-left">
+                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                     Rubros & Subcategorías sugeridas:
                   </span>
-                  <span className="text-[10px] text-primary font-semibold">
+                  <span className="text-[10px] text-amber-600 font-bold">
                     {matchingTaxonomy.length} encontradas
                   </span>
                 </div>
@@ -273,18 +302,18 @@ export default function HomeDirectoryView() {
                       key={idx}
                       type="button"
                       onClick={() => handleSelectTaxonomyItem(item)}
-                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-surface-container flex items-center justify-between text-xs text-on-surface transition-colors group"
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center justify-between text-xs text-slate-800 transition-colors group"
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-sm">{item.emoji}</span>
                         <div>
-                          <span className="font-bold text-on-surface group-hover:text-primary">{item.label}</span>
+                          <span className="font-bold text-slate-900 group-hover:text-amber-600">{item.label}</span>
                           {item.parentName && (
-                            <span className="text-[10px] text-outline ml-2">en {item.parentName}</span>
+                            <span className="text-[10px] text-slate-400 ml-2">en {item.parentName}</span>
                           )}
                         </div>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant group-hover:bg-primary group-hover:text-white transition-colors">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
                         {item.type === 'rubro' ? 'Rubro' : 'Subcategoría'}
                       </span>
                     </button>
@@ -294,18 +323,17 @@ export default function HomeDirectoryView() {
             )}
           </div>
 
-          {/* Quick Search Taxonomy Pills beneath Search Box */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-1">
-            <span className="text-[11px] font-bold text-teal-200/70 mr-1 hidden sm:inline">Accesos rápidos:</span>
-            {categories.slice(0, 5).map(cat => (
+          {/* Popular Search Tags below Search Box (Matching reference template) */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs">
+            <span className="text-slate-400 font-medium">Búsquedas Populares:</span>
+            {['Cabañas con Pileta', 'Pizzerías', 'Electricistas', 'Masa Madre', 'Pet Friendly', 'Turismo'].map((term, i) => (
               <button
-                key={cat.id}
+                key={i}
                 type="button"
-                onClick={() => { setSelectedCategory(cat.slug); setSelectedSubcategory('all'); setSearchQuery(''); }}
-                className="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold border border-white/10 backdrop-blur-sm transition-colors flex items-center gap-1"
+                onClick={() => { setSearchQuery(term); scrollToDirectory(); }}
+                className="px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 text-[11px] border border-white/10 transition-colors"
               >
-                <span>{cat.emoji}</span>
-                <span>{cat.name}</span>
+                {term}
               </button>
             ))}
           </div>
@@ -313,294 +341,288 @@ export default function HomeDirectoryView() {
         </div>
       </section>
 
-      {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 space-y-8 w-full">
-        
-        {/* Banner Registrá tu Negocio */}
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-5 sm:p-8 shadow-card border border-indigo-500/30">
-          <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none"></div>
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-2 max-w-xl">
-              <span className="px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-extrabold uppercase tracking-wider">
-                Para Comercios & Profesionales
-              </span>
-              <h2 className="text-lg sm:text-2xl font-extrabold text-white leading-snug">
-                ¿Tenés un negocio o prestás servicios en Sierras Chicas?
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Publicá tu ficha comercial, catálogo de productos con góndola rápida y recibí pedidos directos a tu WhatsApp con ID único.
-              </p>
+      {/* ======================================================== */}
+      {/* 2. METRICS & TRUST STRIP (Matching reference "15,0+M / Más de 700 mil / Más de 150 mil") */}
+      {/* ======================================================== */}
+      <section className="bg-white border-b border-slate-200 py-6 px-4 sm:px-6 lg:px-8 shadow-sm">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 w-full md:w-auto">
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">+350</div>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">Comercios & Prestadores</p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a
-                href="#planes-saas"
-                className="px-5 py-3 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface text-xs sm:text-sm font-extrabold shadow-md flex items-center justify-center gap-2 transition-all active:scale-95"
-              >
-                <span>Ver Planes y Precios</span>
-                <ArrowRight className="w-4 h-4 text-indigo-600" />
-              </a>
+
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">7 Ciudades</div>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">Corredor Serrano</p>
+            </div>
+
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">+15.000</div>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">Consultas Mensuales</p>
+            </div>
+
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-emerald-600 tracking-tight">0% Comisión</div>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">Trato 100% Directo</p>
+            </div>
+          </div>
+
+          {/* Seal / Badge on right (Matching reference gold badge "Más de 150 mil...") */}
+          <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 px-4 py-2.5 rounded-2xl self-center md:self-auto">
+            <Award className="w-7 h-7 text-amber-600 shrink-0" />
+            <div>
+              <span className="text-xs font-extrabold text-amber-950 block">Red Verificada 2026</span>
+              <span className="text-[11px] text-amber-800">Directorio Oficial Sierras Chicas</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 3. VALUE PROPOSITION SPLIT SECTION (Matching reference "Obtén la mejor experiencia de anuncios...") */}
+      {/* ======================================================== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          {/* Left Column: Visual Showcase */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 aspect-[4/5] max-w-md mx-auto">
+              <img
+                src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&auto=format&fit=crop&q=80"
+                alt="Comercio local en Sierras Chicas"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              
+              {/* Floating Badge Card inside image */}
+              <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/20 flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-xl shrink-0">
+                  <Store className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-xs font-black text-slate-900 block">Comercio 100% Local</span>
+                  <span className="text-[11px] text-slate-600">Impulsamos la economía de las familias del valle</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Value Prop Points */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="space-y-2">
+              <span className="text-xs font-black text-amber-600 uppercase tracking-wider">
+                ECOSISTEMA REGIONAL CONECTADO
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Obtén la mejor experiencia comercial y de servicios con Sierras Chicas Digital.
+              </h2>
+            </div>
+
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Diseñado exclusivamente para conectar vecinos y turistas con los comercios de barrio, artesanos, cabañas y profesionales del corredor.
+            </p>
+
+            <ul className="space-y-3 text-xs sm:text-sm text-slate-700">
+              <li className="flex items-start gap-2.5">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <span><strong>Trato y pedidos directos por WhatsApp</strong>: Hablá en tiempo real con el dueño del local sin intermediarios.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <span><strong>Filtros por localidad del valle</strong>: Localizá opciones exactas en Río Ceballos, Unquillo, Mendiolaza, Villa Allende y más.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <span><strong>Góndola y cartas actualizadas</strong>: Precios y stock sincronizados en vivo.</span>
+              </li>
+            </ul>
+
+            {/* 3 Metric Counters (Matching reference style) */}
+            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200">
+              <div>
+                <div className="text-xl sm:text-2xl font-black text-slate-900">24/7</div>
+                <div className="text-[11px] text-slate-500 font-medium">Catálogo Online</div>
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-black text-slate-900">100%</div>
+                <div className="text-[11px] text-slate-500 font-medium">Directo sin recargo</div>
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-black text-slate-900">0%</div>
+                <div className="text-[11px] text-slate-500 font-medium">Comisión por venta</div>
+              </div>
+            </div>
+
+            <div className="pt-2 flex flex-wrap gap-3">
               <Link
                 to="/panel/perfil"
-                className="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-extrabold shadow-md flex items-center justify-center gap-2 transition-all active:scale-95"
+                className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs sm:text-sm flex items-center gap-2 shadow-md transition-all active:scale-95"
               >
-                <span>Acceder a mi Panel</span>
+                <span>Sumar mi Comercio al Directorio</span>
+                <ArrowRight className="w-4 h-4 text-amber-400" />
               </Link>
             </div>
-          </div>
-        </section>
 
-        {/* Categories Strip */}
-        <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-[20px]">category</span>
-              <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-on-surface">
-                Explorar por Rubros
-              </h3>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 4. FEATURED LISTINGS SECTION (Matching reference "Anuncios destacados") */}
+      {/* ======================================================== */}
+      <section ref={directorySectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6 w-full">
+        
+        {/* Section Header with Tabs & View Switcher */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+          <div>
+            <span className="text-xs font-black text-amber-600 uppercase tracking-wider block">
+              CATÁLOGO REGIONAL
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Anuncios & Comercios Destacados
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Mostrando {filteredBusinesses.length} comercios y prestadores disponibles
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Filter Pills */}
+            <div className="flex items-center gap-1 bg-slate-200/70 p-1 rounded-xl overflow-x-auto no-scrollbar">
+              <button
+                type="button"
+                onClick={() => { setFilterMode('all'); setSelectedCategory('all'); setSelectedSubcategory('all'); }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  filterMode === 'all' && selectedCategory === 'all' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Todos
+              </button>
+              <button
+                type="button"
+                onClick={() => setFilterMode('tienda')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  filterMode === 'tienda' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                🛍️ Tiendas
+              </button>
+              <button
+                type="button"
+                onClick={() => setFilterMode('servicios')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  filterMode === 'servicios' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                🔧 Servicios
+              </button>
+              <button
+                type="button"
+                onClick={() => setFilterMode('aviso')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  filterMode === 'aviso' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                📢 Avisos
+              </button>
             </div>
+
+            {/* Grid / List Switcher */}
+            <div className="flex items-center gap-1 bg-slate-200/70 p-1 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded-lg transition-colors ${
+                  viewMode === 'grid' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                }`}
+                title="Vista Cuadrícula"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 rounded-lg transition-colors ${
+                  viewMode === 'list' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                }`}
+                title="Vista Lista"
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Selected Category / Subcategory Active Pills */}
+        {(selectedCategory !== 'all' || selectedSubcategory !== 'all' || selectedLocation !== 'all') && (
+          <div className="flex flex-wrap items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-2xl animate-in fade-in">
+            <span className="text-xs font-bold text-amber-900">Filtros activos:</span>
             {selectedCategory !== 'all' && (
-              <button
-                type="button"
-                onClick={() => { setSelectedCategory('all'); setSelectedSubcategory('all'); }}
-                className="text-xs text-primary font-bold hover:underline"
-              >
-                Ver todos los rubros
-              </button>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-            <button
-              type="button"
-              onClick={() => { setSelectedCategory('all'); setSelectedSubcategory('all'); }}
-              className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-xs ${
-                selectedCategory === 'all'
-                  ? 'bg-primary text-white shadow-primary/20'
-                  : 'bg-surface-container-lowest text-on-surface hover:bg-surface-container border border-surface-container-high'
-              }`}
-            >
-              <span>✨</span>
-              <span>Todos los Rubros</span>
-            </button>
-
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => { setSelectedCategory(cat.slug); setSelectedSubcategory('all'); }}
-                className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all shadow-xs ${
-                  selectedCategory === cat.slug
-                    ? 'bg-primary text-white shadow-primary/20'
-                    : 'bg-surface-container-lowest text-on-surface hover:bg-surface-container border border-surface-container-high'
-                }`}
-              >
-                <span>{cat.emoji}</span>
-                <span>{cat.name}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Subcategories Pills Strip (if category has subcategories) */}
-          {currentSubcategories.length > 0 && (
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 pb-1 animate-in fade-in">
-              <span className="text-[11px] font-bold text-outline uppercase tracking-wider shrink-0 flex items-center gap-1">
-                <Tag className="w-3.5 h-3.5 text-primary" />
-                Subcategorías:
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-xs font-semibold text-slate-800 border border-slate-200">
+                Rubro: {categories.find(c => c.slug === selectedCategory)?.name}
+                <button type="button" onClick={() => setSelectedCategory('all')} className="hover:text-rose-600">×</button>
               </span>
-              <button
-                type="button"
-                onClick={() => setSelectedSubcategory('all')}
-                className={`shrink-0 px-3 py-1 rounded-xl text-xs font-semibold transition-colors ${
-                  selectedSubcategory === 'all'
-                    ? 'bg-secondary text-white font-bold'
-                    : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-                }`}
-              >
-                Todas
-              </button>
-              {currentSubcategories.map((sub, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setSelectedSubcategory(sub)}
-                  className={`shrink-0 px-3 py-1 rounded-xl text-xs font-semibold transition-colors ${
-                    selectedSubcategory === sub
-                      ? 'bg-secondary text-white font-bold'
-                      : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-                  }`}
-                >
-                  {sub}
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Localities Strip Filter */}
-        <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-primary" />
-              <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-on-surface">
-                Filtrar por Localidad
-              </h3>
-            </div>
-            {selectedLocation !== 'all' && (
-              <button
-                type="button"
-                onClick={() => setSelectedLocation('all')}
-                className="text-xs text-primary font-bold hover:underline"
-              >
-                Ver todo el valle
-              </button>
             )}
-          </div>
-
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+            {selectedSubcategory !== 'all' && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-xs font-semibold text-slate-800 border border-slate-200">
+                Subcategoría: {selectedSubcategory}
+                <button type="button" onClick={() => setSelectedSubcategory('all')} className="hover:text-rose-600">×</button>
+              </span>
+            )}
+            {selectedLocation !== 'all' && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-xs font-semibold text-slate-800 border border-slate-200">
+                Localidad: {locations.find(l => l.slug === selectedLocation)?.name}
+                <button type="button" onClick={() => setSelectedLocation('all')} className="hover:text-rose-600">×</button>
+              </span>
+            )}
             <button
               type="button"
-              onClick={() => setSelectedLocation('all')}
-              className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                selectedLocation === 'all'
-                  ? 'bg-secondary text-white'
-                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface'
-              }`}
+              onClick={() => { setSelectedCategory('all'); setSelectedSubcategory('all'); setSelectedLocation('all'); setSearchQuery(''); }}
+              className="text-xs text-amber-800 font-bold underline ml-auto"
             >
-              Todo Sierras Chicas
+              Limpiar todo
             </button>
-            {locations.map(loc => (
-              <button
-                key={loc.id}
-                type="button"
-                onClick={() => setSelectedLocation(loc.slug)}
-                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  selectedLocation === loc.slug
-                    ? 'bg-secondary text-white'
-                    : 'bg-surface-container text-on-surface-variant hover:text-on-surface'
-                }`}
-              >
-                {loc.name}
-              </button>
-            ))}
           </div>
-        </section>
+        )}
 
-        {/* Directory Listing Section with View Switcher (Grid vs List) */}
-        <section className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-surface-container-high">
-            <div>
-              <h2 className="text-lg sm:text-xl font-extrabold text-on-surface">
-                Comercios y Prestadores Destacados
-              </h2>
-              <p className="text-xs text-on-surface-variant">
-                Mostrando {filteredBusinesses.length} resultados disponibles
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2 self-start sm:self-auto">
-              {/* Mode Pills */}
-              <div className="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high overflow-x-auto no-scrollbar">
-                <button
-                  type="button"
-                  onClick={() => setFilterMode('all')}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                    filterMode === 'all' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
-                  }`}
-                >
-                  Todos
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterMode('aviso')}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                    filterMode === 'aviso' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
-                  }`}
-                >
-                  📢 Avisos
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterMode('tienda')}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                    filterMode === 'tienda' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
-                  }`}
-                >
-                  🛍️ Tiendas
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterMode('servicios')}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
-                    filterMode === 'servicios' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
-                  }`}
-                >
-                  🔧 Servicios
-                </button>
-              </div>
-
-              {/* Grid / List Switcher */}
-              <div className="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high">
-                <button
-                  type="button"
-                  onClick={() => setViewMode('grid')}
-                  className={`p-1.5 rounded-lg transition-colors ${
-                    viewMode === 'grid' ? 'bg-surface-container-lowest text-primary shadow-xs' : 'text-outline hover:text-on-surface'
-                  }`}
-                  title="Vista Cuadrícula"
-                >
-                  <LayoutGrid className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode('list')}
-                  className={`p-1.5 rounded-lg transition-colors ${
-                    viewMode === 'list' ? 'bg-surface-container-lowest text-primary shadow-xs' : 'text-outline hover:text-on-surface'
-                  }`}
-                  title="Vista Lista Compacta"
-                >
-                  <List className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+        {/* Listings Render */}
+        {filteredBusinesses.length === 0 ? (
+          <div className="py-16 text-center bg-white rounded-3xl border border-slate-200 p-8 space-y-3 shadow-sm">
+            <Store className="w-12 h-12 text-slate-300 mx-auto" />
+            <h4 className="font-extrabold text-base text-slate-900">No se encontraron comercios</h4>
+            <p className="text-xs text-slate-500 max-w-sm mx-auto">
+              Probá cambiando los términos de búsqueda o eliminando los filtros activos.
+            </p>
+            <button
+              type="button"
+              onClick={() => { setSearchQuery(''); setSelectedCategory('all'); setSelectedLocation('all'); setSelectedSubcategory('all'); setFilterMode('all'); }}
+              className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold shadow-sm"
+            >
+              Restablecer filtros
+            </button>
           </div>
+        ) : viewMode === 'grid' ? (
+          /* 4-Column Responsive Grid (Matching reference 4-card layout) */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {filteredBusinesses.map(biz => {
+              const isFav = favorites.includes(biz.id);
+              const isNotice = biz.businessMode === 'aviso' || biz.businessMode === 'catalogo';
+              const isService = biz.businessMode === 'servicios';
+              const targetUrl = isNotice ? `/aviso/${biz.slug}` : isService ? `/comercio/${biz.slug}` : `/tienda/${biz.slug}`;
+              const ctaLabel = isNotice ? 'Ver Ficha & Contacto' : isService ? 'Pedir Presupuesto' : 'Ver Carta & Pedir';
 
-          {/* Business Listing Render */}
-          {filteredBusinesses.length === 0 ? (
-            <div className="py-16 text-center bg-surface-container-lowest rounded-3xl border border-surface-container-high p-8 space-y-3">
-              <Store className="w-12 h-12 text-outline mx-auto stroke-1" />
-              <h4 className="font-extrabold text-base text-on-surface">No se encontraron comercios</h4>
-              <p className="text-xs text-on-surface-variant max-w-sm mx-auto">
-                Probá buscando por otro rubro, categoría o eliminando los filtros de localidad.
-              </p>
-              <button
-                type="button"
-                onClick={() => { setSearchQuery(''); setSelectedCategory('all'); setSelectedLocation('all'); setSelectedSubcategory('all'); setFilterMode('all'); }}
-                className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold shadow-sm"
-              >
-                Restablecer todos los filtros
-              </button>
-            </div>
-          ) : viewMode === 'grid' ? (
-            /* GRID VIEW */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredBusinesses.map(biz => {
-                const isFav = favorites.includes(biz.id);
-                const isNotice = biz.businessMode === 'aviso' || biz.businessMode === 'catalogo';
-                const isService = biz.businessMode === 'servicios';
-                const targetUrl = isNotice ? `/aviso/${biz.slug}` : isService ? `/comercio/${biz.slug}` : `/tienda/${biz.slug}`;
-                const ctaLabel = isNotice 
-                  ? 'Ver Ficha & Contacto' 
-                  : isService 
-                  ? 'Pedir Presupuesto' 
-                  : 'Ver Carta & Pedir';
-
-                return (
-                  <div
-                    key={biz.id}
-                    className="group bg-surface-container-lowest rounded-3xl border border-surface-container-high overflow-hidden shadow-subtle hover:shadow-card transition-all duration-300 flex flex-col"
-                  >
+              return (
+                <div
+                  key={biz.id}
+                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                >
+                  <div>
                     {/* Cover & Badges */}
-                    <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                    <div className="relative h-40 w-full overflow-hidden bg-slate-100">
                       <img
                         src={biz.coverUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'}
                         alt={biz.name}
@@ -612,261 +634,341 @@ export default function HomeDirectoryView() {
                       <button
                         type="button"
                         onClick={() => toggleFavorite(biz.id)}
-                        className={`absolute top-3 right-3 w-9 h-9 rounded-full backdrop-blur-md flex items-center justify-center transition-all ${
+                        className={`absolute top-2.5 right-2.5 w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center transition-all ${
                           isFav ? 'bg-rose-500 text-white' : 'bg-black/30 text-white hover:bg-black/50'
                         }`}
                         title="Guardar favorito"
                       >
-                        <Heart className={`w-4 h-4 ${isFav ? 'fill-white' : ''}`} />
+                        <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-white' : ''}`} />
                       </button>
 
                       {/* Mode Badge */}
-                      <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md text-white ${
-                          isNotice 
-                            ? 'bg-indigo-700/90' 
-                            : isService 
-                            ? 'bg-amber-600/90' 
-                            : 'bg-teal-700/90'
+                      <div className="absolute top-2.5 left-2.5">
+                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider backdrop-blur-md text-white ${
+                          isNotice ? 'bg-indigo-700/90' : isService ? 'bg-amber-600/90' : 'bg-teal-700/90'
                         }`}>
-                          {isNotice ? '📢 Aviso Publicitario' : isService ? '🔧 Servicios Pro' : '🛍️ Tienda / Pedidos'}
+                          {isNotice ? 'Aviso' : isService ? 'Servicio' : 'Tienda'}
                         </span>
-                        {biz.isFeatured && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-amber-950 flex items-center gap-1 shadow-xs">
-                            <Star className="w-3 h-3 fill-amber-950" />
-                            <span>Destacado</span>
-                          </span>
-                        )}
                       </div>
 
                       {/* Location in Cover */}
-                      <div className="absolute bottom-3 left-3 text-white flex items-center gap-1.5 text-xs font-semibold drop-shadow">
-                        <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+                      <div className="absolute bottom-2.5 left-2.5 text-white flex items-center gap-1 text-[11px] font-semibold drop-shadow">
+                        <MapPin className="w-3 h-3 text-emerald-400" />
                         <span>{biz.locationName || biz.location}</span>
                       </div>
                     </div>
 
                     {/* Card Body */}
-                    <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-bold text-primary">{biz.categoryName || biz.category}</span>
-                          <div className="flex items-center gap-1 text-amber-500 font-bold">
-                            <Star className="w-3.5 h-3.5 fill-amber-500" />
-                            <span>{biz.rating || 5.0}</span>
-                            <span className="text-outline font-normal">({biz.reviewCount || 1})</span>
-                          </div>
+                    <div className="p-4 space-y-2">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-bold text-amber-700">{biz.categoryName || biz.category}</span>
+                        <div className="flex items-center gap-1 text-amber-500 font-bold">
+                          <Star className="w-3 h-3 fill-amber-500" />
+                          <span>{biz.rating || 5.0}</span>
                         </div>
-
-                        <h3 className="font-extrabold text-base sm:text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">
-                          {biz.name}
-                        </h3>
-
-                        <p className="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">
-                          {biz.tagline || biz.description}
-                        </p>
-
-                        {/* Rich Badges / Tags */}
-                        {biz.tags && biz.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 pt-1">
-                            {biz.tags.slice(0, 3).map((tag, idx) => (
-                              <span
-                                key={idx}
-                                className="px-2 py-0.5 rounded-md bg-surface-container text-[10px] font-bold text-on-surface-variant border border-surface-container-high"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
                       </div>
 
-                      {/* Footer Actions */}
-                      <div className="pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-1 text-[11px] text-on-surface-variant">
-                          <Clock className="w-3.5 h-3.5 text-outline" />
-                          <span className="truncate max-w-[110px]">{biz.openingHours || 'Abierto hoy'}</span>
-                        </div>
+                      <h3 className="font-extrabold text-sm text-slate-900 leading-snug group-hover:text-amber-600 transition-colors line-clamp-1">
+                        {biz.name}
+                      </h3>
 
-                        <Link
-                          to={targetUrl}
-                          className="px-3.5 py-2 rounded-xl bg-surface-container-low hover:bg-primary hover:text-white text-on-surface text-xs font-bold flex items-center gap-1 transition-all group-hover:bg-primary group-hover:text-white"
-                        >
-                          <span>{ctaLabel}</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                      </div>
+                      <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                        {biz.tagline || biz.description}
+                      </p>
+
+                      {/* Tags */}
+                      {biz.tags && biz.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1 pt-1">
+                          {biz.tags.slice(0, 2).map((tag, idx) => (
+                            <span
+                              key={idx}
+                              className="px-1.5 py-0.5 rounded bg-slate-100 text-[9px] font-bold text-slate-600 border border-slate-200"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          ) : (
-            /* COMPACT LIST VIEW */
-            <div className="space-y-3">
-              {filteredBusinesses.map(biz => {
-                const isFav = favorites.includes(biz.id);
-                const isNotice = biz.businessMode === 'aviso' || biz.businessMode === 'catalogo';
-                const isService = biz.businessMode === 'servicios';
-                const targetUrl = isNotice ? `/aviso/${biz.slug}` : isService ? `/comercio/${biz.slug}` : `/tienda/${biz.slug}`;
-                const ctaLabel = isNotice ? 'Ver Ficha & Contacto' : isService ? 'Pedir Presupuesto' : 'Ver Carta & Pedir';
 
-                return (
-                  <div
-                    key={biz.id}
-                    className="bg-surface-container-lowest p-3.5 sm:p-4 rounded-2xl border border-surface-container-high shadow-subtle hover:border-primary/50 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-surface-container-high">
-                        <img
-                          src={biz.coverUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'}
-                          alt={biz.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase ${
-                            isNotice ? 'bg-indigo-50 text-indigo-700' : isService ? 'bg-amber-50 text-amber-700' : 'bg-teal-50 text-teal-700'
-                          }`}>
-                            {isNotice ? 'Aviso' : isService ? 'Servicio' : 'Tienda'}
-                          </span>
-                          <span className="text-xs font-semibold text-primary">{biz.categoryName || biz.category}</span>
-                          <span className="text-outline text-xs">·</span>
-                          <span className="text-xs text-on-surface-variant flex items-center gap-1">
-                            <MapPin className="w-3 h-3 text-emerald-600" />
-                            {biz.locationName || biz.location}
-                          </span>
-                        </div>
-
-                        <h3 className="font-extrabold text-sm sm:text-base text-on-surface">
-                          {biz.name}
-                        </h3>
-
-                        <p className="text-xs text-on-surface-variant line-clamp-1">
-                          {biz.tagline || biz.description}
-                        </p>
-
-                        {biz.tags && biz.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 pt-0.5">
-                            {biz.tags.slice(0, 2).map((tag, idx) => (
-                              <span key={idx} className="px-1.5 py-0.5 rounded bg-surface-container text-[9px] font-semibold text-on-surface-variant">
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-surface-container-high shrink-0">
-                      <div className="flex items-center gap-1 text-amber-500 font-bold text-xs">
-                        <Star className="w-3.5 h-3.5 fill-amber-500" />
-                        <span>{biz.rating || 5.0}</span>
-                      </div>
-
-                      <Link
-                        to={targetUrl}
-                        className="px-4 py-2 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all"
-                      >
-                        <span>{ctaLabel}</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
-
-        {/* Public SaaS Plans & Mercado Pago Checkout Section */}
-        <section id="planes-saas" className="py-8 space-y-6">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-extrabold">
-              <Zap className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Suscripción Mensual SaaS Directa</span>
-            </span>
-            <h2 className="text-xl sm:text-3xl font-extrabold text-on-surface tracking-tight">
-              Planes Comerciales para el Valle de Sierras Chicas
-            </h2>
-            <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-              Elegí el plan adecuado para tu negocio. Activación inmediata con suscripción segura por Mercado Pago.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {plans.map(plan => (
-              <div
-                key={plan.id}
-                className={`p-6 rounded-3xl border flex flex-col justify-between space-y-5 transition-all shadow-subtle ${
-                  plan.isFeatured
-                    ? 'bg-gradient-to-b from-indigo-950 via-slate-900 to-slate-950 text-white border-indigo-500 ring-2 ring-indigo-500/40 shadow-xl'
-                    : 'bg-surface-container-lowest text-on-surface border-surface-container-high'
-                }`}
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
-                      plan.isFeatured ? 'bg-indigo-600 text-white' : 'bg-surface-container text-outline'
-                    }`}>
-                      {plan.slug}
-                    </span>
-                    {plan.isFeatured && (
-                      <span className="px-2 py-0.5 rounded-full bg-amber-400 text-amber-950 text-[10px] font-black uppercase">
-                        Más Popular
-                      </span>
-                    )}
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-black">{plan.name}</h3>
-                    <p className="text-xs opacity-70 mt-1">
-                      Ideal para {plan.id === 'plan-inicial' ? 'profesionales y avisos simples' : plan.id === 'plan-pro' ? 'comercios y gastronomía con pedidos' : 'cadenas y marcas líderes'}.
-                    </p>
-                  </div>
-
-                  <div className="flex items-baseline gap-1 py-1">
-                    <span className="text-3xl font-black tracking-tight">
-                      ${plan.priceArs.toLocaleString('es-AR')}
-                    </span>
-                    <span className="text-xs opacity-70">/ mes</span>
-                  </div>
-
-                  <div className="pt-3 border-t border-surface-container-high/40">
-                    <span className="text-[10px] font-black uppercase tracking-wider opacity-70">Incluye:</span>
-                    <ul className="space-y-2.5 text-xs pt-2">
-                      {plan.features.map((feat, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 ${plan.isFeatured ? 'text-indigo-400' : 'text-emerald-600'}`} />
-                          <span className="leading-snug">{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  {/* Footer Action */}
+                  <div className="p-4 pt-0">
+                    <Link
+                      to={targetUrl}
+                      className="w-full py-2 rounded-xl bg-slate-100 hover:bg-amber-500 hover:text-slate-950 text-slate-800 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all group-hover:bg-amber-500 group-hover:text-slate-950"
+                    >
+                      <span>{ctaLabel}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
                 </div>
-
-                <a
-                  href={plan.mpCheckoutUrl || 'https://mpago.la/sierras-chicas-saas'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-full py-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
-                    plan.isFeatured
-                      ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-950/40'
-                      : 'bg-primary hover:bg-primary-container text-white'
-                  }`}
-                >
-                  <CreditCard className="w-4 h-4" />
-                  <span>Contratar con Mercado Pago</span>
-                  <ExternalLink className="w-3.5 h-3.5 ml-0.5 opacity-80" />
-                </a>
-              </div>
-            ))}
+              );
+            })}
           </div>
-        </section>
+        ) : (
+          /* COMPACT LIST VIEW */
+          <div className="space-y-3">
+            {filteredBusinesses.map(biz => {
+              const isFav = favorites.includes(biz.id);
+              const isNotice = biz.businessMode === 'aviso' || biz.businessMode === 'catalogo';
+              const isService = biz.businessMode === 'servicios';
+              const targetUrl = isNotice ? `/aviso/${biz.slug}` : isService ? `/comercio/${biz.slug}` : `/tienda/${biz.slug}`;
+              const ctaLabel = isNotice ? 'Ver Ficha & Contacto' : isService ? 'Pedir Presupuesto' : 'Ver Carta & Pedir';
 
-      </div>
+              return (
+                <div
+                  key={biz.id}
+                  className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-slate-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                >
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                      <img
+                        src={biz.coverUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'}
+                        alt={biz.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase ${
+                          isNotice ? 'bg-indigo-50 text-indigo-700' : isService ? 'bg-amber-50 text-amber-700' : 'bg-teal-50 text-teal-700'
+                        }`}>
+                          {isNotice ? 'Aviso' : isService ? 'Servicio' : 'Tienda'}
+                        </span>
+                        <span className="text-xs font-semibold text-amber-700">{biz.categoryName || biz.category}</span>
+                        <span className="text-slate-300 text-xs">·</span>
+                        <span className="text-xs text-slate-500 flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-emerald-600" />
+                          {biz.locationName || biz.location}
+                        </span>
+                      </div>
+
+                      <h3 className="font-extrabold text-sm sm:text-base text-slate-900">
+                        {biz.name}
+                      </h3>
+
+                      <p className="text-xs text-slate-500 line-clamp-1">
+                        {biz.tagline || biz.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 shrink-0">
+                    <div className="flex items-center gap-1 text-amber-500 font-bold text-xs">
+                      <Star className="w-3.5 h-3.5 fill-amber-500" />
+                      <span>{biz.rating || 5.0}</span>
+                    </div>
+
+                    <Link
+                      to={targetUrl}
+                      className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all"
+                    >
+                      <span>{ctaLabel}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      {/* ======================================================== */}
+      {/* 5. MULTI-COLUMN CATEGORY & SUBCATEGORY DIRECTORY */}
+      {/* (Matching reference "Elige la categoría del producto que buscas" with 2-column cards & subcategory rows with `>`) */}
+      {/* ======================================================== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 w-full">
+        <div className="text-center space-y-2 max-w-2xl mx-auto">
+          <span className="text-xs font-black text-amber-600 uppercase tracking-wider">
+            EXPLORA LA GUÍA COMERCIAL COMPLETA
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Elegí la categoría del producto o servicio que buscás
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+            Accedé directamente a las subcategorías especializadas para encontrar exactamente el prestador que necesitás en tu localidad.
+          </p>
+        </div>
+
+        {/* 2-Column Grid of Categories with Subcategory lists */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {categories.map(cat => (
+            <div
+              key={cat.id}
+              className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-6"
+            >
+              {/* Category Main Brand Box */}
+              <div className="sm:w-44 flex flex-col justify-between space-y-4 pb-4 sm:pb-0 sm:pr-4 border-b sm:border-b-0 sm:border-r border-slate-100">
+                <div className="space-y-2">
+                  <div className="w-14 h-14 rounded-2xl bg-amber-50 text-2xl flex items-center justify-center border border-amber-100 shadow-xs">
+                    {cat.emoji || '📁'}
+                  </div>
+                  <h3 className="font-extrabold text-base text-slate-900 leading-tight">
+                    {cat.name}
+                  </h3>
+                  <span className="text-[11px] font-semibold text-slate-400 block">
+                    {(cat.subcategories || []).length} especialidades
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleCategoryCardClick(cat.slug)}
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-amber-500 hover:text-slate-950 text-slate-800 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <span>Ver Rubro</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Subcategories Vertical List with Chevron Right arrows (Matching reference layout) */}
+              <div className="flex-1 space-y-1 divide-y divide-slate-100">
+                {(cat.subcategories || []).map((sub, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleSubcategoryClick(cat.slug, sub)}
+                    className="w-full text-left py-2.5 px-2 rounded-lg hover:bg-slate-50 flex items-center justify-between text-xs text-slate-700 hover:text-slate-950 font-medium transition-colors group"
+                  >
+                    <span className="group-hover:translate-x-1 transition-transform">{sub}</span>
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-amber-600 transition-colors" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 6. PUBLIC SAAS PLANS & MERCADO PAGO SECTION (Preserved as requested) */}
+      {/* ======================================================== */}
+      <section id="planes-saas" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 w-full border-t border-slate-200">
+        <div className="text-center space-y-2 max-w-2xl mx-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-extrabold">
+            <Zap className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Suscripción Mensual SaaS para Comercios</span>
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Planes Comerciales para el Valle de Sierras Chicas
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+            Elegí el plan adecuado para tu negocio. Activación inmediata con suscripción segura por Mercado Pago.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {plans.map(plan => (
+            <div
+              key={plan.id}
+              className={`p-6 sm:p-7 rounded-3xl border flex flex-col justify-between space-y-5 transition-all shadow-sm ${
+                plan.isFeatured
+                  ? 'bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 text-white border-indigo-500 ring-2 ring-indigo-500/40 shadow-xl'
+                  : 'bg-white text-slate-900 border-slate-200'
+              }`}
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                    plan.isFeatured ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
+                  }`}>
+                    {plan.slug}
+                  </span>
+                  {plan.isFeatured && (
+                    <span className="px-2 py-0.5 rounded-full bg-amber-400 text-amber-950 text-[10px] font-black uppercase">
+                      Más Popular
+                    </span>
+                  )}
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-black">{plan.name}</h3>
+                  <p className="text-xs opacity-70 mt-1">
+                    Ideal para {plan.id === 'plan-inicial' ? 'profesionales y avisos simples' : plan.id === 'plan-pro' ? 'comercios y gastronomía con pedidos' : 'cadenas y marcas líderes'}.
+                  </p>
+                </div>
+
+                <div className="flex items-baseline gap-1 py-1">
+                  <span className="text-3xl font-black tracking-tight">
+                    ${plan.priceArs.toLocaleString('es-AR')}
+                  </span>
+                  <span className="text-xs opacity-70">/ mes</span>
+                </div>
+
+                <div className="pt-3 border-t border-slate-200/40">
+                  <span className="text-[10px] font-black uppercase tracking-wider opacity-70">Incluye:</span>
+                  <ul className="space-y-2.5 text-xs pt-2">
+                    {plan.features.map((feat, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 ${plan.isFeatured ? 'text-indigo-400' : 'text-emerald-600'}`} />
+                        <span className="leading-snug">{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <a
+                href={plan.mpCheckoutUrl || 'https://mpago.la/sierras-chicas-saas'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`w-full py-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
+                  plan.isFeatured
+                    ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-950/40'
+                    : 'bg-slate-900 hover:bg-slate-800 text-white'
+                }`}
+              >
+                <CreditCard className="w-4 h-4" />
+                <span>Contratar con Mercado Pago</span>
+                <ExternalLink className="w-3.5 h-3.5 ml-0.5 opacity-80" />
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 7. BOTTOM CALL-TO-ACTION NEWSLETTER / COMMERCE BANNER */}
+      {/* (Matching reference bottom banner: "Regístrate para recibir las últimas actualizaciones y noticias") */}
+      {/* ======================================================== */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center space-y-5">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Registrate para recibir las últimas actualizaciones y novedades del valle.
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+            Recibí promociones exclusivas de comercios de Sierras Chicas o sumá tu emprendimiento a la red.
+          </p>
+
+          <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-2 pt-2">
+            <input
+              type="email"
+              required
+              value={newsletterEmail}
+              onChange={e => setNewsletterEmail(e.target.value)}
+              placeholder="Ingresá tu correo electrónico..."
+              className="flex-1 px-4 py-3 rounded-xl bg-white text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none font-medium"
+            />
+            <button
+              type="submit"
+              className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95 shrink-0"
+            >
+              <span>{newsletterSuccess ? '¡Registrado!' : 'Suscribirme'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </form>
+
+          {newsletterSuccess && (
+            <p className="text-xs text-emerald-400 font-bold animate-in fade-in">
+              ✓ ¡Gracias por sumarte a la comunidad de Sierras Chicas Digital!
+            </p>
+          )}
+        </div>
+      </section>
+
     </div>
   );
 }
