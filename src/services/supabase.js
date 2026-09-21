@@ -11,7 +11,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   }
 });
 
-// Storage keys for local persistence & offline resilience
+// Storage keys for local persistence
 const STORAGE_KEYS = {
   USER_SESSION: 'scd_auth_session_v1',
   BUSINESSES: 'scd_businesses_v1',
@@ -22,16 +22,8 @@ const STORAGE_KEYS = {
   FAVORITES: 'scd_favorites_v1'
 };
 
-// Demo Users catalog for instant role testing
+// Demo accounts strictly for Merchant and Admin
 export const DEMO_ACCOUNTS = {
-  vecino: {
-    id: 'usr-vecino-1',
-    email: 'vecino@sierraschicas.com',
-    fullName: 'Sofía Martínez (Vecina)',
-    role: 'user', // 'user', 'merchant', 'admin'
-    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-    location: 'Río Ceballos'
-  },
   comercio: {
     id: 'usr-comercio-1',
     email: 'comercio@cafesierras.com',

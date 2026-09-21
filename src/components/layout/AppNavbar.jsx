@@ -13,7 +13,6 @@ import {
   Smartphone,
   LogIn,
   LogOut,
-  User,
   Sparkles
 } from 'lucide-react';
 
@@ -119,15 +118,15 @@ export default function AppNavbar() {
           <nav className="hidden lg:flex items-center gap-1 bg-surface-container-low p-1 rounded-2xl border border-surface-container-high">
             <Link
               to="/"
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                 isHome ? 'bg-surface-container-lowest text-primary shadow-sm' : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
               <Smartphone className="w-4 h-4" />
-              <span>Directorio PWA</span>
+              <span>Directorio Regional</span>
             </Link>
 
-            {/* Merchant-Only Link */}
+            {/* Merchant-Only Link (Only visible when merchant is logged in) */}
             {isMerchant && (
               <Link
                 to="/panel/gondola"
@@ -136,11 +135,11 @@ export default function AppNavbar() {
                 }`}
               >
                 <Store className="w-4 h-4 text-amber-600" />
-                <span>Panel Comercio</span>
+                <span>Panel Mi Comercio</span>
               </Link>
             )}
 
-            {/* Admin-Only Link */}
+            {/* Admin-Only Link (Only visible when admin is logged in) */}
             {isAdmin && (
               <Link
                 to="/admin"
@@ -154,7 +153,7 @@ export default function AppNavbar() {
             )}
           </nav>
 
-          {/* Right Actions: Cart + Favorites + User Menu / Login */}
+          {/* Right Actions: Favorites + Cart + Merchant Access / User Menu */}
           <div className="flex items-center gap-2">
             
             {/* Favorites Icon */}
@@ -184,7 +183,7 @@ export default function AppNavbar() {
               )}
             </button>
 
-            {/* User Profile / Login Button */}
+            {/* If Merchant/Admin is Logged in: show user badge and menu */}
             {isAuthenticated ? (
               <div className="relative">
                 <button
@@ -193,16 +192,16 @@ export default function AppNavbar() {
                   className="flex items-center gap-2 p-1.5 pr-2.5 rounded-2xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high transition-colors"
                 >
                   <img
-                    src={currentUser.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'}
+                    src={currentUser.avatarUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'}
                     alt={currentUser.fullName}
-                    className="w-7 h-7 rounded-xl object-cover ring-2 ring-primary/20"
+                    className="w-7 h-7 rounded-xl object-cover ring-2 ring-amber-500/30"
                   />
                   <div className="hidden sm:flex flex-col text-left">
                     <span className="text-xs font-bold text-on-surface truncate max-w-[100px]">
                       {currentUser.fullName.split(' ')[0]}
                     </span>
                     <span className={`text-[9px] font-extrabold uppercase px-1 rounded-sm w-fit ${
-                      userRole === 'admin' ? 'bg-indigo-100 text-indigo-800' : userRole === 'merchant' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
+                      userRole === 'admin' ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'
                     }`}>
                       {userRole}
                     </span>
@@ -216,9 +215,9 @@ export default function AppNavbar() {
                       <p className="text-xs font-bold text-on-surface truncate">{currentUser.fullName}</p>
                       <p className="text-[10px] text-on-surface-variant truncate">{currentUser.email}</p>
                       <span className={`inline-block mt-1 text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded-full ${
-                        userRole === 'admin' ? 'bg-indigo-100 text-indigo-800' : userRole === 'merchant' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
+                        userRole === 'admin' ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'
                       }`}>
-                        Rol: {userRole}
+                        Sesión: {userRole === 'admin' ? 'SuperAdmin' : 'Comercio'}
                       </span>
                     </div>
 
@@ -250,7 +249,7 @@ export default function AppNavbar() {
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-on-surface hover:bg-surface-container"
                     >
                       <Sparkles className="w-4 h-4 text-primary" />
-                      <span>Cambiar de Cuenta / Rol</span>
+                      <span>Cambiar de Cuenta</span>
                     </Link>
 
                     <button
@@ -265,12 +264,14 @@ export default function AppNavbar() {
                 )}
               </div>
             ) : (
+              /* Discrete Merchant & Admin Access Button */
               <Link
                 to="/login"
-                className="px-3.5 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xs"
+                className="px-3 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
+                title="Acceso para Comerciantes y Administradores"
               >
-                <LogIn className="w-3.5 h-3.5 text-primary" />
-                <span>Ingresar</span>
+                <Store className="w-3.5 h-3.5 text-amber-600" />
+                <span className="hidden sm:inline">Soy Comercio</span>
               </Link>
             )}
 
@@ -291,7 +292,6 @@ export default function AppNavbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-surface-container-high bg-surface-container-lowest px-4 pt-3 pb-5 space-y-3 animate-in slide-in-from-top-2">
           
-          {/* User Status Bar in Mobile */}
           {isAuthenticated ? (
             <div className="flex items-center justify-between p-3 rounded-2xl bg-surface border border-surface-container-high">
               <div className="flex items-center gap-2.5">
@@ -312,15 +312,15 @@ export default function AppNavbar() {
             <Link
               to="/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-2.5 rounded-xl bg-primary text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm"
+              className="w-full py-2 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-xs flex items-center justify-center gap-1.5"
             >
-              <LogIn className="w-4 h-4" />
-              <span>Iniciar Sesión / Acceso por Rol</span>
+              <Store className="w-3.5 h-3.5 text-amber-600" />
+              <span>Acceso para Comercios & Administradores</span>
             </Link>
           )}
 
           <div className="space-y-1">
-            <span className="text-[11px] font-bold text-outline uppercase tracking-wider px-2">Vistas Habilitadas</span>
+            <span className="text-[11px] font-bold text-outline uppercase tracking-wider px-2">Navegación</span>
             
             <Link
               to="/"
@@ -328,7 +328,7 @@ export default function AppNavbar() {
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-on-surface hover:bg-surface-container"
             >
               <Smartphone className="w-4 h-4 text-primary" />
-              <span>Directorio Regional Vecinos</span>
+              <span>Directorio Regional</span>
             </Link>
 
             {isMerchant && (
@@ -355,7 +355,7 @@ export default function AppNavbar() {
           </div>
 
           <div className="pt-2 border-t border-surface-container-high">
-            <span className="text-[11px] font-bold text-outline uppercase tracking-wider px-2">Localidad Activa</span>
+            <span className="text-[11px] font-bold text-outline uppercase tracking-wider px-2">Filtrar Localidad</span>
             <div className="grid grid-cols-2 gap-1.5 mt-1.5">
               <button
                 type="button"
