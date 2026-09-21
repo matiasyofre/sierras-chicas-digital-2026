@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"tertiary":"#755800","on-secondary-container":"#006172","primary-container":"#008378","error":"#ba1a1a","error-container":"#ffdad6","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdf9a","on-tertiary-fixed":"#251a00","surface-dim":"#cbdbf5","on-primary-container":"#f4fffc","surface-container-low":"#eff4ff","outline":"#6d7a77","secondary":"#00687a","surface":"#f8f9ff","primary":"#00685f","on-error":"#ffffff","on-secondary":"#ffffff","on-primary":"#ffffff","on-primary-fixed-variant":"#005049","surface-tint":"#006a61","on-surface-variant":"#3d4947","on-surface":"#0b1c30","surface-container":"#e5eeff","inverse-surface":"#213145","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#004e5c","surface-container-highest":"#d3e4fe","on-tertiary-container":"#fffbff","surface-variant":"#d3e4fe","on-tertiary-fixed-variant":"#5a4300","secondary-fixed-dim":"#4cd7f6","outline-variant":"#bcc9c6","on-background":"#0b1c30","surface-container-high":"#dce9ff","on-secondary-fixed":"#001f26","primary-fixed":"#89f5e7","on-primary-fixed":"#00201d","tertiary-container":"#936f00","on-error-container":"#93000a","inverse-primary":"#6bd8cb","secondary-container":"#57dffe","inverse-on-surface":"#eaf1ff","background":"#f8f9ff","surface-bright":"#f8f9ff","tertiary-fixed-dim":"#f7be1d","secondary-fixed":"#acedff","primary-fixed-dim":"#6bd8cb"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","gutter-mobile":"1rem","space-lg":"1.5rem","margin-mobile":"1rem","space-md":"1rem","gutter":"1.5rem","margin":"2rem","space-xl":"2.5rem","space-xs":"0.25rem"},"fontFamily":{"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"]},"fontSize":{"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"display":["44px",{"lineHeight":"52px","letterSpacing":"-0.025em","fontWeight":"800"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"display-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"800"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[24px]">terrain</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Sierras Chicas</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold mt-0.5">Admin Central</span></div></div><div class="px-space-md pt-space-md"><nav class="flex flex-col gap-1.5" data-active-classes="bg-primary text-on-primary font-semibold shadow-sm"><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="dashboard" href="code7.html"><span>Dashboard</span></a><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="comercios" href="code5.html"><span>Comercios</span></a><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="suscripciones-facturacion" href="code10.html"><span>Suscripciones &amp; Facturación</span></a><a aria-current="page" class="flex items-center px-space-md py-2.5 rounded-xl transition-all bg-primary text-on-primary font-semibold shadow-sm" data-path="categorias-rubros" href="code2.html"><span>Categorías &amp; Rubros</span></a><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="configuracion-general" href="code3.html"><span>Configuración General</span></a></nav></div></div><a href="code6.html" class="p-space-md m-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors block text-decoration-none"><div class="flex items-center gap-space-xs mb-1.5"><span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span><span class="font-label-md text-label-md font-bold text-on-surface">PWA Red Sierras Chicas</span><span class="material-symbols-outlined text-[16px] text-primary ml-auto">open_in_new</span></div><p class="font-body-sm text-body-sm text-on-surface-variant flex items-center justify-between"><span>Online 99.9%</span><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface">Ver Portal</span></p></a></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex-1 max-w-xl"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-full font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" placeholder="Buscar comercios, cuit, teléfonos, zonas..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full"><span class="material-symbols-outlined text-primary text-[18px]">dns</span><span class="font-label-md text-label-md text-on-surface-variant">Entorno:</span><span class="font-label-md text-label-md text-on-surface font-semibold">Producción / Sierras Chicas</span></div><button class="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><div class="flex items-center gap-space-sm pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1WazYxcvhFqTPGy6ByGJL2oOBgxEYmwVHU-jNgzui64rTAz8nPi9QNmtTamGJOINHVspiEgG8ngJbrJZVkGQ_5gjoGEY1bxx1y98b_c4umSh3R0JB6GnkttOoGaa_IC9c6j6SptqnDckat7F-8o6qyGPhsfYZAlRtnZlKn7Y5HBVx5auSMKUYDSGNQvuVaUW4iDW992rfPuA5hQK_uecCPLTB9VD0wdU-ULXk0ZBCXs1jRU2nLtWX71Odcw"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-bold leading-tight">Matías Yofre · Plataforma Owner</span><span class="font-label-sm text-label-sm text-primary uppercase font-bold">SuperAdmin</span></div></div></div></div></header><main class="relative pt-16 min-h-screen bg-surface w-full px-space-lg py-space-lg"><div class="flex flex-col w-full">
+<!-- Top Navigation Sub-bar & Section Header -->
+<div class="flex flex-col gap-space-lg pb-space-lg">
+<div class="flex flex-wrap items-start justify-between gap-space-md">
+<div class="flex flex-col max-w-2xl">
+<div class="flex items-center gap-space-xs text-primary font-label-md text-label-md uppercase tracking-wider mb-1">
+<span class="material-symbols-outlined text-[16px]">account_tree</span>
+<span>Catálogo &amp; Directorio Central</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+          Taxonomía: Categorías &amp; Rubros Comerciales
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          Organización del directorio público y marketplace de Sierras Chicas. Administrá categorías madre, subrubros, iconos y etiquetas de filtrado.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-all font-label-lg text-label-lg shadow-sm" id="btnReorder" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">drag_indicator</span>
+<span>Reordenar para Home / App</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary transition-all font-label-lg text-label-lg shadow-sm hover:shadow-md" id="btnNewCategory" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Crear Nueva Categoría</span>
+</button>
+</div>
+</div>
+<!-- Metrics Distribution Ribbon -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Total Categorías Madre</span>
+<span class="font-display-mobile text-display-mobile text-on-surface font-extrabold mt-1">8</span>
+<span class="font-body-sm text-body-sm text-primary flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 100% activas en PWA
+          </span>
+</div>
+<div class="w-12 h-12 rounded-2xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[26px]">grid_view</span>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Subrubros Activos</span>
+<span class="font-display-mobile text-display-mobile text-on-surface font-extrabold mt-1">46</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span>Promedio: 5.75 / cat</span>
+</span>
+</div>
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[26px]">tag</span>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Categoría Más Poblada</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">114</span>
+<span class="font-label-md text-label-md text-on-surface-variant">locales</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold flex items-center gap-1 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-[#f59e0b]"></span> Gastronomía
+          </span>
+</div>
+<div class="w-12 h-12 rounded-2xl bg-[#ffedd5] flex items-center justify-center text-[#c2410c]">
+<span class="material-symbols-outlined text-[26px]">restaurant</span>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Mayor Crecimiento</span>
+<div class="flex items-baseline gap-1.5 mt-1">
+<span class="font-headline-lg text-headline-lg text-primary font-bold">+24%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">este trim.</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold flex items-center gap-1 mt-0.5 truncate max-w-[140px]">
+<span class="w-2 h-2 rounded-full bg-[#10b981]"></span> Serv. Profesionales
+          </span>
+</div>
+<div class="w-12 h-12 rounded-2xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[26px]">trending_up</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Search and Filtering Strip -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-md mb-space-lg">
+<div class="relative w-full sm:w-80">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">filter_list</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all" id="searchCategories" placeholder="Filtrar por categoría o subrubro..." type="text"/>
+</div>
+<div class="flex items-center gap-space-sm w-full sm:w-auto justify-end">
+<span class="font-label-md text-label-md text-on-surface-variant">Ordenar:</span>
+<select class="bg-surface-container-low px-3 py-1.5 rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary">
+<option>Jerarquía en Home (Predefinido)</option>
+<option>Alfabético (A - Z)</option>
+<option>Mayor cantidad de comercios</option>
+<option>Mayor actividad reciente</option>
+</select>
+</div>
+</div>
+<!-- Main Workspace: Category Grid & Side Inspector -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT: Categories List with dynamic Tag Editor (8 cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-md" id="categoryContainer">
+<!-- Category Card 1: Gastronomía -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">restaurant</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Gastronomía &amp; Cafeterías</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 uppercase">Orden #1</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Restaurantes, casas de té, cervecerías artesanales, rotiserías y viandas.</p>
+</div>
+</div>
+<!-- Controls & Toggle -->
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">114 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<!-- Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Subrubros Tag Cloud -->
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (7)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Parrillas &amp; Asadores</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Casas de Té &amp; Pastelería</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Cervecerías &amp; Bares</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Pizzerías &amp; Lomiterías</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Cafetería de Especialidad</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Heladerías Artesanales</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Rotiserías &amp; Delivery</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<!-- Category Meta & Quick Actions Footer -->
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Menú Digital, Carta PDF, Delivery WhatsApp, Opciones celíacos
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Category Card 2: Alojamiento & Cabañas -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-primary shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">cabin</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Alojamiento &amp; Cabañas</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 uppercase">Orden #2</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hotelería de montaña, complejos de cabañas, glampings y posadas serranas.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">68 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (6)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Complejos de Cabañas</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Posadas Boutique</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Glamping &amp; Ecoturismo</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Casas de Alquiler Temporario</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Hostels de Montaña</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Campings Organizados</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Capacidad pax, Pileta climatizada, Vista a las sierras, Check-in/out
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Category Card 3: Servicios Profesionales & Oficios -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700 shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">handyman</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Servicios Profesionales &amp; Oficios</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase">Orden #3</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gasistas matriculados, plomeros, electricistas, contadores, arquitectos y gestorías.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">92 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (7)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Electricistas Matriculados</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Plomería &amp; Gasistas</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Arquitectura &amp; Planos</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Abogados &amp; Escribanías</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Pintura &amp; Mantenimiento</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Fletes &amp; Mudanzas Sierras</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Nº Matrícula provincial, Zona de cobertura, Presupuesto previo
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Category Card 4: Salud & Bienestar -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700 shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">local_pharmacy</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Salud &amp; Bienestar</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">Orden #4</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Farmacias de turno, consultorios médicos, veterinarias, psicólogos y terapias naturales.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">54 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (5)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Farmacias &amp; Turnos</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Veterinarias &amp; Pet Shop</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Centros Odontológicos</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Yoga &amp; Meditación</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Ópticas</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Guardia activa, Obras Sociales aceptadas, Turno online
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Category Card 5: Comercio Minorista & Almacenes -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">storefront</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Comercio Minorista &amp; Almacenes</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 uppercase">Orden #5</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dietéticas, verdulerías orgánicas, panaderías de masa madre, indumentaria y librerías.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">81 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (6)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Almacenes Naturales &amp; Dietéticas</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Panaderías &amp; Confiterías</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Indumentaria &amp; Calzado</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Librería &amp; Juguetería</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Viveros &amp; Botánica</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Catálogo de productos, Formas de pago, Envíos zona Sierras
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Category Card 6: Turismo & Excursiones -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">hiking</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Turismo &amp; Excursiones</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">Orden #6</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Guías de trekking, cabalgatas serranas, reservas naturales y turismo aventura.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">39 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (5)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Trekking &amp; Senderismo Guiado</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Cabalgatas Serranas</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Alquiler de Kayaks &amp; Bicis</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Parques Temáticos &amp; Museos</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Dificultad de circuito, Equipamiento provisto, Registro de guía habilitado
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Category Card 7: Automotor & Mecánica -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">directions_car</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Automotor &amp; Mecánica</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 uppercase">Orden #7</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Talleres mecánicos, gomerías de urgencia, auxilio de grúa y repuestos.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">32 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (5)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Talleres Mecánica Integral</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Gomerías &amp; Alineación</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Auxilio y Remolque Serrana</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Lavaderos de Autos</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Servicio a domicilio, Diagnóstico computarizado, Marcas oficiales
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Category Card 8: Construcción & Hogar -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 group flex flex-col gap-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-800 shadow-sm text-2xl">
+<span class="material-symbols-outlined text-[28px]">foundation</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Construcción &amp; Hogar</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-900 uppercase">Orden #8</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Corralones de materiales, ferreterías industriales, carpinterías y energías renovables.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">41 Comercios</span>
+<span class="font-label-sm text-label-sm text-[#16a34a] font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span> Visible PWA
+              </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Subrubros Activos (5)</span>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span> Añadir Subrubro
+            </button>
+</div>
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Corralones &amp; Áridos Serranos</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Ferreterías Industriales</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Paneles Solares &amp; Bioclimática</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm">
+<span>Carpintería de Aluminio &amp; Madera</span>
+<button class="text-on-surface-variant hover:text-error flex items-center"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-3 mt-1 bg-surface-container-low/40 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+              Campos Dinámicos: Envíos con hidrogrúa, Presupuestos por metro², Venta mayorista
+            </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container transition-colors" title="Gestionar Atributos Especiales">
+<span class="material-symbols-outlined text-[18px]">settings_suggest</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Editar Categoría">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Duplicar">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT: Global Search Tags, Filter Chips & Taxonomy Diagnostics (4 cols) -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg sticky top-20">
+<!-- Panel: Gestor de Etiquetas y Filtros Comunes -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm flex flex-col gap-5">
+<div class="flex items-center justify-between pb-3 bg-surface-container-low/30 px-3 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">sell</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Etiquetas Rápidas</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Filtros transversales de búsqueda</span>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-primary hover:bg-primary-container text-on-primary flex items-center justify-center transition-colors" id="btnAddGlobalTag" title="Crear nueva etiqueta" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Estas etiquetas se muestran en la barra de navegación y facilitan búsquedas de alta intención para vecinos y turistas en Sierras Chicas.
+        </p>
+<!-- Tag Item List -->
+<div class="flex flex-col gap-2.5">
+<!-- Tag 1 -->
+<div class="flex items-center justify-between p-3 bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">pets</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Pet Friendly</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cabañas, bares y paseos</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+                128 comercios
+              </span>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Tag 2 -->
+<div class="flex items-center justify-between p-3 bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#0284c7] text-[20px]">qr_code_2</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Acepta Mercado Pago</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cobro digital QR y transferencia</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+                312 comercios
+              </span>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Tag 3 -->
+<div class="flex items-center justify-between p-3 bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">local_parking</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Con Estacionamiento</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cochera propia o predio</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+                95 comercios
+              </span>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Tag 4 -->
+<div class="flex items-center justify-between p-3 bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#16a34a] text-[20px]">eco</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Opciones Sin TACC / Vegano</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Gastronomía y dietéticas</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+                74 comercios
+              </span>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Tag 5 -->
+<div class="flex items-center justify-between p-3 bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">request_quote</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Presupuesto sin Cargo</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Oficios y construcción</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+                67 comercios
+              </span>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Tag 6 -->
+<div class="flex items-center justify-between p-3 bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#dc2626] text-[20px]">emergency</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Atención de Urgencia 24hs</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Farmacias, cerrajerías y auxilio</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+                19 comercios
+              </span>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Tag 7 -->
+<div class="flex items-center justify-between p-3 bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">moped</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Envíos a Domicilio</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reparto local y regional</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+                142 comercios
+              </span>
+<button class="opacity-0 group-hover:opacity-100 text-on-surface-variant hover:text-error transition-opacity">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Tag Quick Add Input -->
+<div class="flex items-center gap-2 pt-2">
+<input class="flex-1 px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" id="newTagInput" placeholder="Nueva etiqueta rápida (ej: WiFi Libre)..." type="text"/>
+<button class="px-3 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-xl hover:bg-primary-container transition-colors" id="btnSaveTag" type="button">
+            Guardar
+          </button>
+</div>
+</div>
+<!-- Regional Distribution Visual Card -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">pie_chart</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Distribución de Rubros</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">428 Locales</span>
+</div>
+<!-- Inline SVG Ring Breakdown chart -->
+<div class="flex items-center gap-4 py-2">
+<svg class="w-24 h-24 transform -rotate-90" viewbox="0 0 36 36">
+<!-- Background circle -->
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4.5"></path>
+<!-- Segment 1 Gastronomía (27%) -->
+<path class="text-[#f59e0b]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="27, 100" stroke-width="4.5"></path>
+<!-- Segment 2 Serv. Prof (21%) -->
+<path class="text-[#0284c7]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="21, 100" stroke-dashoffset="-27" stroke-width="4.5"></path>
+<!-- Segment 3 Comercio (19%) -->
+<path class="text-[#9333ea]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="19, 100" stroke-dashoffset="-48" stroke-width="4.5"></path>
+<!-- Segment 4 Alojamiento (16%) -->
+<path class="text-[#0d9488]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="16, 100" stroke-dashoffset="-67" stroke-width="4.5"></path>
+</svg>
+<div class="flex flex-col gap-1.5 flex-1">
+<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#f59e0b]"></span> Gastronomía</span>
+<span class="font-bold">27%</span>
+</div>
+<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#0284c7]"></span> Profesionales</span>
+<span class="font-bold">21%</span>
+</div>
+<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#9333ea]"></span> Minoristas</span>
+<span class="font-bold">19%</span>
+</div>
+<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#0d9488]"></span> Alojamientos</span>
+<span class="font-bold">16%</span>
+</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl">
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span>Indexación activa en buscadores y catálogo PWA sincronizado en tiempo real.</span>
+</p>
+</div>
+</div>
+<!-- Quick Tips & Help Banner -->
+<div class="p-5 rounded-2xl bg-gradient-to-br from-primary/10 via-surface-container to-surface-container-high relative overflow-hidden">
+<div class="flex items-start gap-3 relative z-10">
+<span class="material-symbols-outlined text-primary text-[24px]">lightbulb</span>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Consejo de Optimización</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Las categorías madre con más de 8 subrubros muestran mejores tasas de retención al agrupar filtros en el selector de la app móvil.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal for Creating New Category (Hidden by default, triggered via JS) -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" id="modalNewCategory">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-2xl shadow-xl p-6 flex flex-col gap-space-md animate-in fade-in zoom-in-95 duration-150">
+<div class="flex items-center justify-between pb-3 bg-surface-container-low/40 px-4 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">category</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Nueva Categoría Madre</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" id="btnCloseModal">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant uppercase font-bold block mb-1">Nombre de la Categoría</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Ej: Deportes &amp; Vida Sana" type="text"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant uppercase font-bold block mb-1">Descripción Breve</label>
+<textarea class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Describe brevemente qué tipo de comercios incluye esta categoría..." rows="2"></textarea>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant uppercase font-bold block mb-1">Icono Material</label>
+<div class="flex items-center gap-2">
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary" type="text" value="fitness_center"/>
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant uppercase font-bold block mb-1">Color Temático</label>
+<div class="flex items-center gap-2">
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary" type="text" value="#0d9488"/>
+<div class="w-10 h-10 rounded-xl bg-primary"></div>
+</div>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant uppercase font-bold block mb-1">Subrubros Iniciales (separar por coma)</label>
+<input class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Gimnasios, Pádel, Nutricionistas, Tiendas Deportivas" type="text"/>
+</div>
+</div>
+<div class="flex items-center justify-end gap-2 pt-3">
+<button class="px-4 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" id="btnCancelModal" type="button">
+          Cancelar
+        </button>
+<button class="px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors shadow-sm" id="btnSaveNewCategory" type="button">
+          Guardar Categoría
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactions for modal and filtering
+  const btnNewCategory = document.getElementById('btnNewCategory');
+  const modalNewCategory = document.getElementById('modalNewCategory');
+  const btnCloseModal = document.getElementById('btnCloseModal');
+  const btnCancelModal = document.getElementById('btnCancelModal');
+  const btnSaveNewCategory = document.getElementById('btnSaveNewCategory');
+
+  function openModal() {
+    if (modalNewCategory) modalNewCategory.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    if (modalNewCategory) modalNewCategory.classList.add('hidden');
+  }
+
+  if (btnNewCategory) btnNewCategory.addEventListener('click', openModal);
+  if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+  if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
+  if (btnSaveNewCategory) {
+    btnSaveNewCategory.addEventListener('click', () => {
+      alert('¡Nueva categoría guardada con éxito en la red de Sierras Chicas!');
+      closeModal();
+    });
+  }
+
+  // Quick live filter for categories
+  const searchCategories = document.getElementById('searchCategories');
+  const categoryContainer = document.getElementById('categoryContainer');
+
+  if (searchCategories && categoryContainer) {
+    searchCategories.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      const cards = categoryContainer.children;
+      for (let card of cards) {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(term)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  // Add tag inline helper
+  const btnSaveTag = document.getElementById('btnSaveTag');
+  const newTagInput = document.getElementById('newTagInput');
+  if (btnSaveTag && newTagInput) {
+    btnSaveTag.addEventListener('click', () => {
+      const val = newTagInput.value.trim();
+      if (val) {
+        alert('Etiqueta "' + val + '" creada con éxito para filtrado rápido.');
+        newTagInput.value = '';
+      }
+    });
+  }
+</script><script src="global-nav.js"></script></main></div></body></html>

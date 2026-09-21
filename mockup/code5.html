@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"tertiary":"#755800","on-secondary-container":"#006172","primary-container":"#008378","error":"#ba1a1a","error-container":"#ffdad6","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdf9a","on-tertiary-fixed":"#251a00","surface-dim":"#cbdbf5","on-primary-container":"#f4fffc","surface-container-low":"#eff4ff","outline":"#6d7a77","secondary":"#00687a","surface":"#f8f9ff","primary":"#00685f","on-error":"#ffffff","on-secondary":"#ffffff","on-primary":"#ffffff","on-primary-fixed-variant":"#005049","surface-tint":"#006a61","on-surface-variant":"#3d4947","on-surface":"#0b1c30","surface-container":"#e5eeff","inverse-surface":"#213145","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#004e5c","surface-container-highest":"#d3e4fe","on-tertiary-container":"#fffbff","surface-variant":"#d3e4fe","on-tertiary-fixed-variant":"#5a4300","secondary-fixed-dim":"#4cd7f6","outline-variant":"#bcc9c6","on-background":"#0b1c30","surface-container-high":"#dce9ff","on-secondary-fixed":"#001f26","primary-fixed":"#89f5e7","on-primary-fixed":"#00201d","tertiary-container":"#936f00","on-error-container":"#93000a","inverse-primary":"#6bd8cb","secondary-container":"#57dffe","inverse-on-surface":"#eaf1ff","background":"#f8f9ff","surface-bright":"#f8f9ff","tertiary-fixed-dim":"#f7be1d","secondary-fixed":"#acedff","primary-fixed-dim":"#6bd8cb"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","gutter-mobile":"1rem","space-lg":"1.5rem","margin-mobile":"1rem","space-md":"1rem","gutter":"1.5rem","margin":"2rem","space-xl":"2.5rem","space-xs":"0.25rem"},"fontFamily":{"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"]},"fontSize":{"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"display":["44px",{"lineHeight":"52px","letterSpacing":"-0.025em","fontWeight":"800"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"display-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"800"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[24px]">terrain</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Sierras Chicas</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold mt-0.5">Admin Central</span></div></div><div class="px-space-md pt-space-md"><nav class="flex flex-col gap-1.5" data-active-classes="bg-primary text-on-primary font-semibold shadow-sm"><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="dashboard" href="code7.html"><span>Dashboard</span></a><a aria-current="page" class="flex items-center px-space-md py-2.5 rounded-xl transition-all bg-primary text-on-primary font-semibold shadow-sm" data-path="comercios" href="code5.html"><span>Comercios</span></a><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="suscripciones-facturacion" href="code10.html"><span>Suscripciones &amp; Facturación</span></a><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="categorias-rubros" href="code2.html"><span>Categorías &amp; Rubros</span></a><a class="flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="configuracion-general" href="code3.html"><span>Configuración General</span></a></nav></div></div><a href="code6.html" class="p-space-md m-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors block text-decoration-none"><div class="flex items-center gap-space-xs mb-1.5"><span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span><span class="font-label-md text-label-md font-bold text-on-surface">PWA Red Sierras Chicas</span><span class="material-symbols-outlined text-[16px] text-primary ml-auto">open_in_new</span></div><p class="font-body-sm text-body-sm text-on-surface-variant flex items-center justify-between"><span>Online 99.9%</span><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface">Ver Portal</span></p></a></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex-1 max-w-xl"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-full font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" placeholder="Buscar comercios, cuit, teléfonos, zonas..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full"><span class="material-symbols-outlined text-primary text-[18px]">dns</span><span class="font-label-md text-label-md text-on-surface-variant">Entorno:</span><span class="font-label-md text-label-md text-on-surface font-semibold">Producción / Sierras Chicas</span></div><button class="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><div class="flex items-center gap-space-sm pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1WazYxcvhFqTPGy6ByGJL2oOBgxEYmwVHU-jNgzui64rTAz8nPi9QNmtTamGJOINHVspiEgG8ngJbrJZVkGQ_5gjoGEY1bxx1y98b_c4umSh3R0JB6GnkttOoGaa_IC9c6j6SptqnDckat7F-8o6qyGPhsfYZAlRtnZlKn7Y5HBVx5auSMKUYDSGNQvuVaUW4iDW992rfPuA5hQK_uecCPLTB9VD0wdU-ULXk0ZBCXs1jRU2nLtWX71Odcw"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-bold leading-tight">Matías Yofre · Plataforma Owner</span><span class="font-label-sm text-label-sm text-primary uppercase font-bold">SuperAdmin</span></div></div></div></div></header><main class="relative pt-16 min-h-screen bg-surface w-full px-space-lg py-space-lg"><div class="flex flex-col w-full">
+<!-- ENCABEZADO DE SECCIÓN Y ACCIONES SUPERADMIN -->
+<section class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col max-w-2xl">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold px-2 py-0.5 rounded-full bg-surface-container-high">Directorio Centralizado</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Región Sierras Chicas, Cba</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-extrabold">Gestión Integral de Comercios</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Supervisión, alta directa, verificación comunitaria y control de publicaciones en el corredor serrano.</p>
+</div>
+<div class="flex flex-wrap items-center gap-2.5">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high shadow-sm font-label-lg text-label-lg transition-all duration-200" type="button">
+<span class="material-symbols-outlined text-[19px] text-on-surface-variant">file_download</span>
+<span>Exportar CSV / Excel</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high shadow-sm font-label-lg text-label-lg transition-all duration-200" type="button">
+<span class="material-symbols-outlined text-[19px] text-secondary">verified_user</span>
+<span>Verificar Lotes</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary shadow-sm font-label-lg text-label-lg transition-all duration-200" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Nuevo Comercio</span>
+</button>
+</div>
+</section>
+<!-- BARRA DE MÉTRICAS RÁPIDAS -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Card 1 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Comercios Activos</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-mobile text-display-mobile text-on-surface font-extrabold tracking-tight">342</span>
+<span class="font-label-sm text-label-sm text-primary font-bold bg-surface-container px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">trending_up</span> +8.4%
+          </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">94% operatividad valle</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[26px]">storefront</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Pendientes de Validación</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-mobile text-display-mobile text-tertiary-container font-extrabold tracking-tight">12</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-bold bg-tertiary-fixed px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">hourglass_top</span> En cola
+          </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Tiempo resp: ~4 horas</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed/40 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[26px]">pending_actions</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Fichas Suspendidas</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-mobile text-display-mobile text-error font-extrabold tracking-tight">05</span>
+<span class="font-label-sm text-label-sm text-error font-bold bg-error-container px-1.5 py-0.5 rounded-md">
+            Mora / Normas
+          </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Requieren atención admin</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-error-container/60 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[26px]">block</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Con Tienda PWA</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-mobile text-display-mobile text-secondary font-extrabold tracking-tight">128</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container font-bold bg-secondary-fixed px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">shopping_cart</span> 37.4%
+          </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Catálogo &amp; pedidos activos</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[26px]">install_mobile</span>
+</div>
+</div>
+</section>
+<!-- BARRA DE CONTROL, BUSCADOR Y FILTROS -->
+<section class="rounded-2xl bg-surface-container-lowest shadow-sm p-space-md mb-space-md flex flex-col gap-space-md">
+<!-- Pestañas rápidas tipo Pill -->
+<div class="flex flex-wrap items-center gap-2">
+<button class="px-3.5 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm transition-all" type="button">
+        Todos (342)
+      </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all flex items-center gap-1.5" type="button">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Verificados (280)</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all flex items-center gap-1.5" type="button">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span>Pendientes de Aprobación (12)</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all flex items-center gap-1.5" type="button">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Morosos o Vencidos (18)</span>
+</button>
+<div class="ml-auto flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">autorenew</span>
+<span>Sincronizado hace 2 min</span>
+</div>
+</div>
+<!-- Buscador y selects en cascada -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+<!-- Input de búsqueda -->
+<div class="md:col-span-4 relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-on-surface-variant text-[20px] pointer-events-none">search</span>
+<input class="w-full pl-10 pr-3.5 py-2 rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" placeholder="Buscar por nombre, CUIT, WhatsApp o titular..." type="text"/>
+</div>
+<!-- Select Localidad -->
+<div class="md:col-span-2">
+<div class="relative">
+<select class="w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all cursor-pointer">
+<option value="">Localidad: Todas</option>
+<option value="rio-ceballos">Río Ceballos</option>
+<option value="villa-allende">Villa Allende</option>
+<option value="mendiolaza">Mendiolaza</option>
+<option value="unquillo">Unquillo</option>
+<option value="salsipuedes">Salsipuedes</option>
+<option value="la-calera">La Calera</option>
+<option value="agua-de-oro">Agua de Oro</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Select Rubro -->
+<div class="md:col-span-2">
+<div class="relative">
+<select class="w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all cursor-pointer">
+<option value="">Rubro: Todos</option>
+<option value="gastronomia">Gastronomía &amp; Café</option>
+<option value="turismo">Cabañas &amp; Turismo</option>
+<option value="servicios">Servicios Profesionales</option>
+<option value="salud">Salud &amp; Bienestar</option>
+<option value="comercio">Comercio Minorista</option>
+<option value="tecnologia">Tecnología &amp; Redes</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Select Plan -->
+<div class="md:col-span-2">
+<div class="relative">
+<select class="w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all cursor-pointer">
+<option value="">Plan: Todos</option>
+<option value="pro">Pro Marketplace</option>
+<option value="destacado">Destacado Serranía</option>
+<option value="gratuito">Gratuito Vecinal</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Select Estado -->
+<div class="md:col-span-2">
+<div class="relative">
+<select class="w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all cursor-pointer">
+<option value="">Estado: Todos</option>
+<option value="activo">Activo</option>
+<option value="revision">En Revisión</option>
+<option value="pausado">Pausado</option>
+<option value="suspendido">Suspendido</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- DATA-GRID AVANZADA DE COMERCIOS -->
+<section class="rounded-2xl bg-surface-container-lowest shadow-sm overflow-hidden mb-space-lg">
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm text-on-surface">
+<thead class="bg-surface-container text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<tr>
+<th class="py-3 px-space-md w-10" scope="col">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</th>
+<th class="py-3.5 px-space-md" scope="col">Comercio &amp; Titular</th>
+<th class="py-3.5 px-space-md" scope="col">Ubicación &amp; Contacto</th>
+<th class="py-3.5 px-space-md" scope="col">Modalidad Ficha</th>
+<th class="py-3.5 px-space-md" scope="col">Plan &amp; Facturación</th>
+<th class="py-3.5 px-space-md" scope="col">Verificación / Estado</th>
+<th class="py-3.5 px-space-md text-center" scope="col">Rendimiento (Mes)</th>
+<th class="py-3.5 px-space-md text-right" scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40">
+<!-- Item 1 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Logotipo artesanal y acogedor para Café y Delicias del Valle, con icono de granos de café y contorno de las sierras de Córdoba con acentos cálidos y teal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDArQmhbU2LucxTnp6mIuFuOUFxOxSnGTTZYS25bOJPU9A3pGZxTzgQc29Lgsl0-TpOZMvNQsM7iKLdlgAq0D7QVIey9cd81aS0vOUQZUUlX-KTYmlL8Kbbgsxlombpyu77yzjkcAt4PfhfLczpfMwTyoUtSw04zMldupMOhUyQ38SxUDsL8LNtaSV6FVWo0-YY380mz2mwDZp0aCREW7KKFSD0-rJfoE2vvQFzWKDcPIs1b0I4l_ZAGw"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Café &amp; Delicias del Valle</span>
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;" title="Comercio Verificado Oficialmente">verified</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Luciana Rossi • CUIT 27-33984120-4</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Gastronomía &amp; Pastelería</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Río Ceballos</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant pl-5">Av. San Martín 4280</span>
+<a class="flex items-center gap-1 pl-5 text-primary hover:underline font-label-md text-label-md mt-0.5" href="https://wa.me/5493543551234" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> +54 9 3543 55-1234
+                </a>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-bold">
+<span class="material-symbols-outlined text-[15px] text-secondary">shopping_bag</span>
+<span>Catálogo + Carrito WhatsApp</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-primary">Pro Marketplace</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">$18.000 / mes</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Al día (Débito)
+                </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold w-fit">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Activo
+                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Alta: 14 Ene 2024</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface">1.840</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vistas</span>
+</div>
+<div class="w-px h-6 bg-surface-container-high"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-primary">142</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chats</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Inspeccionar Ficha PWA" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Editar Ficha" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-[#25D366] hover:bg-surface-container transition-colors" title="WhatsApp Administrativo" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 2 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Logotipo corporativo de tecnología e infraestructura de fibra óptica y redes para HyFact Software y Redes con estilo minimalista y líneas teal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq0jTiEffIVbjAuNdHv_FAFuXDbHXX3g9yn39sdNpzUj5Dlpww5S_WGrJ9_CVklaFKACaA2RyzKXo0LhpRMnT0e1W6jzcBOqQL4wxVKSoha5o72EVJ1sLoh2eEe2qPZPn42HOgoTcRbdQ8FdCmbF7060R_7cbgXwoKN2fcwkEzJD-8xstYbTfLJIgizenMq2C5zSMsr6g3uzR0GFBl3YjD4OyQ1nD-RE46YObCPVQa_lcY48GTfmITYw"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">HyFact Software &amp; Redes</span>
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;" title="Comercio Verificado Oficialmente">verified</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Ing. Gonzalo Funes • CUIT 20-31849201-9</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Tecnología &amp; Redes</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Río Ceballos</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant pl-5">Pasaje Los Manantiales 120</span>
+<a class="flex items-center gap-1 pl-5 text-primary hover:underline font-label-md text-label-md mt-0.5" href="https://wa.me/5493512398711" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> +54 9 351 239-8711
+                </a>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-bold">
+<span class="material-symbols-outlined text-[15px] text-primary">contact_page</span>
+<span>Ficha Publicitaria</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-secondary">Destacado Serranía</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">$9.500 / mes</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Al día
+                </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold w-fit">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Activo
+                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Alta: 03 Feb 2024</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface">920</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vistas</span>
+</div>
+<div class="w-px h-6 bg-surface-container-high"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-primary">64</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chats</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Inspeccionar Ficha PWA" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Editar Ficha" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-[#25D366] hover:bg-surface-container transition-colors" title="WhatsApp Administrativo" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 3 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Emblema de Cabañas Cerro Azul y Spa con silueta de cabaña de montaña entre pinos y piscina relajante, colores naturales verde pino y aguamarina" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEX94Wvdo93TxpasEO6JzTaveruYzujKuPEshuWT24SGGCnOrXlA4JaJb-C2rCi5BIe33iqARNIZI-ChAxn_em3bj4qy9qx4W2wwpQn6TL-jcKBgNPbYolhH8MXj038zYE7J58G8HgMYwN1XAB4Vxmg1O5SMJgP81d6qtw-86tCX8fF8P0L3_HWBAkaQhCuSFdIjEJaJp6fDoyJvgzOaF3hIRNgYE4OxsPYFImlKj96xC3-hJGZrmvOw"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Cabañas Cerro Azul &amp; Spa</span>
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;" title="Comercio Verificado Oficialmente">verified</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Carlos E. Benítez • CUIT 20-22194883-2</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">Turismo &amp; Alojamiento</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Agua de Oro</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant pl-5">Camino a Candonga Km 2.5</span>
+<a class="flex items-center gap-1 pl-5 text-primary hover:underline font-label-md text-label-md mt-0.5" href="https://wa.me/5493525492100" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> +54 9 3525 49-2100
+                </a>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-bold">
+<span class="material-symbols-outlined text-[15px] text-secondary">shopping_bag</span>
+<span>Catálogo + Carrito WhatsApp</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-primary">Pro Marketplace</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">$18.000 / mes</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Al día
+                </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold w-fit">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Activo
+                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Alta: 28 Nov 2023</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface">3.210</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vistas</span>
+</div>
+<div class="w-px h-6 bg-surface-container-high"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-primary">284</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chats</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Inspeccionar Ficha PWA" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Editar Ficha" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-[#25D366] hover:bg-surface-container transition-colors" title="WhatsApp Administrativo" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 4 (Pendiente de Aprobación) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors bg-tertiary-fixed/10">
+<td class="py-3.5 px-space-md">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Logotipo para Alfajores y Dulces El Tala con tipografía tradicional y dibujo de alfajor artesanal relleno de dulce de leche cordobés" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAki6zRUJa3qa9HD5dJ1VR0KuXiTgfwiv2xjiCisT_jNlaQ0oe_uFX9tbhlAO3UHx7FpZIiPIdpAdexuoA2DmNNtRjeUJ-JMGhA-2oqpqhlduB58npalrgOzG5bEdoLr-b7Rtkhkg1MeFNBcSG-yixM2dQmWlYnc7Hs35E_9ak3gD7c9LQYJQi8Uug5HFh3h_-Gm3INeLVbtQIwtfuh8hm8_GttaTRiVnIZM6tuwB0JGpfZbFlLfOLLg"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Alfajores y Dulces El Tala</span>
+<span class="material-symbols-outlined text-tertiary-container text-[18px]" title="Validación comunitaria pendiente">pending</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Mariana Gómez • CUIT 27-35619283-8</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Comestibles Regionales</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Villa Allende</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant pl-5">Goycoechea 842</span>
+<a class="flex items-center gap-1 pl-5 text-primary hover:underline font-label-md text-label-md mt-0.5" href="https://wa.me/5493516559902" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> +54 9 351 655-9902
+                </a>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-bold">
+<span class="material-symbols-outlined text-[15px] text-secondary">shopping_bag</span>
+<span>Catálogo + Carrito WhatsApp</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-secondary">Destacado Serranía</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">$9.500 / mes</span>
+<span class="font-label-sm text-label-sm text-tertiary-container flex items-center gap-0.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span> Cupón Prueba 15d
+                </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold w-fit">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-ping"></span> En Revisión
+                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Subido ayer 18:30</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface">45</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vistas</span>
+</div>
+<div class="w-px h-6 bg-surface-container-high"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface-variant">0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chats</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-surface-container font-label-md text-label-md font-bold flex items-center gap-0.5" title="Aprobar y Publicar Inmediato" type="button">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Inspeccionar Ficha PWA" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Editar Ficha" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 5 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Emblema de taller automotriz con llave inglesa y silueta de camioneta 4x4 todoterreno, estilo limpio y confiable en tonos oscuros y teal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD0kGyZr7ZT5tLrhkxsVNZE-nShzU5mrmddGZk3dktBnHDGixXXFJ17Nb91G0v6BzEOFyUR_jq6LSzPuJYLmmuwsj9YWkxBRYGWPBwVteOVKZLT-RwKkeM_ahNDDap3nQf28-Z74nQAoyQO7RISZfNvn5Kci9AXe-lk_vzXIBsJCfl7zfIoGs9n8Vmdr5BxXZI-WsjXI_hks4XEScQeLlphEo0gpy4zTXObCMbiIzV1zMvCGVq0t7-QA"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Mecánica Integral Serrana</span>
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;" title="Comercio Verificado Oficialmente">verified</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Pablo Quinteros • CUIT 20-28194029-3</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Taller Mecánico &amp; Frenos</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Unquillo</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant pl-5">Av. San Martín 1540</span>
+<a class="flex items-center gap-1 pl-5 text-primary hover:underline font-label-md text-label-md mt-0.5" href="https://wa.me/5493543609812" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> +54 9 3543 60-9812
+                </a>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-bold">
+<span class="material-symbols-outlined text-[15px] text-primary">contact_page</span>
+<span>Ficha Publicitaria</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface-variant">Gratuito Vecinal</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">$0 / mes</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span> Sin costo
+                </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold w-fit">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Activo
+                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Alta: 19 Oct 2023</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface">630</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vistas</span>
+</div>
+<div class="w-px h-6 bg-surface-container-high"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-primary">31</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chats</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Inspeccionar Ficha PWA" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Editar Ficha" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-[#25D366] hover:bg-surface-container transition-colors" title="WhatsApp Administrativo" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 6 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Logotipo elegante para Boutique Floral Las Lilas con ramas florales sutiles y diseño botánico contemporáneo en tonos verdes y lila pastel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPtCZSeH6gw4v3ud0o3ZdZ9STlonH6ah3xSp84vxADmkLdo5Cbz8HKHCgsYil-WL2RPGTXjWy4Lrvs9sAJorBwzC4kLJeSLVrhNovldI9RVN4_cu3iANmWSO34qGCcjVI6EkqnGYbdAb-QEppqtI3z8Hw6od1ADQwqy_yl568f8bJO2cRKc4ZPTJeuyhAiBCoDavZP_Iqv9KB7A-QtuHE_5TyZIocfXrwoUhdKn1CSw4KBKyu5cZs_uw"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate">Boutique Floral Las Lilas</span>
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;" title="Comercio Verificado Oficialmente">verified</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Clara M. Solís • CUIT 27-31908442-1</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Florería &amp; Vivero Boutique</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Mendiolaza</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant pl-5">Ruta Intermunicipal Km 8</span>
+<a class="flex items-center gap-1 pl-5 text-primary hover:underline font-label-md text-label-md mt-0.5" href="https://wa.me/5493514087612" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> +54 9 351 408-7612
+                </a>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-bold">
+<span class="material-symbols-outlined text-[15px] text-secondary">shopping_bag</span>
+<span>Catálogo + Carrito WhatsApp</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-secondary">Destacado Serranía</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">$9.500 / mes</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Al día
+                </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold w-fit">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Activo
+                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Alta: 02 May 2024</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface">1.120</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vistas</span>
+</div>
+<div class="w-px h-6 bg-surface-container-high"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-primary">88</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chats</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Inspeccionar Ficha PWA" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Editar Ficha" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-[#25D366] hover:bg-surface-container transition-colors" title="WhatsApp Administrativo" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 7 (Suspendido por Mora) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors bg-error-container/10">
+<td class="py-3.5 px-space-md">
+<input class="rounded text-primary focus:ring-primary focus:ring-offset-0 bg-surface cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Emblema de Farmacia Serrana Central con cruz médica verde estilizada y hojas medicinales de jarilla y poleo serrano" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl3ClhkjICDFwG5H108cDgyEB1PE4yb5DopkPIotoyJhjGSM5eIMn7mEFw198uadAjXW1NsYVsWaU72Zc0WuseAJ2FDmqeYIgOkcQgM2coyYYVvxOIPZJkCpXW8od7uJcBSoF53GNnkwiUHeabWFW-c622QsVnnIiIuSJcoXN2GNDpt_zVBRzJV3foxZ31-O9ztROazNlmOtT-oLm29cYreAamGQ4e8aGjO8PkLLCf8Lpr1rwVmdGbQQ"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold truncate line-through opacity-80">Farmacia Serrana Central</span>
+<span class="material-symbols-outlined text-error text-[18px]" title="Comercio Inhabilitado">cancel</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Farm. Roberto Lugones • CUIT 20-19482103-5</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Salud &amp; Farmacias</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Salsipuedes</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant pl-5">Ruta E-53 Km 31</span>
+<a class="flex items-center gap-1 pl-5 text-primary hover:underline font-label-md text-label-md mt-0.5" href="https://wa.me/5493543881920" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> +54 9 3543 88-1920
+                </a>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface font-bold">
+<span class="material-symbols-outlined text-[15px] text-primary">contact_page</span>
+<span>Ficha Publicitaria</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-error">Pro Marketplace</span>
+<span class="font-body-sm text-body-sm text-error font-medium">$18.000 (Vencida 60d)</span>
+<span class="font-label-sm text-label-sm text-error flex items-center gap-0.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> 2 Avisos enviados
+                </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold w-fit">
+<span class="w-2 h-2 rounded-full bg-error"></span> Suspendido
+                </span>
+<span class="font-label-sm text-label-sm text-error font-semibold">Pausa Administrativa</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface-variant">0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vistas</span>
+</div>
+<div class="w-px h-6 bg-surface-container-high"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface-variant">0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chats</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-surface-container font-label-md text-label-md font-bold flex items-center gap-0.5" title="Reactivar Comercio" type="button">
+<span class="material-symbols-outlined text-[18px]">replay</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Editar Ficha" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-error hover:bg-error-container/40 transition-colors" title="Reclamar Pago WhatsApp" type="button">
+<span class="material-symbols-outlined text-[18px]">payment</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- PAGINACIÓN Y RESUMEN INFERIOR -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Mostrando</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">1 - 7</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">de</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">342 comercios registrados</span>
+<span class="hidden md:inline text-on-surface-variant text-xs ml-2">(Filas por página: 10)</span>
+</div>
+<!-- Paginador estilizado -->
+<div class="flex items-center gap-1.5 self-center sm:self-auto">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm" type="button">
+          1
+        </button>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+          2
+        </button>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+          3
+        </button>
+<span class="text-on-surface-variant px-1 font-body-sm text-body-sm">...</span>
+<button class="w-8 h-8 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+          35
+        </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- BANNER COMPACTO DE ASISTENCIA OPERATIVA REGIONAL -->
+<section class="rounded-2xl bg-surface-container-high p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">contact_support</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Mesa de Ayuda para Comerciantes Serranos</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Línea directa de alta asistida y soporte de catálogos WhatsApp para productores sin acceso a PC.</span>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<a class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#22C55E] text-white font-label-md text-label-md font-bold shadow-sm transition-all" href="https://wa.me/5493543000000" target="_blank">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>Canal WhatsApp Soporte</span>
+</a>
+</div>
+</section>
+</div></main></div><script src="global-nav.js"></script></body></html>

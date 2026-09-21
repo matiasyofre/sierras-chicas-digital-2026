@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"tertiary":"#755800","on-secondary-container":"#006172","primary-container":"#008378","error":"#ba1a1a","error-container":"#ffdad6","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdf9a","on-tertiary-fixed":"#251a00","surface-dim":"#cbdbf5","on-primary-container":"#f4fffc","surface-container-low":"#eff4ff","outline":"#6d7a77","secondary":"#00687a","surface":"#f8f9ff","primary":"#00685f","on-error":"#ffffff","on-secondary":"#ffffff","on-primary":"#ffffff","on-primary-fixed-variant":"#005049","surface-tint":"#006a61","on-surface-variant":"#3d4947","on-surface":"#0b1c30","surface-container":"#e5eeff","inverse-surface":"#213145","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#004e5c","surface-container-highest":"#d3e4fe","on-tertiary-container":"#fffbff","surface-variant":"#d3e4fe","on-tertiary-fixed-variant":"#5a4300","secondary-fixed-dim":"#4cd7f6","outline-variant":"#bcc9c6","on-background":"#0b1c30","surface-container-high":"#dce9ff","on-secondary-fixed":"#001f26","primary-fixed":"#89f5e7","on-primary-fixed":"#00201d","tertiary-container":"#936f00","on-error-container":"#93000a","inverse-primary":"#6bd8cb","secondary-container":"#57dffe","inverse-on-surface":"#eaf1ff","background":"#f8f9ff","surface-bright":"#f8f9ff","tertiary-fixed-dim":"#f7be1d","secondary-fixed":"#acedff","primary-fixed-dim":"#6bd8cb"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","gutter-mobile":"1rem","space-lg":"1.5rem","margin-mobile":"1rem","space-md":"1rem","gutter":"1.5rem","margin":"2rem","space-xl":"2.5rem","space-xs":"0.25rem"},"fontFamily":{"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"]},"fontSize":{"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"display":["44px",{"lineHeight":"52px","letterSpacing":"-0.025em","fontWeight":"800"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"display-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"800"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[24px]">terrain</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Sierras Chicas</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold mt-0.5">Admin Central</span></div></div><div class="px-space-md pt-space-md"><nav class="flex flex-col gap-1.5" data-active-classes="bg-primary text-on-primary font-semibold shadow-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl transition-all bg-primary text-on-primary font-semibold shadow-sm" data-path="dashboard" href="code7.html"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="comercios" href="code5.html"><span class="material-symbols-outlined text-[20px]">storefront</span><span>Comercios</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="suscripciones-facturacion" href="code10.html"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Suscripciones &amp; Facturación</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="categorias-rubros" href="code2.html"><span class="material-symbols-outlined text-[20px]">category</span><span>Categorías &amp; Rubros</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-label-lg text-label-lg" data-path="configuracion-general" href="code3.html"><span class="material-symbols-outlined text-[20px]">tune</span><span>Configuración General</span></a></nav></div></div><a href="code6.html" class="p-space-md m-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors block text-decoration-none"><div class="flex items-center gap-space-xs mb-1.5"><span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span><span class="font-label-md text-label-md font-bold text-on-surface">PWA Red Sierras Chicas</span><span class="material-symbols-outlined text-[16px] text-primary ml-auto">open_in_new</span></div><p class="font-body-sm text-body-sm text-on-surface-variant flex items-center justify-between"><span>Online 99.9%</span><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface">Ver Portal</span></p></a></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex-1 max-w-xl"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-full font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" placeholder="Buscar comercios, cuit, teléfonos, zonas..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full"><span class="material-symbols-outlined text-primary text-[18px]">dns</span><span class="font-label-md text-label-md text-on-surface-variant">Entorno:</span><span class="font-label-md text-label-md text-on-surface font-semibold">Producción / Sierras Chicas</span></div><button class="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><div class="flex items-center gap-space-sm pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1WazYxcvhFqTPGy6ByGJL2oOBgxEYmwVHU-jNgzui64rTAz8nPi9QNmtTamGJOINHVspiEgG8ngJbrJZVkGQ_5gjoGEY1bxx1y98b_c4umSh3R0JB6GnkttOoGaa_IC9c6j6SptqnDckat7F-8o6qyGPhsfYZAlRtnZlKn7Y5HBVx5auSMKUYDSGNQvuVaUW4iDW992rfPuA5hQK_uecCPLTB9VD0wdU-ULXk0ZBCXs1jRU2nLtWX71Odcw"/><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-bold leading-tight">Matías Yofre · Plataforma Owner</span><span class="font-label-sm text-label-sm text-primary uppercase font-bold">SuperAdmin</span></div></div></div></div></header><main class="relative pt-16 min-h-screen bg-surface w-full px-space-lg py-space-lg"><div class="flex flex-col w-full gap-space-lg">
+<!-- 1. HEADER DE BIENVENIDA Y ACCIONES RÁPIDAS -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-label-sm uppercase bg-primary/10 text-primary font-bold">
+          Red Regional Activa
+        </span>
+<span class="text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span> Sincronizado hace 2 min
+        </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+        Panel de Control General · Súper Administrador
+      </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+        Supervisión centralizada del directorio hiperlocal y red de marketplaces del corredor de Sierras Chicas.
+      </p>
+</div>
+<!-- Acciones de Cabecera -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container-high transition-all font-label-lg text-label-lg shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">download</span>
+<span>Reporte CSV / Excel</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed hover:bg-tertiary-fixed-dim transition-all font-label-lg text-label-lg shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+<span>Alerta Global PWA</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container transition-all font-label-lg text-label-lg shadow-sm" onclick="document.getElementById('modal-moderacion').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Alta Manual de Comercio</span>
+</button>
+</div>
+</div>
+<!-- 2. TARJETAS KPI PRINCIPALES -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- KPI 1 -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Total de Comercios</span>
+<span class="font-display text-display text-on-surface tracking-tight mt-1">342</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">storefront</span>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between pt-3 bg-surface-container-low/60 rounded-lg px-3 py-2">
+<span class="inline-flex items-center text-label-sm font-label-sm font-bold text-primary gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +18% este mes
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">98% verificados</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Tiendas Virtuales Activas</span>
+<span class="font-display text-display text-on-surface tracking-tight mt-1">128</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">shopping_cart_checkout</span>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between pt-3 bg-surface-container-low/60 rounded-lg px-3 py-2">
+<span class="inline-flex items-center text-label-sm font-label-sm font-bold text-secondary gap-1">
+<span class="material-symbols-outlined text-[16px]">sync_alt</span> Con Catálogo &amp; WhatsApp
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">37.4% adopción</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Tráfico del Corredor</span>
+<span class="font-display text-display text-on-surface tracking-tight mt-1">84.5k</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">visibility</span>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between pt-3 bg-surface-container-low/60 rounded-lg px-3 py-2">
+<span class="inline-flex items-center text-label-sm font-label-sm font-bold text-tertiary gap-1">
+<span class="material-symbols-outlined text-[16px]">north_east</span> +24% i.a.
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Visitas / mes PWA</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Nuevos Registros (Semana)</span>
+<span class="font-display text-display text-on-surface tracking-tight mt-1">14</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 text-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">person_add</span>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between pt-3 bg-surface-container-low/60 rounded-lg px-3 py-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">
+          Río C. (6) · Villa A. (4) · Unquillo (3)
+        </span>
+</div>
+</div>
+</div>
+<!-- 3. GRÁFICOS Y MÉTRICAS DE DISTRIBUCIÓN -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Distribución por Localidad y Rubro -->
+<div class="lg:col-span-7 bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Distribución por Localidad &amp; Rubro</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Penetración territorial sobre 342 comercios activos</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">donut_large</span>
+</div>
+<!-- Barras de Localidades -->
+<div class="flex flex-col gap-3 my-4">
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1 text-on-surface">
+<span>Río Ceballos</span>
+<span class="font-bold">32% (109)</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 32%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1 text-on-surface">
+<span>Villa Allende</span>
+<span class="font-bold">28% (96)</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 28%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1 text-on-surface">
+<span>Unquillo</span>
+<span class="font-bold">21% (72)</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 21%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1 text-on-surface">
+<span>Mendiolaza &amp; Salsipuedes</span>
+<span class="font-bold">19% (65)</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-tertiary-fixed-dim h-full rounded-full" style="width: 19%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Segmentación por Rubro (Pills) -->
+<div class="mt-4 pt-4 bg-surface-container-low rounded-xl p-3 flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface">Gastronomía: <strong>42%</strong></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-label-md text-label-md text-on-surface">Servicios: <strong>31%</strong></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md text-on-surface">Alojamiento/Turismo: <strong>18%</strong></span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-outline"></span>
+<span class="font-label-md text-label-md text-on-surface">General: <strong>9%</strong></span>
+</div>
+</div>
+</div>
+<!-- Conversión a WhatsApp y Actividad PWA -->
+<div class="lg:col-span-5 bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Conversión Directa WhatsApp</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Conexiones directas sin intermediación</span>
+</div>
+<div class="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span> En Vivo
+          </div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm mt-4">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Clics a WhatsApp</span>
+<span class="font-headline-lg text-headline-lg text-primary font-bold mt-1">3.420</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Últimos 7 días</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">Tiempo de Respuesta</span>
+<span class="font-headline-lg text-headline-lg text-secondary font-bold mt-1">&lt; 8 min</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Promedio corredor</span>
+</div>
+</div>
+<!-- Tarjeta de Volumen Transaccionado -->
+<div class="mt-space-md p-space-md rounded-xl bg-primary text-on-primary shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary-fixed opacity-90 font-bold">Volumen Estimado Estimado</span>
+<span class="font-display-mobile text-display-mobile font-extrabold tracking-tight mt-0.5">$14.2M ARS</span>
+<span class="font-body-sm text-body-sm text-on-primary opacity-80">Impacto económico mensual estimado</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-lowest/15 flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-on-primary">point_of_sale</span>
+</div>
+</div>
+</div>
+<div class="pt-4 mt-2 flex items-center justify-between font-label-md text-label-md text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-primary">verified_user</span> Monitoreo PWA 100% activo</span>
+<button class="text-primary hover:underline font-bold">Ver Analítica Detallada →</button>
+</div>
+</div>
+</div>
+<!-- 4. DATA GRID AVANZADO: GESTIÓN DE COMERCIOS -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col overflow-hidden">
+<!-- Encabezado de la Sección y Controles -->
+<div class="p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Gestión Integral de Comercios</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-md text-label-md font-bold">
+            342 total
+          </span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[18px]">tune</span> Configurar Columnas
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[18px]">refresh</span> Actualizar
+          </button>
+</div>
+</div>
+<!-- Barra de Filtros Interactiva -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-space-sm">
+<!-- Búsqueda -->
+<div class="lg:col-span-4 relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-[18px]">search</span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all" placeholder="Buscar por comercio, teléfono o titular..." type="text"/>
+</div>
+<!-- Filtro Localidad -->
+<div class="lg:col-span-2">
+<select class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all cursor-pointer">
+<option>Todas las Localidades</option>
+<option>Río Ceballos</option>
+<option>Villa Allende</option>
+<option>Mendiolaza</option>
+<option>Unquillo</option>
+<option>Salsipuedes</option>
+</select>
+</div>
+<!-- Filtro Plan -->
+<div class="lg:col-span-2">
+<select class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all cursor-pointer">
+<option>Todos los Planes</option>
+<option>Plan Pro ($18.000)</option>
+<option>Plan Destacado ($9.500)</option>
+<option>Plan Gratis ($0)</option>
+</select>
+</div>
+<!-- Filtro Modalidad -->
+<div class="lg:col-span-2">
+<select class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all cursor-pointer">
+<option>Todas las Modalidades</option>
+<option>Tienda &amp; Catálogo WhatsApp</option>
+<option>Ficha Publicitaria Estándar</option>
+</select>
+</div>
+<!-- Filtro Estado -->
+<div class="lg:col-span-2">
+<select class="w-full px-3 py-2 bg-surface-container-low rounded-xl font-body-sm text-body-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all cursor-pointer">
+<option>Todos los Estados</option>
+<option>Activo</option>
+<option>Pausado</option>
+<option>Pendiente Moderación</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Tabla Responsive -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<tr>
+<th class="py-3.5 px-4 font-semibold">Comercio / Titular</th>
+<th class="py-3.5 px-4 font-semibold">Localidad / Zona</th>
+<th class="py-3.5 px-4 font-semibold">Suscripción</th>
+<th class="py-3.5 px-4 font-semibold">Modalidad</th>
+<th class="py-3.5 px-4 font-semibold">Estado</th>
+<th class="py-3.5 px-4 font-semibold">Última Actividad</th>
+<th class="py-3.5 px-4 font-semibold text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface">
+<!-- Fila 1 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold font-headline-sm">
+                  CD
+                </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-semibold flex items-center gap-1.5">
+                    Café &amp; Delicias del Valle
+                    <span class="material-symbols-outlined text-primary text-[16px]" title="Verificado Oficial">verified</span>
+</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Florencia Morales · +54 9 3543 551920</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Río Ceballos</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Av. San Martín 1420</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-primary/10 text-primary">
+                Plan Pro · $18.000/mes
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">shopping_bag</span> Tienda &amp; POS
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Activo
+              </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">12 Feb 2025</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-all" onclick="document.getElementById('modal-moderacion').classList.remove('hidden')" title="Editar / Moderar">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" title="Ver Ficha Pública">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-error hover:bg-error/10 transition-all" title="Suspender">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 2 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors bg-surface-container-low/30">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold font-headline-sm">
+                  HF
+                </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-semibold flex items-center gap-1.5">
+                    HyFact Software &amp; Redes
+                    <span class="material-symbols-outlined text-primary text-[16px]">verified</span>
+</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Carlos Varela · +54 9 351 2894102</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Río Ceballos</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Colanchanga</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-tertiary-fixed text-on-tertiary-fixed">
+                Plan Destacado
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">contacts</span> Ficha Publicitaria
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Activo
+              </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">28 Ene 2025</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-all" onclick="document.getElementById('modal-moderacion').classList.remove('hidden')" title="Editar / Moderar">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" title="Ver Ficha Pública">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-error hover:bg-error/10 transition-all" title="Suspender">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 3 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-on-surface flex items-center justify-center font-bold font-headline-sm">
+                  ST
+                </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-semibold">Sierras Tech Desarrollo</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Luciano Rossi · +54 9 351 9023411</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Mendiolaza</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">El Talar</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-surface-container-high text-on-surface">
+                Plan Gratis ($0)
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">contacts</span> Ficha Publicitaria
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Activo
+              </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">04 Mar 2025</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-all" onclick="document.getElementById('modal-moderacion').classList.remove('hidden')" title="Editar / Moderar">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" title="Ver Ficha Pública">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-error hover:bg-error/10 transition-all" title="Suspender">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 4 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors bg-surface-container-low/30">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold font-headline-sm">
+                  CA
+                </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-semibold flex items-center gap-1.5">
+                    Cabañas Cerro Azul &amp; Spa
+                    <span class="material-symbols-outlined text-primary text-[16px]">verified</span>
+</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Esteban Pereyra · +54 9 3543 897412</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Agua de Oro / Salsipuedes</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Ruta E-53 Km 34</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-primary/10 text-primary">
+                Plan Pro · $18.000/mes
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">calendar_month</span> Catálogo &amp; Reservas
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Activo
+              </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">15 Ene 2025</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-all" onclick="document.getElementById('modal-moderacion').classList.remove('hidden')" title="Editar / Moderar">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" title="Ver Ficha Pública">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-error hover:bg-error/10 transition-all" title="Suspender">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 5 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold font-headline-sm">
+                  AT
+                </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-semibold">Alfajores y Dulces El Tala</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Graciela Romero · +54 9 351 4452109</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Villa Allende</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Av. Goycoechea 710</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-tertiary-fixed text-on-tertiary-fixed">
+                Plan Destacado
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">shopping_bag</span> Tienda WhatsApp
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-amber-100 text-amber-800">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Pausado
+              </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">20 Feb 2025</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-all" onclick="document.getElementById('modal-moderacion').classList.remove('hidden')" title="Editar / Moderar">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" title="Ver Ficha Pública">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-error hover:bg-error/10 transition-all" title="Suspender">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 6 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors bg-surface-container-low/30">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-error/10 text-error flex items-center justify-center font-bold font-headline-sm">
+                  MS
+                </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-semibold">Mecánica Integral Serrana</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Martín Altamirano · +54 9 3543 610022</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Unquillo</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Av. San Martín 210</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-surface-container-high text-on-surface">
+                Plan Gratis ($0)
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 text-on-surface font-medium">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">contacts</span> Ficha Publicitaria
+              </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold bg-orange-100 text-orange-800">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-600 animate-pulse"></span> Pendiente Revisión
+              </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">08 Mar 2025</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-all" onclick="document.getElementById('modal-moderacion').classList.remove('hidden')" title="Editar / Moderar">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" title="Ver Ficha Pública">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-error hover:bg-error/10 transition-all" title="Suspender">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Paginación -->
+<div class="p-space-md bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+        Mostrando <strong class="text-on-surface">1 a 6</strong> de <strong class="text-on-surface">342 comercios</strong>
+</span>
+<div class="flex items-center gap-1">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all disabled:opacity-50" disabled="">
+          Anterior
+        </button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm">1</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high font-label-md text-label-md">2</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high font-label-md text-label-md">3</button>
+<span class="px-1 text-on-surface-variant font-label-md text-label-md">...</span>
+<button class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high font-label-md text-label-md">57</button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all">
+          Siguiente
+        </button>
+</div>
+</div>
+</div>
+<!-- 5. MODAL DE EDICIÓN RÁPIDA Y MODERACIÓN SUPERADMIN -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm" id="modal-moderacion">
+<div class="w-full max-w-3xl bg-surface-container-lowest rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+<!-- Header Modal -->
+<div class="p-space-lg bg-surface-container-low flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-label-sm text-label-sm font-bold">
+              ID: COM-8842
+            </span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm">
+              Río Ceballos
+            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">
+            Edición Rápida &amp; Moderación · Café &amp; Delicias del Valle
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Propietaria: <strong>Florencia Morales</strong> · CUIT: <strong>27-36894102-4</strong> · WhatsApp: <strong>+54 9 3543 551920</strong>
+</p>
+</div>
+<button class="p-1.5 rounded-full hover:bg-surface-container-highest text-on-surface-variant transition-all" onclick="document.getElementById('modal-moderacion').classList.add('hidden')">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- Cuerpo del Modal (Scrollable) -->
+<div class="p-space-lg overflow-y-auto flex flex-col gap-space-lg">
+<!-- Selector forzado de Plan -->
+<div class="flex flex-col gap-2">
+<label class="font-label-lg text-label-lg font-bold text-on-surface flex items-center justify-between">
+<span>Asignación de Plan de Suscripción (Forzado por SuperAdmin)</span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Tarifa Red Sierras Chicas</span>
+</label>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<label class="flex flex-col p-3 rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Gratuito</span>
+<input class="text-primary focus:ring-0" name="plan_modal" type="radio"/>
+</div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$0</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Ficha básica con enlace directo</span>
+</label>
+<label class="flex flex-col p-3 rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Destacado</span>
+<input class="text-primary focus:ring-0" name="plan_modal" type="radio"/>
+</div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$9.500<span class="font-body-sm text-body-sm font-normal">/mes</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Galería extendida + prioridad</span>
+</label>
+<label class="flex flex-col p-3 rounded-xl bg-primary/10 cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-md text-label-md font-bold text-primary">Pro / Marketplace</span>
+<input checked="" class="text-primary focus:ring-0" name="plan_modal" type="radio"/>
+</div>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">$18.000<span class="font-body-sm text-body-sm font-normal">/mes</span></span>
+<span class="font-body-sm text-body-sm text-primary/80 mt-1">Catálogo online + Carrito WhatsApp</span>
+</label>
+</div>
+<!-- Switch Bonificación -->
+<div class="mt-2 flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">redeem</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Bonificación de cortesía 100% OFF (Acuerdo municipal o auspicio)</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+<!-- Moderación de Contenido Público -->
+<div class="flex flex-col gap-3">
+<label class="font-label-lg text-label-lg font-bold text-on-surface">
+            Moderación de Estado &amp; Visibilidad PWA
+          </label>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Ficha Verificada Oficial</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Otorga el tilde verde de identidad</span>
+</div>
+<input checked="" class="w-5 h-5 rounded text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Indexar en Catálogo PWA</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Visible en búsquedas offline y app</span>
+</div>
+<input checked="" class="w-5 h-5 rounded text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</div>
+</div>
+<!-- Switch de Emergencia / Suspensión -->
+<div class="p-3 rounded-xl bg-error-container/40 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[20px]">gavel</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-error-container">Suspender comercio inmediatamente</span>
+<span class="font-body-sm text-body-sm text-on-error-container/80">Oculta el negocio por incumplimiento de términos comunitarios</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-error after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+<!-- Notas Internas de SuperAdmin -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-bold text-on-surface">
+            Notas de Auditoría Interna (No visibles para el comercio)
+          </label>
+<textarea class="w-full p-3 rounded-xl bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all" placeholder="Ej: Se validó habilitación comercial en la Municipalidad de Río Ceballos. Habilitado para venta de pastelería artesanal." rows="3"></textarea>
+</div>
+</div>
+<!-- Footer Modal -->
+<div class="p-space-lg bg-surface-container-low flex items-center justify-between gap-space-sm">
+<button class="px-4 py-2.5 rounded-xl bg-surface-container-highest text-on-surface hover:bg-surface-container transition-all font-label-lg text-label-lg" onclick="document.getElementById('modal-moderacion').classList.add('hidden')" type="button">
+          Cancelar
+        </button>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg font-semibold shadow-sm transition-all" onclick="document.getElementById('modal-moderacion').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Guardar Cambios de Moderación</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div><script src="global-nav.js"></script></body></html>
