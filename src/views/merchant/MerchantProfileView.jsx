@@ -259,7 +259,6 @@ export default function MerchantProfileView() {
                 />
               </div>
             </div>
-            </div>
           </div>
 
           {/* Contact & WhatsApp */}
