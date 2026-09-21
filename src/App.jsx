@@ -14,6 +14,7 @@ import LoginView from './views/auth/LoginView';
 import HomeDirectoryView from './views/pwa/HomeDirectoryView';
 import ProfessionalProfileView from './views/pwa/ProfessionalProfileView';
 import StoreCartCheckoutView from './views/pwa/StoreCartCheckoutView';
+import NoticeBusinessView from './views/pwa/NoticeBusinessView';
 import FavoritesView from './views/pwa/FavoritesView';
 
 // Merchant Views (Protected)
@@ -43,6 +44,7 @@ export default function App() {
         <Routes>
           {/* Public & Vecino / Turista PWA Routes */}
           <Route path="/" element={<HomeDirectoryView />} />
+          <Route path="/aviso/:slug" element={<NoticeBusinessView />} />
           <Route path="/comercio/:slug" element={<ProfessionalProfileView />} />
           <Route path="/tienda/:slug" element={<StoreCartCheckoutView />} />
           <Route path="/favoritos" element={<FavoritesView />} />

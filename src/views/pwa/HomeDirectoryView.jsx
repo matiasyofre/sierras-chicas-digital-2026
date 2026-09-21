@@ -291,33 +291,42 @@ export default function HomeDirectoryView() {
             </div>
 
             {/* Mode Pills */}
-            <div className="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high self-start sm:self-auto">
+            <div className="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high overflow-x-auto no-scrollbar self-start sm:self-auto">
               <button
                 type="button"
                 onClick={() => setFilterMode('all')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${
-                  filterMode === 'all' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant'
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                  filterMode === 'all' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
                 }`}
               >
                 Todos
               </button>
               <button
                 type="button"
-                onClick={() => setFilterMode('tienda')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${
-                  filterMode === 'tienda' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant'
+                onClick={() => setFilterMode('aviso')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                  filterMode === 'aviso' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
                 }`}
               >
-                Tiendas
+                📢 Avisos
+              </button>
+              <button
+                type="button"
+                onClick={() => setFilterMode('tienda')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                  filterMode === 'tienda' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                🛍️ Tiendas
               </button>
               <button
                 type="button"
                 onClick={() => setFilterMode('servicios')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${
-                  filterMode === 'servicios' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant'
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                  filterMode === 'servicios' ? 'bg-surface-container-lowest text-on-surface font-bold shadow-xs' : 'text-on-surface-variant hover:text-on-surface'
                 }`}
               >
-                Servicios
+                🔧 Servicios
               </button>
             </div>
           </div>
@@ -342,7 +351,9 @@ export default function HomeDirectoryView() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredBusinesses.map(biz => {
                 const isFav = favorites.includes(biz.id);
-                const targetUrl = biz.businessMode === 'servicios' ? `/comercio/${biz.slug}` : `/tienda/${biz.slug}`;
+                const isNotice = biz.businessMode === 'aviso' || biz.businessMode === 'catalogo';
+                const isService = biz.businessMode === 'servicios';
+                const targetUrl = isNotice ? `/aviso/${biz.slug}` : isService ? `/comercio/${biz.slug}` : `/tienda/${biz.slug}`;
 
                 return (
                   <div
@@ -373,9 +384,13 @@ export default function HomeDirectoryView() {
                       {/* Mode Badge */}
                       <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md text-white ${
-                          biz.businessMode === 'servicios' ? 'bg-amber-600/90' : 'bg-teal-700/90'
+                          isNotice 
+                            ? 'bg-indigo-700/90' 
+                            : isService 
+                            ? 'bg-amber-600/90' 
+                            : 'bg-teal-700/90'
                         }`}>
-                          {biz.businessMode === 'servicios' ? '🔧 Servicios' : '🛍️ Tienda / Pedidos'}
+                          {isNotice ? '📢 Aviso Publicitario' : isService ? '🔧 Servicios Pro' : '🛍️ Tienda / Pedidos'}
                         </span>
                         {biz.isFeatured && (
                           <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-amber-950 flex items-center gap-1 shadow-xs">
@@ -422,13 +437,12 @@ export default function HomeDirectoryView() {
 
                         <Link
                           to={targetUrl}
-                          className="px-3.5 py-2 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-bold flex items-center gap-1 shadow-sm transition-all active:scale-95"
+                          className="px-3.5 py-2 rounded-xl bg-surface-container-low hover:bg-primary hover:text-white text-on-surface text-xs font-bold flex items-center gap-1 transition-all group-hover:bg-primary group-hover:text-white"
                         >
-                          <span>{biz.businessMode === 'servicios' ? 'Ver Ficha' : 'Ver Carta'}</span>
+                          <span>{isNotice ? 'Ver Ficha' : isService ? 'Cotizar' : 'Ver Carta'}</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                       </div>
-
                     </div>
                   </div>
                 );
