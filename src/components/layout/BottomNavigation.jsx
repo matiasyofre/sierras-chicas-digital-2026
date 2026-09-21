@@ -51,7 +51,7 @@ export default function BottomNavigation() {
           <span className="text-[10px] tracking-tight">Carrito</span>
         </button>
 
-        {/* Merchant Panel Tab (Only if Merchant) */}
+        {/* Merchant Panel Tab (If Merchant logged in) */}
         {isMerchant && (
           <NavLink
             to="/panel/gondola"
@@ -66,7 +66,7 @@ export default function BottomNavigation() {
           </NavLink>
         )}
 
-        {/* Admin Tab (Only if Admin) */}
+        {/* Admin Tab (If Admin logged in) */}
         {isAdmin && (
           <NavLink
             to="/admin"
@@ -81,18 +81,35 @@ export default function BottomNavigation() {
           </NavLink>
         )}
 
-        {/* Profile / Login */}
-        <NavLink
-          to="/login"
-          className={({ isActive }) =>
-            `flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
-              isActive ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-on-surface'
-            }`
-          }
-        >
-          {isAuthenticated ? <User className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
-          <span className="text-[10px] tracking-tight">{isAuthenticated ? 'Perfil' : 'Ingresar'}</span>
-        </NavLink>
+        {/* If not logged in as merchant/admin: show simple access */}
+        {!isAuthenticated && (
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
+                isActive ? 'text-amber-600 font-bold' : 'text-on-surface-variant hover:text-on-surface'
+              }`
+            }
+          >
+            <Store className="w-5 h-5" />
+            <span className="text-[10px] tracking-tight">Comercios</span>
+          </NavLink>
+        )}
+
+        {/* If logged in: profile / session indicator */}
+        {isAuthenticated && (
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
+                isActive ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-on-surface'
+              }`
+            }
+          >
+            <User className="w-5 h-5" />
+            <span className="text-[10px] tracking-tight">Mi Cuenta</span>
+          </NavLink>
+        )}
 
       </div>
     </nav>
