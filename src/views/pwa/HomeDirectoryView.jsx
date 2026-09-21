@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { 
@@ -9,18 +9,17 @@ import {
   CheckCircle2, 
   Heart, 
   Sparkles, 
-  Store,
-  Phone,
-  Clock,
-  Filter,
-  LayoutGrid,
-  List,
-  Tag,
-  ExternalLink,
-  ShieldCheck,
+  Store, 
+  Clock, 
+  LayoutGrid, 
+  List, 
+  Tag, 
+  ExternalLink, 
+  CreditCard,
   Zap,
-  TrendingUp,
-  CreditCard
+  SlidersHorizontal,
+  ChevronRight,
+  X
 } from 'lucide-react';
 
 export default function HomeDirectoryView() {
@@ -29,6 +28,7 @@ export default function HomeDirectoryView() {
     categories, 
     locations, 
     plans,
+    products,
     selectedLocation, 
     setSelectedLocation,
     selectedCategory,
@@ -43,16 +43,51 @@ export default function HomeDirectoryView() {
 
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'aviso', 'tienda', 'servicios'
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchContainerRef = useRef(null);
 
-  // Current active category object
+  // Close search suggestions on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        setIsSearchFocused(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Build unified taxonomy suggestions list (Rubros, Categorías, Subcategorías)
+  const allTaxonomyItems = categories.flatMap(cat => [
+    { type: 'rubro', label: cat.name, emoji: cat.emoji || '📁', catSlug: cat.slug, sub: null },
+    ...(cat.subcategories || []).map(sub => ({
+      type: 'subcategoria',
+      label: sub,
+      emoji: '↳',
+      catSlug: cat.slug,
+      sub: sub,
+      parentName: cat.name
+    }))
+  ]);
+
+  // Filter taxonomy suggestions based on user search term
+  const matchingTaxonomy = searchQuery.trim()
+    ? allTaxonomyItems.filter(item => 
+        item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (item.parentName && item.parentName.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+    : [];
+
+  // Current active category object & subcategories
   const activeCategoryObj = categories.find(c => c.slug === selectedCategory);
   const currentSubcategories = activeCategoryObj?.subcategories || [];
 
-  // Filter businesses
+  // Filter businesses with multi-level taxonomy, products, tags, and locations
   const filteredBusinesses = businesses.filter(biz => {
-    // Search query
+    // Search query matching
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
+      
       const matchName = biz.name?.toLowerCase().includes(q);
       const matchDesc = biz.description?.toLowerCase().includes(q);
       const matchTag = biz.tagline?.toLowerCase().includes(q);
@@ -60,7 +95,22 @@ export default function HomeDirectoryView() {
       const matchCat = (biz.categoryName || biz.category)?.toLowerCase().includes(q);
       const matchSub = (biz.subcategory || '')?.toLowerCase().includes(q);
       const matchTags = (biz.tags || []).some(t => t.toLowerCase().includes(q));
-      if (!matchName && !matchDesc && !matchTag && !matchLoc && !matchCat && !matchSub && !matchTags) return false;
+
+      // Match in products sold by this business
+      const bizProducts = products.filter(p => p.businessId === biz.id);
+      const matchProduct = bizProducts.some(p => 
+        p.name.toLowerCase().includes(q) || 
+        (p.categoryName && p.categoryName.toLowerCase().includes(q)) ||
+        (p.tags && p.tags.some(t => t.toLowerCase().includes(q)))
+      );
+
+      // Match if the query matches the parent category of this business
+      const catObj = categories.find(c => c.id === biz.categoryId || c.name === biz.categoryName);
+      const matchCatSubs = catObj?.subcategories?.some(s => s.toLowerCase().includes(q));
+
+      if (!matchName && !matchDesc && !matchTag && !matchLoc && !matchCat && !matchSub && !matchTags && !matchProduct && !matchCatSubs) {
+        return false;
+      }
     }
 
     // Location filter
@@ -94,18 +144,30 @@ export default function HomeDirectoryView() {
     return true;
   });
 
+  const handleSelectTaxonomyItem = (item) => {
+    if (item.type === 'rubro') {
+      setSelectedCategory(item.catSlug);
+      setSelectedSubcategory('all');
+      setSearchQuery('');
+    } else if (item.type === 'subcategoria') {
+      setSelectedCategory(item.catSlug);
+      setSelectedSubcategory(item.sub);
+      setSearchQuery('');
+    }
+    setIsSearchFocused(false);
+  };
+
   return (
     <div className="flex-1 flex flex-col w-full pb-24 md:pb-16 animate-in fade-in">
       
-      {/* Hero Section with Animated Illustration & Dynamic Gradients */}
+      {/* Hero Section with Animated Background & Search Bar */}
       <section className="relative overflow-hidden bg-gradient-to-b from-teal-950 via-slate-900 to-slate-950 text-white pt-8 sm:pt-12 pb-12 px-4 sm:px-6 lg:px-8 border-b border-teal-900/40">
         
-        {/* Animated Background Lights & Mountain Contours */}
+        {/* Animated Background Lights & Vector Mountain Contours */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-emerald-500/15 blur-3xl animate-pulse"></div>
           <div className="absolute top-1/2 -right-20 w-80 h-80 rounded-full bg-teal-400/10 blur-3xl"></div>
           
-          {/* Decorative Vector Mountains */}
           <svg 
             className="absolute bottom-0 left-0 right-0 w-full h-24 sm:h-36 opacity-25 text-teal-800 preserve-3d" 
             viewBox="0 0 1440 320" 
@@ -133,7 +195,7 @@ export default function HomeDirectoryView() {
               <span>Plataforma Oficial Sierras Chicas 2026</span>
             </span>
             <span className="text-xs font-semibold text-teal-200/80 hidden sm:inline">
-              Río Ceballos · Unquillo · Mendiolaza · Villa Allende · Salsipuedes
+              Río Ceballos · Unquillo · Mendiolaza · Villa Allende · Salsipuedes · La Granja · La Calera
             </span>
           </div>
 
@@ -143,35 +205,109 @@ export default function HomeDirectoryView() {
               Encontrá lo que <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-emerald-300 to-cyan-300">buscás</span> cerca tuyo.
             </h1>
             <p className="text-xs sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-              Comercios, gastronomía, prestadores profesionales y turismo en todo el corredor serrano. Comprá directo, rápido y sin comisiones abusivas.
+              Comercios, gastronomía, prestadores profesionales y turismo en todo el corredor serrano. Comprá directo, rápido y sin intermediarios.
             </p>
           </div>
 
-          {/* Search Bar */}
-          <div className="bg-surface-container-lowest/95 backdrop-blur-md p-2 rounded-2xl shadow-2xl border border-white/20 flex items-center gap-2 max-w-3xl">
-            <Search className="w-5 h-5 text-outline ml-2 shrink-0" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="¿Qué estás buscando? (Ej: Panadería, Electricista, Cabaña, Cerveza artesanal...)"
-              className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none py-1.5 font-medium"
-            />
-            {searchQuery && (
+          {/* Universal Search Bar with Full Taxonomy Autocomplete */}
+          <div ref={searchContainerRef} className="relative max-w-3xl">
+            <div className="bg-surface-container-lowest/95 backdrop-blur-md p-2 rounded-2xl shadow-2xl border border-white/20 flex items-center gap-2">
+              <Search className="w-5 h-5 text-outline ml-2 shrink-0" />
+              <input
+                type="text"
+                list="taxonomy-datalist"
+                value={searchQuery}
+                onFocus={() => setIsSearchFocused(true)}
+                onChange={e => {
+                  setSearchQuery(e.target.value);
+                  setIsSearchFocused(true);
+                }}
+                placeholder="Buscá por rubro, categoría, subcategoría, comercio o producto..."
+                className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none py-1.5 font-medium"
+              />
+
+              {/* Native Datalist for browser autocomplete */}
+              <datalist id="taxonomy-datalist">
+                {allTaxonomyItems.map((item, idx) => (
+                  <option key={idx} value={item.label}>
+                    {item.type === 'subcategoria' ? `${item.parentName} ➔ ${item.label}` : 'Rubro Principal'}
+                  </option>
+                ))}
+                {locations.map(loc => (
+                  <option key={loc.id} value={loc.name}>Localidad</option>
+                ))}
+              </datalist>
+
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="text-xs text-outline hover:text-on-surface px-2"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
-                className="text-xs text-outline hover:text-on-surface px-2"
+                className="bg-teal-600 hover:bg-teal-500 text-white px-5 sm:px-7 py-2.5 rounded-xl text-xs sm:text-sm font-bold shrink-0 shadow-lg shadow-teal-950/40 transition-transform active:scale-95"
               >
-                Limpiar
+                Buscar
               </button>
+            </div>
+
+            {/* Interactive Taxonomy Search Dropdown */}
+            {isSearchFocused && matchingTaxonomy.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-2xl p-3 z-50 animate-in fade-in space-y-2 max-h-72 overflow-y-auto">
+                <div className="flex items-center justify-between pb-1 border-b border-surface-container-high">
+                  <span className="text-[11px] font-bold text-outline uppercase tracking-wider">
+                    Rubros & Subcategorías sugeridas:
+                  </span>
+                  <span className="text-[10px] text-primary font-semibold">
+                    {matchingTaxonomy.length} encontradas
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  {matchingTaxonomy.map((item, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handleSelectTaxonomyItem(item)}
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-surface-container flex items-center justify-between text-xs text-on-surface transition-colors group"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">{item.emoji}</span>
+                        <div>
+                          <span className="font-bold text-on-surface group-hover:text-primary">{item.label}</span>
+                          {item.parentName && (
+                            <span className="text-[10px] text-outline ml-2">en {item.parentName}</span>
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant group-hover:bg-primary group-hover:text-white transition-colors">
+                        {item.type === 'rubro' ? 'Rubro' : 'Subcategoría'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
-            <button
-              type="button"
-              className="bg-teal-600 hover:bg-teal-500 text-white px-5 sm:px-7 py-2.5 rounded-xl text-xs sm:text-sm font-bold shrink-0 shadow-lg shadow-teal-950/40 transition-transform active:scale-95"
-            >
-              Buscar
-            </button>
+          </div>
+
+          {/* Quick Search Taxonomy Pills beneath Search Box */}
+          <div className="flex flex-wrap items-center gap-1.5 pt-1">
+            <span className="text-[11px] font-bold text-teal-200/70 mr-1 hidden sm:inline">Accesos rápidos:</span>
+            {categories.slice(0, 5).map(cat => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => { setSelectedCategory(cat.slug); setSelectedSubcategory('all'); setSearchQuery(''); }}
+                className="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold border border-white/10 backdrop-blur-sm transition-colors flex items-center gap-1"
+              >
+                <span>{cat.emoji}</span>
+                <span>{cat.name}</span>
+              </button>
+            ))}
           </div>
 
         </div>
@@ -402,7 +538,7 @@ export default function HomeDirectoryView() {
                 </button>
               </div>
 
-              {/* Grid / List Switcher (SC-14) */}
+              {/* Grid / List Switcher */}
               <div className="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high">
                 <button
                   type="button"
@@ -434,7 +570,7 @@ export default function HomeDirectoryView() {
               <Store className="w-12 h-12 text-outline mx-auto stroke-1" />
               <h4 className="font-extrabold text-base text-on-surface">No se encontraron comercios</h4>
               <p className="text-xs text-on-surface-variant max-w-sm mx-auto">
-                Probá cambiando los términos de búsqueda o eliminando los filtros de localidad y categoría.
+                Probá buscando por otro rubro, categoría o eliminando los filtros de localidad.
               </p>
               <button
                 type="button"
@@ -452,8 +588,6 @@ export default function HomeDirectoryView() {
                 const isNotice = biz.businessMode === 'aviso' || biz.businessMode === 'catalogo';
                 const isService = biz.businessMode === 'servicios';
                 const targetUrl = isNotice ? `/aviso/${biz.slug}` : isService ? `/comercio/${biz.slug}` : `/tienda/${biz.slug}`;
-                
-                // CTA Label (SC-1)
                 const ctaLabel = isNotice 
                   ? 'Ver Ficha & Contacto' 
                   : isService 
@@ -532,7 +666,7 @@ export default function HomeDirectoryView() {
                           {biz.tagline || biz.description}
                         </p>
 
-                        {/* Rich Badges / Tags (SC-13) */}
+                        {/* Rich Badges / Tags */}
                         {biz.tags && biz.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1 pt-1">
                             {biz.tags.slice(0, 3).map((tag, idx) => (
@@ -547,7 +681,7 @@ export default function HomeDirectoryView() {
                         )}
                       </div>
 
-                      {/* Footer Actions (SC-1) */}
+                      {/* Footer Actions */}
                       <div className="pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
                         <div className="flex items-center gap-1 text-[11px] text-on-surface-variant">
                           <Clock className="w-3.5 h-3.5 text-outline" />
@@ -568,7 +702,7 @@ export default function HomeDirectoryView() {
               })}
             </div>
           ) : (
-            /* COMPACT LIST VIEW (SC-14) */
+            /* COMPACT LIST VIEW */
             <div className="space-y-3">
               {filteredBusinesses.map(biz => {
                 const isFav = favorites.includes(biz.id);
@@ -647,7 +781,7 @@ export default function HomeDirectoryView() {
           )}
         </section>
 
-        {/* Public SaaS Plans & Mercado Pago Checkout Section (SC-7) */}
+        {/* Public SaaS Plans & Mercado Pago Checkout Section */}
         <section id="planes-saas" className="py-8 space-y-6">
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-extrabold">

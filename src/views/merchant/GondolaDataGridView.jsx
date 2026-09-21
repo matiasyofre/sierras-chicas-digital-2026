@@ -21,19 +21,25 @@ import {
 } from 'lucide-react';
 
 export default function GondolaDataGridView() {
-  const { products, updateProduct, addProduct, deleteProduct, tags } = useApp();
+  const { products, updateProduct, addProduct, deleteProduct, tags, categories: adminCategories } = useApp();
   
   const [localProducts, setLocalProducts] = useState(products);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCat, setSelectedCat] = useState('all');
   const [saveSuccess, setSaveSuccess] = useState(false);
   
+  // Available categories & subcategories from admin taxonomy
+  const availableCategoriesList = adminCategories.flatMap(c => [
+    c.name,
+    ...(c.subcategories || [])
+  ]);
+  const defaultCategory = availableCategoriesList[0] || 'Gastronomía';
+
   // New / Edit Product Modal
   const [modalMode, setModalMode] = useState(null); // 'create' | 'edit' | null
   const [editingId, setEditingId] = useState(null);
   const [formName, setFormName] = useState('');
-  const [formCategory, setFormCategory] = useState('Cafetería de Especialidad');
-  const [customCategory, setCustomCategory] = useState('');
+  const [formCategory, setFormCategory] = useState(defaultCategory);
   const [formPrice, setFormPrice] = useState('');
   const [formComparePrice, setFormComparePrice] = useState('');
   const [formStock, setFormStock] = useState('50');
@@ -47,7 +53,7 @@ export default function GondolaDataGridView() {
     setLocalProducts(products);
   }, [products]);
 
-  const categories = Array.from(new Set(localProducts.map(p => p.categoryName || 'General')));
+  const existingProductCategories = Array.from(new Set(localProducts.map(p => p.categoryName || defaultCategory)));
 
   const handleInlineChange = (id, field, value) => {
     setLocalProducts(prev => prev.map(p => {
@@ -70,8 +76,7 @@ export default function GondolaDataGridView() {
     setModalMode('create');
     setEditingId(null);
     setFormName('');
-    setFormCategory(categories[0] || 'General');
-    setCustomCategory('');
+    setFormCategory(defaultCategory);
     setFormPrice('');
     setFormComparePrice('');
     setFormStock('50');
@@ -85,8 +90,7 @@ export default function GondolaDataGridView() {
     setModalMode('edit');
     setEditingId(prod.id);
     setFormName(prod.name);
-    setFormCategory(prod.categoryName || 'General');
-    setCustomCategory('');
+    setFormCategory(prod.categoryName || defaultCategory);
     setFormPrice(prod.price.toString());
     setFormComparePrice(prod.compareAtPrice ? prod.compareAtPrice.toString() : '');
     setFormStock((prod.stock || 0).toString());
@@ -108,12 +112,10 @@ export default function GondolaDataGridView() {
     e.preventDefault();
     if (!formName.trim() || !formPrice) return;
 
-    const finalCategory = customCategory.trim() ? customCategory.trim() : formCategory;
-
     const prodData = {
       businessId: 'biz-1',
       name: formName.trim(),
-      categoryName: finalCategory,
+      categoryName: formCategory,
       price: parseFloat(formPrice) || 0,
       compareAtPrice: formComparePrice ? parseFloat(formComparePrice) : null,
       stock: formUnlimitedStock ? 9999 : (parseInt(formStock) || 0),
@@ -218,7 +220,7 @@ export default function GondolaDataGridView() {
               className="px-3 py-1.5 rounded-xl bg-surface border border-surface-container-high text-xs text-on-surface font-semibold focus:outline-none"
             >
               <option value="all">Todas ({localProducts.length})</option>
-              {categories.map(cat => (
+              {existingProductCategories.map(cat => (
                 <option key={cat} value={cat}>
                   {cat} ({localProducts.filter(p => p.categoryName === cat).length})
                 </option>
@@ -234,7 +236,7 @@ export default function GondolaDataGridView() {
               <thead className="bg-surface border-b border-surface-container-high font-extrabold uppercase tracking-wider text-outline text-[11px]">
                 <tr>
                   <th className="p-4">Producto & Etiquetas</th>
-                  <th className="p-4">Categoría</th>
+                  <th className="p-4">Categoría Oficial</th>
                   <th className="p-4">Precio Lista</th>
                   <th className="p-4">Stock</th>
                   <th className="p-4 text-center">Estado</th>
@@ -271,9 +273,20 @@ export default function GondolaDataGridView() {
                     </td>
 
                     <td className="p-4">
-                      <span className="px-2.5 py-1 rounded-lg bg-surface-container text-[11px] font-bold text-on-surface-variant">
-                        {prod.categoryName}
-                      </span>
+                      <select
+                        value={prod.categoryName || defaultCategory}
+                        onChange={e => handleInlineChange(prod.id, 'categoryName', e.target.value)}
+                        className="px-2.5 py-1 rounded-xl bg-surface border border-surface-container-high text-[11px] font-semibold text-on-surface focus:outline-none focus:border-primary"
+                      >
+                        {adminCategories.map(cat => (
+                          <optgroup key={cat.id} label={`${cat.emoji || '📁'} ${cat.name}`}>
+                            <option value={cat.name}>{cat.name}</option>
+                            {(cat.subcategories || []).map((sub, idx) => (
+                              <option key={idx} value={sub}>↳ {sub}</option>
+                            ))}
+                          </optgroup>
+                        ))}
+                      </select>
                     </td>
 
                     <td className="p-4">
@@ -436,7 +449,7 @@ export default function GondolaDataGridView() {
 
       </div>
 
-      {/* Product Create / Edit Modal (SC-16, SC-17, SC-20, SC-13) */}
+      {/* Product Create / Edit Modal (Categories are strictly chosen from admin taxonomy) */}
       {modalMode && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/60 backdrop-blur-sm animate-in fade-in">
           <div className="bg-surface-container-lowest rounded-3xl shadow-modal border border-surface-container-high w-full max-w-lg p-5 sm:p-6 space-y-4 max-h-[90vh] overflow-y-auto">
@@ -444,7 +457,7 @@ export default function GondolaDataGridView() {
               <div className="flex items-center gap-2">
                 <Package className="w-5 h-5 text-amber-600" />
                 <h3 className="font-extrabold text-sm sm:text-base text-on-surface">
-                  {modalMode === 'create' ? 'Agregar Nuevo Producto' : 'Editar Producto & Etiquetas'}
+                  {modalMode === 'create' ? 'Agregar Nuevo Producto' : 'Editar Producto & Categoría'}
                 </h3>
               </div>
               <button 
@@ -464,39 +477,31 @@ export default function GondolaDataGridView() {
                   required
                   value={formName}
                   onChange={e => setFormName(e.target.value)}
-                  placeholder="Ej: Flat White Doble Shot, Pizza Especial..."
+                  placeholder="Ej: Flat White Doble Shot, Pizza Especial, Servicio Técnico..."
                   className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-on-surface block mb-1">Categoría Interna *</label>
-                  <select
-                    value={formCategory}
-                    onChange={e => setFormCategory(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
-                  >
-                    {categories.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                    <option value="custom">+ Crear nueva categoría...</option>
-                  </select>
-                </div>
-
-                {formCategory === 'custom' && (
-                  <div>
-                    <label className="font-bold text-amber-700 block mb-1">Nombre Nueva Categoría *</label>
-                    <input
-                      type="text"
-                      required
-                      value={customCategory}
-                      onChange={e => setCustomCategory(e.target.value)}
-                      placeholder="Ej: Brunch & Desayunos"
-                      className="w-full px-3 py-2 rounded-xl bg-surface border border-amber-300 text-on-surface focus:outline-none focus:border-amber-600"
-                    />
-                  </div>
-                )}
+              {/* Category selection (Strictly from Admin taxonomy) */}
+              <div>
+                <label className="font-bold text-on-surface block mb-1">Categoría / Rubro Oficial *</label>
+                <select
+                  value={formCategory}
+                  onChange={e => setFormCategory(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-semibold"
+                >
+                  {adminCategories.map(cat => (
+                    <optgroup key={cat.id} label={`${cat.emoji || '📁'} ${cat.name}`}>
+                      <option value={cat.name}>{cat.name} (Principal)</option>
+                      {(cat.subcategories || []).map((sub, idx) => (
+                        <option key={idx} value={sub}>↳ {sub}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
+                <p className="text-[10px] text-outline mt-1">
+                  * La taxonomía de categorías es administrada por la plataforma. Solo podés seleccionar una existente.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -552,7 +557,7 @@ export default function GondolaDataGridView() {
                 )}
               </div>
 
-              {/* Tags / Badges Selection (SC-13) */}
+              {/* Tags / Badges Selection */}
               <div className="space-y-1.5">
                 <label className="font-bold text-on-surface block">Etiquetas del Producto (Opcionales)</label>
                 <div className="flex flex-wrap gap-1.5 p-2.5 rounded-2xl bg-surface border border-surface-container-high">
