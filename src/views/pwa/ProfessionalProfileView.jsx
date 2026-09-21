@@ -13,12 +13,16 @@ import {
   Share2, 
   Heart,
   Wrench,
-  FileText
+  FileText,
+  MessageCircle,
+  Sparkles,
+  Zap,
+  Check
 } from 'lucide-react';
 
 export default function ProfessionalProfileView() {
   const { slug } = useParams();
-  const { businesses, products, favorites, toggleFavorite } = useApp();
+  const { businesses, products, favorites, toggleFavorite, recordVisit } = useApp();
 
   const business = businesses.find(b => b.slug === slug) || businesses[1]; // default to Electro Sierras
   const bizProducts = products.filter(p => p.businessId === business?.id);
@@ -30,6 +34,7 @@ export default function ProfessionalProfileView() {
   const [clientLocation, setClientLocation] = useState('Río Ceballos');
   const [serviceType, setServiceType] = useState('Instalación Eléctrica');
   const [quoteMessage, setQuoteMessage] = useState('');
+  const [copied, setCopied] = useState(false);
 
   const handleSendQuote = (e) => {
     e.preventDefault();
@@ -38,12 +43,13 @@ export default function ProfessionalProfileView() {
       return;
     }
 
+    recordVisit(business?.id);
     let waText = `🛠️ *SOLICITUD DE PRESUPUESTO / CONSULTA TÉCNICA*\n`;
     waText += `👤 *Cliente:* ${clientName}\n`;
     waText += `📍 *Localidad:* ${clientLocation}\n`;
     waText += `🔧 *Servicio:* ${serviceType}\n`;
     waText += `📝 *Detalle del trabajo:* ${quoteMessage}\n\n`;
-    waText += `_Consulta enviada desde Sierras Chicas Digital PWA_`;
+    waText += `_Consulta enviada desde Sierras Chicas Digital_`;
 
     const cleanPhone = business?.whatsapp?.replace(/[^0-9]/g, '') || '5493517654321';
     window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(waText)}`, '_blank');
@@ -59,156 +65,151 @@ export default function ProfessionalProfileView() {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('¡Enlace de la ficha copiado al portapapeles!');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
     }
   };
 
   return (
-    <div className="flex-1 bg-surface pb-20 md:pb-12 animate-in fade-in">
+    <div className="flex-1 bg-gradient-to-b from-[#f1f5f9] via-[#f8fafc] to-[#f1f5f9] pb-32 md:pb-20 animate-in fade-in min-h-screen text-slate-900">
       
-      {/* Top Navigation Bar */}
-      <div className="max-w-4xl mx-auto px-4 pt-4 pb-2 flex items-center justify-between">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs font-bold text-on-surface hover:bg-surface-container transition-colors shadow-xs"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Volver al Directorio</span>
-        </Link>
-        
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleShare}
-            className="p-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface hover:bg-surface-container transition-colors"
-            title="Compartir"
+      {/* Floating Top Navigation Bar */}
+      <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl shadow-xs">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-xs font-black text-slate-800 transition-all active:scale-95"
           >
-            <Share2 className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={() => toggleFavorite(business.id)}
-            className={`p-2 rounded-xl border transition-colors ${
-              isFav 
-                ? 'bg-rose-50 border-rose-200 text-rose-600' 
-                : 'bg-surface-container-lowest border-surface-container-high text-on-surface hover:bg-surface-container'
-            }`}
-            title="Guardar favorito"
-          >
-            <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-600' : ''}`} />
-          </button>
+            <ArrowLeft className="w-4 h-4 text-slate-700" />
+            <span>Volver al Directorio</span>
+          </Link>
+          
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleShare}
+              className="p-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-transform active:scale-95 relative"
+              title="Compartir"
+            >
+              {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
+            </button>
+            <button
+              type="button"
+              onClick={() => toggleFavorite(business.id)}
+              className={`p-2.5 rounded-full transition-transform active:scale-95 ${
+                isFav 
+                  ? 'bg-rose-500 text-white shadow-md shadow-rose-500/30' 
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+              }`}
+              title="Guardar favorito"
+            >
+              <Heart className={`w-4 h-4 ${isFav ? 'fill-white' : ''}`} />
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6 pt-2">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-6 pt-4">
         
-        {/* Header Hero Card */}
-        <div className="bg-surface-container-lowest rounded-3xl border border-surface-container-high overflow-hidden shadow-card">
-          <div className="relative h-48 sm:h-64 w-full bg-slate-900">
+        {/* Header Hero Card (Borderless, deep cinematic cover) */}
+        <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-950 shadow-2xl shadow-slate-950/20 text-white">
+          <div className="relative h-56 sm:h-80 w-full bg-slate-900">
             <img
-              src={business.coverUrl}
+              src={business.coverUrl || 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&auto=format&fit=crop&q=80'}
               alt={business.name}
-              className="w-full h-full object-cover opacity-80"
+              className="w-full h-full object-cover opacity-75"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-inverse-surface via-inverse-surface/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
             
-            {/* Badges in Cover */}
+            {/* Floating Badges in Cover */}
             <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-              <span className="px-3 py-1 rounded-full bg-amber-500 text-amber-950 text-xs font-extrabold flex items-center gap-1 shadow-md">
+              <span className="px-3.5 py-1.5 rounded-full bg-amber-500 text-slate-950 text-xs font-black flex items-center gap-1.5 shadow-lg">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Matriculado Oficial</span>
+                <span>Matriculado Oficial ERSeP</span>
               </span>
-              <span className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md text-white text-xs font-bold">
-                Urgencias 24hs
+              <span className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-bold">
+                🚨 Urgencias 24hs
               </span>
             </div>
-          </div>
 
-          <div className="p-5 sm:p-7 relative">
-            {/* Logo Avatar */}
-            <div className="absolute -top-12 left-6 w-20 h-20 rounded-2xl bg-surface-container-lowest p-1 shadow-card border-2 border-white overflow-hidden">
-              <img src={business.logoUrl} alt={business.name} className="w-full h-full object-cover rounded-xl" />
-            </div>
-
-            <div className="pt-8 space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-on-surface tracking-tight">
-                    {business.name}
-                  </h1>
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-on-surface-variant mt-1 font-medium">
-                    <span className="flex items-center gap-1 text-primary font-bold">
-                      <MapPin className="w-3.5 h-3.5" />
-                      <span>{business.locationName} · Sierras Chicas</span>
-                    </span>
-                    <span className="flex items-center gap-1 text-amber-600 font-bold">
-                      <Star className="w-3.5 h-3.5 fill-amber-500" />
-                      <span>{business.rating} ({business.reviewCount} reseñas)</span>
-                    </span>
-                  </div>
+            <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-bold">
+                  <MapPin className="w-4 h-4" />
+                  <span>{business.locationName} · Sierras Chicas</span>
                 </div>
-
-                {/* Primary CTA Button */}
-                <button
-                  type="button"
-                  onClick={() => setQuoteModalOpen(true)}
-                  className="px-5 py-3 rounded-2xl bg-primary hover:bg-primary-container text-white font-extrabold text-xs sm:text-sm shadow-md shadow-primary/25 flex items-center justify-center gap-2 transition-all active:scale-95 shrink-0"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Solicitar Presupuesto Directo</span>
-                </button>
+                <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                  {business.name}
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-300 max-w-xl line-clamp-2">
+                  {business.tagline || business.description}
+                </p>
               </div>
 
-              <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed pt-2">
-                {business.description}
-              </p>
-
-              {/* Quick Info Strip */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-3">
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface border border-surface-container-high text-xs text-on-surface font-semibold">
-                  <Clock className="w-4 h-4 text-primary shrink-0" />
-                  <span>{business.openingHours}</span>
-                </div>
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface border border-surface-container-high text-xs text-on-surface font-semibold">
-                  <MapPin className="w-4 h-4 text-primary shrink-0" />
-                  <span>{business.address}</span>
-                </div>
-              </div>
-
+              {/* Primary Action Button in Hero */}
+              <button
+                type="button"
+                onClick={() => setQuoteModalOpen(true)}
+                className="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 shrink-0"
+              >
+                <Send className="w-4 h-4" />
+                <span>Pedir Presupuesto</span>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Services & Rates List */}
+        {/* Quick Highlights Bar */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+          <div className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-white text-slate-800 font-bold text-xs shadow-sm">
+            <Clock className="w-4 h-4 text-amber-600" />
+            <span>{business.openingHours || 'Guardia Activa'}</span>
+          </div>
+
+          <div className="shrink-0 flex items-center gap-1 px-4 py-2 rounded-2xl bg-white text-slate-800 font-black text-xs shadow-sm">
+            <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+            <span>{business.rating || 5.0}</span>
+            <span className="text-slate-400 font-normal">({business.reviewCount || 10} valoraciones)</span>
+          </div>
+
+          <div className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-white text-slate-700 font-bold text-xs shadow-sm">
+            <MapPin className="w-4 h-4 text-teal-600" />
+            <span>{business.address || `${business.locationName}, Sierras Chicas`}</span>
+          </div>
+        </div>
+
+        {/* Services & Rates List (Borderless, modern tiles) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Wrench className="w-5 h-5 text-primary" />
-              <h2 className="text-base sm:text-lg font-extrabold text-on-surface">
-                Servicios & Tarifas Estimadas
+              <span className="p-2 rounded-xl bg-amber-500 text-slate-950 font-black">
+                <Wrench className="w-4 h-4" />
+              </span>
+              <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                Servicios & Tarifas de Referencia
               </h2>
             </div>
-            <span className="text-xs text-on-surface-variant font-medium">Precios de referencia</span>
+            <span className="text-xs text-slate-400 font-semibold">Presupuestos sin cargo</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {bizProducts.map(prod => (
               <div
                 key={prod.id}
-                className="bg-surface-container-lowest rounded-2xl border border-surface-container-high p-4 flex flex-col justify-between space-y-3 shadow-subtle hover:border-primary transition-colors"
+                className="bg-white rounded-3xl p-5 flex flex-col justify-between space-y-3 shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className="space-y-1">
-                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant uppercase">
-                    {prod.categoryName}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase">
+                    {prod.categoryName || 'Servicio'}
                   </span>
-                  <h3 className="text-sm font-bold text-on-surface pt-1">{prod.name}</h3>
-                  <p className="text-xs text-on-surface-variant leading-relaxed">{prod.description}</p>
+                  <h3 className="text-sm font-black text-slate-900 pt-1">{prod.name}</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">{prod.description}</p>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-surface-container-high">
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
                   <div>
-                    <span className="text-[10px] text-outline block">Tarifa desde</span>
-                    <span className="text-base font-extrabold text-primary">
+                    <span className="text-[10px] text-slate-400 block font-semibold">Tarifa base</span>
+                    <span className="text-base font-black text-slate-900 font-mono">
                       ${prod.price.toLocaleString('es-AR')}
                     </span>
                   </div>
@@ -218,7 +219,7 @@ export default function ProfessionalProfileView() {
                       setServiceType(prod.name);
                       setQuoteModalOpen(true);
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-primary-fixed text-on-primary-fixed font-bold text-xs hover:bg-primary hover:text-white transition-all"
+                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white font-bold text-xs transition-colors"
                   >
                     Consultar
                   </button>
@@ -228,22 +229,22 @@ export default function ProfessionalProfileView() {
           </div>
         </div>
 
-        {/* Credentials & Trust Signals */}
-        <div className="bg-surface-container-lowest rounded-3xl border border-surface-container-high p-5 sm:p-6 space-y-3 shadow-subtle">
-          <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
-            Garantías y Cobertura
+        {/* Credentials & Trust Strip */}
+        <div className="bg-gradient-to-r from-slate-900 to-indigo-950 rounded-3xl p-6 text-white space-y-3 shadow-xl">
+          <h3 className="text-xs font-black uppercase tracking-wider text-amber-400">
+            Garantías & Cobertura en Sierras Chicas
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-on-surface-variant">
-            <div className="flex items-center gap-2 p-2 rounded-xl bg-surface">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300">
+            <div className="flex items-center gap-2 p-3 rounded-2xl bg-white/5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Garantía escrita en todos los trabajos</span>
             </div>
-            <div className="flex items-center gap-2 p-2 rounded-xl bg-surface">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Cobertura en todo Sierras Chicas</span>
+            <div className="flex items-center gap-2 p-3 rounded-2xl bg-white/5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Cobertura en todo el corredor</span>
             </div>
-            <div className="flex items-center gap-2 p-2 rounded-xl bg-surface">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center gap-2 p-3 rounded-2xl bg-white/5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Matrícula y seguros vigentes</span>
             </div>
           </div>
@@ -253,47 +254,50 @@ export default function ProfessionalProfileView() {
 
       {/* Interactive Quotation Modal */}
       {quoteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/60 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-surface-container-lowest rounded-3xl shadow-modal border border-surface-container-high w-full max-w-lg p-5 sm:p-7 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-lg p-6 sm:p-8 space-y-4 text-slate-900">
             
-            <div className="flex items-center justify-between border-b border-surface-container-high pb-3">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center">
-                  <FileText className="w-4 h-4 text-primary" />
+                <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                  <FileText className="w-5 h-5" />
                 </div>
-                <h3 className="font-extrabold text-sm sm:text-base text-on-surface">
-                  Pedir Presupuesto a {business.name}
-                </h3>
+                <div>
+                  <h3 className="font-black text-sm sm:text-base text-slate-900">
+                    Pedir Presupuesto a {business.name}
+                  </h3>
+                  <p className="text-[11px] text-slate-400">Envío directo sin intermediarios</p>
+                </div>
               </div>
               <button
                 type="button"
                 onClick={() => setQuoteModalOpen(false)}
-                className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container"
+                className="p-1.5 rounded-full text-slate-400 hover:text-slate-900 hover:bg-slate-100"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSendQuote} className="space-y-3 text-xs">
+            <form onSubmit={handleSendQuote} className="space-y-3.5 text-xs">
               <div>
-                <label className="font-bold text-on-surface block mb-1">Tu Nombre Completo *</label>
+                <label className="font-bold text-slate-700 block mb-1">Tu Nombre Completo *</label>
                 <input
                   type="text"
                   required
                   placeholder="Ej: Marcelo Fernández"
                   value={clientName}
                   onChange={e => setClientName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="font-bold text-on-surface block mb-1">Localidad de Sierras Chicas *</label>
+                  <label className="font-bold text-slate-700 block mb-1">Localidad en Sierras Chicas *</label>
                   <select
                     value={clientLocation}
                     onChange={e => setClientLocation(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold cursor-pointer"
                   >
                     <option value="Río Ceballos">Río Ceballos</option>
                     <option value="Unquillo">Unquillo</option>
@@ -306,27 +310,27 @@ export default function ProfessionalProfileView() {
                 </div>
 
                 <div>
-                  <label className="font-bold text-on-surface block mb-1">Tipo de Servicio *</label>
+                  <label className="font-bold text-slate-700 block mb-1">Tipo de Servicio *</label>
                   <input
                     type="text"
                     required
                     value={serviceType}
                     onChange={e => setServiceType(e.target.value)}
                     placeholder="Ej: Certificación ERSeP"
-                    className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 font-medium"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="font-bold text-on-surface block mb-1">Detalle del trabajo / Urgencia *</label>
+                <label className="font-bold text-slate-700 block mb-1">Detalle del trabajo / Urgencia *</label>
                 <textarea
                   rows={3}
                   required
                   placeholder="Explicá brevemente qué trabajo necesitás realizar, ubicación aproximada y si es urgente..."
                   value={quoteMessage}
                   onChange={e => setQuoteMessage(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 font-medium"
                 />
               </div>
 
@@ -334,15 +338,15 @@ export default function ProfessionalProfileView() {
                 <button
                   type="button"
                   onClick={() => setQuoteModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container font-semibold"
+                  className="px-4 py-2.5 rounded-xl text-slate-500 hover:bg-slate-100 font-bold"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold flex items-center gap-1.5 shadow-md shadow-emerald-900/20"
+                  className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black flex items-center gap-2 shadow-lg shadow-emerald-950/20 active:scale-95"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-4 h-4" />
                   <span>Enviar Consulta por WhatsApp</span>
                 </button>
               </div>
