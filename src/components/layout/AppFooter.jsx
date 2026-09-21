@@ -63,11 +63,6 @@ export default function AppFooter() {
                   <span>POS & Comandas en Vivo</span>
                 </Link>
               </li>
-              <li>
-                <Link to="/admin" className="hover:text-white transition-colors flex items-center gap-1">
-                  <span>SuperAdmin Central</span>
-                </Link>
-              </li>
             </ul>
           </div>
 

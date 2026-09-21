@@ -5,6 +5,7 @@ import {
   Search, 
   Plus, 
   Trash2, 
+  Edit3, 
   Save, 
   Check, 
   AlertCircle, 
@@ -12,27 +13,41 @@ import {
   Package, 
   CheckCircle2,
   Filter,
-  DollarSign
+  DollarSign,
+  Tag,
+  Infinity as InfinityIcon,
+  Layers,
+  X
 } from 'lucide-react';
 
 export default function GondolaDataGridView() {
-  const { products, updateProduct, addProduct, deleteProduct } = useApp();
+  const { products, updateProduct, addProduct, deleteProduct, tags } = useApp();
   
-  // Filter by Cafe de las Sierras or show all products for demo
   const [localProducts, setLocalProducts] = useState(products);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCat, setSelectedCat] = useState('all');
   const [saveSuccess, setSaveSuccess] = useState(false);
   
-  // New Product Modal
-  const [newModalOpen, setNewModalOpen] = useState(false);
-  const [newName, setNewName] = useState('');
-  const [newCategory, setNewCategory] = useState('Cafetería de Especialidad');
-  const [newPrice, setNewPrice] = useState('');
-  const [newStock, setNewStock] = useState('50');
-  const [newDesc, setNewDesc] = useState('');
+  // New / Edit Product Modal
+  const [modalMode, setModalMode] = useState(null); // 'create' | 'edit' | null
+  const [editingId, setEditingId] = useState(null);
+  const [formName, setFormName] = useState('');
+  const [formCategory, setFormCategory] = useState('Cafetería de Especialidad');
+  const [customCategory, setCustomCategory] = useState('');
+  const [formPrice, setFormPrice] = useState('');
+  const [formComparePrice, setFormComparePrice] = useState('');
+  const [formStock, setFormStock] = useState('50');
+  const [formUnlimitedStock, setFormUnlimitedStock] = useState(false);
+  const [formDesc, setFormDesc] = useState('');
+  const [formImage, setFormImage] = useState('');
+  const [formTags, setFormTags] = useState([]);
 
-  const categories = Array.from(new Set(products.map(p => p.categoryName || 'General')));
+  // Sync with AppContext products
+  React.useEffect(() => {
+    setLocalProducts(products);
+  }, [products]);
+
+  const categories = Array.from(new Set(localProducts.map(p => p.categoryName || 'General')));
 
   const handleInlineChange = (id, field, value) => {
     setLocalProducts(prev => prev.map(p => {
@@ -51,27 +66,74 @@ export default function GondolaDataGridView() {
     setTimeout(() => setSaveSuccess(false), 3000);
   };
 
-  const handleCreateProduct = (e) => {
-    e.preventDefault();
-    if (!newName.trim() || !newPrice) return;
+  const openCreateModal = () => {
+    setModalMode('create');
+    setEditingId(null);
+    setFormName('');
+    setFormCategory(categories[0] || 'General');
+    setCustomCategory('');
+    setFormPrice('');
+    setFormComparePrice('');
+    setFormStock('50');
+    setFormUnlimitedStock(false);
+    setFormDesc('');
+    setFormImage('https://images.unsplash.com/photo-1509785307050-d4066910ec1e?w=400&auto=format&fit=crop&q=80');
+    setFormTags([]);
+  };
 
-    const created = {
+  const openEditModal = (prod) => {
+    setModalMode('edit');
+    setEditingId(prod.id);
+    setFormName(prod.name);
+    setFormCategory(prod.categoryName || 'General');
+    setCustomCategory('');
+    setFormPrice(prod.price.toString());
+    setFormComparePrice(prod.compareAtPrice ? prod.compareAtPrice.toString() : '');
+    setFormStock((prod.stock || 0).toString());
+    setFormUnlimitedStock(!!prod.hasUnlimitedStock);
+    setFormDesc(prod.description || '');
+    setFormImage(prod.imageUrl || '');
+    setFormTags(prod.tags || []);
+  };
+
+  const toggleTagSelection = (tagLabel) => {
+    setFormTags(prev => 
+      prev.includes(tagLabel) 
+        ? prev.filter(t => t !== tagLabel)
+        : [...prev, tagLabel]
+    );
+  };
+
+  const handleSaveModal = (e) => {
+    e.preventDefault();
+    if (!formName.trim() || !formPrice) return;
+
+    const finalCategory = customCategory.trim() ? customCategory.trim() : formCategory;
+
+    const prodData = {
       businessId: 'biz-1',
-      name: newName,
-      categoryName: newCategory,
-      price: parseFloat(newPrice) || 0,
-      stock: parseInt(newStock) || 0,
-      description: newDesc,
-      inStock: true,
-      imageUrl: 'https://images.unsplash.com/photo-1509785307050-d4066910ec1e?w=400&auto=format&fit=crop&q=80'
+      name: formName.trim(),
+      categoryName: finalCategory,
+      price: parseFloat(formPrice) || 0,
+      compareAtPrice: formComparePrice ? parseFloat(formComparePrice) : null,
+      stock: formUnlimitedStock ? 9999 : (parseInt(formStock) || 0),
+      hasUnlimitedStock: formUnlimitedStock,
+      description: formDesc.trim(),
+      inStock: formUnlimitedStock || (parseInt(formStock) > 0),
+      imageUrl: formImage || 'https://images.unsplash.com/photo-1509785307050-d4066910ec1e?w=400&auto=format&fit=crop&q=80',
+      tags: formTags
     };
 
-    addProduct(created);
-    setLocalProducts(prev => [created, ...prev]);
-    setNewModalOpen(false);
-    setNewName('');
-    setNewPrice('');
-    setNewDesc('');
+    if (modalMode === 'create') {
+      const created = addProduct(prodData);
+      setLocalProducts(prev => [created, ...prev]);
+    } else if (modalMode === 'edit' && editingId) {
+      const updated = { ...prodData, id: editingId };
+      updateProduct(updated);
+      setLocalProducts(prev => prev.map(p => p.id === editingId ? updated : p));
+    }
+
+    setModalMode(null);
   };
 
   const handleDelete = (id) => {
@@ -105,15 +167,15 @@ export default function GondolaDataGridView() {
               </h1>
             </div>
             <p className="text-xs text-on-surface-variant mt-1">
-              Modificá precios y stock directamente en las celdas. Los cambios se reflejan al instante en tu tienda PWA.
+              Modificá precios, stock y etiquetas directamente en la tabla o usá el editor avanzado.
             </p>
           </div>
 
           <div className="flex items-center gap-2 self-start md:self-auto">
             <button
               type="button"
-              onClick={() => setNewModalOpen(true)}
-              className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+              onClick={openCreateModal}
+              className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs active:scale-95"
             >
               <Plus className="w-4 h-4 text-amber-700" />
               <span>Nuevo Producto</span>
@@ -142,37 +204,38 @@ export default function GondolaDataGridView() {
               type="text"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              placeholder="Buscar por nombre de producto..."
+              placeholder="Buscar por nombre o descripción..."
               className="w-full bg-transparent text-xs text-on-surface placeholder:text-outline focus:outline-none"
             />
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar">
-            <span className="text-xs font-bold text-outline uppercase tracking-wider shrink-0">Categoría:</span>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <Filter className="w-3.5 h-3.5 text-outline" />
+            <span className="text-xs font-bold text-outline uppercase tracking-wider">Categoría:</span>
             <select
               value={selectedCat}
               onChange={e => setSelectedCat(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-xs text-on-surface font-semibold focus:outline-none"
+              className="px-3 py-1.5 rounded-xl bg-surface border border-surface-container-high text-xs text-on-surface font-semibold focus:outline-none"
             >
-              <option value="all">Todas las categorías</option>
+              <option value="all">Todas ({localProducts.length})</option>
               {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat} value={cat}>
+                  {cat} ({localProducts.filter(p => p.categoryName === cat).length})
+                </option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Responsive Data-Grid Table (Desktop / Tablet table, Mobile cards) */}
+        {/* Products Table (Desktop & Tablet) */}
         <div className="bg-surface-container-lowest rounded-3xl border border-surface-container-high overflow-hidden shadow-subtle">
-          
-          {/* Desktop & Tablet Table */}
-          <div className="hidden sm:block overflow-x-auto">
+          <div className="overflow-x-auto hidden sm:block">
             <table className="w-full text-left text-xs text-on-surface">
               <thead className="bg-surface border-b border-surface-container-high font-extrabold uppercase tracking-wider text-outline text-[11px]">
                 <tr>
-                  <th className="p-4">Producto & Detalle</th>
+                  <th className="p-4">Producto & Etiquetas</th>
                   <th className="p-4">Categoría</th>
-                  <th className="p-4">Precio Lista ($ ARS)</th>
+                  <th className="p-4">Precio Lista</th>
                   <th className="p-4">Stock</th>
                   <th className="p-4 text-center">Estado</th>
                   <th className="p-4 text-right">Acciones</th>
@@ -180,24 +243,29 @@ export default function GondolaDataGridView() {
               </thead>
               <tbody className="divide-y divide-surface-container-high">
                 {filtered.map(prod => (
-                  <tr key={prod.id} className="hover:bg-surface/60 transition-colors">
+                  <tr key={prod.id} className="hover:bg-surface/50 transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         <img
                           src={prod.imageUrl || 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=100&auto=format&fit=crop&q=80'}
                           alt={prod.name}
-                          className="w-10 h-10 rounded-xl object-cover border border-surface-container-high shrink-0"
+                          className="w-11 h-11 rounded-xl object-cover border border-surface-container-high shrink-0"
                         />
-                        <div>
+                        <div className="min-w-0">
                           <input
                             type="text"
                             value={prod.name}
                             onChange={e => handleInlineChange(prod.id, 'name', e.target.value)}
-                            className="font-bold text-xs text-on-surface bg-transparent border-b border-transparent hover:border-outline focus:border-primary focus:bg-white px-1 py-0.5 rounded transition-all w-full max-w-xs"
+                            className="font-bold text-xs text-on-surface bg-transparent hover:bg-surface px-1.5 py-0.5 rounded border border-transparent hover:border-surface-container-high focus:bg-surface focus:border-primary focus:outline-none w-64 truncate"
                           />
-                          <p className="text-[11px] text-on-surface-variant truncate max-w-xs px-1">
-                            {prod.description}
-                          </p>
+                          {/* Tags badges */}
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {prod.tags && prod.tags.map((tg, idx) => (
+                              <span key={idx} className="px-2 py-0.2 rounded-md bg-amber-50 text-amber-900 border border-amber-200 text-[10px] font-bold">
+                                {tg}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -221,12 +289,19 @@ export default function GondolaDataGridView() {
                     </td>
 
                     <td className="p-4">
-                      <input
-                        type="number"
-                        value={prod.stock || 0}
-                        onChange={e => handleInlineChange(prod.id, 'stock', parseInt(e.target.value) || 0)}
-                        className="w-20 px-2.5 py-1.5 rounded-xl bg-surface border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:border-primary text-center"
-                      />
+                      {prod.hasUnlimitedStock ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-[11px] font-bold border border-indigo-200">
+                          <InfinityIcon className="w-3.5 h-3.5" />
+                          <span>Ilimitado</span>
+                        </span>
+                      ) : (
+                        <input
+                          type="number"
+                          value={prod.stock || 0}
+                          onChange={e => handleInlineChange(prod.id, 'stock', parseInt(e.target.value) || 0)}
+                          className="w-20 px-2.5 py-1.5 rounded-xl bg-surface border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:border-primary text-center"
+                        />
+                      )}
                     </td>
 
                     <td className="p-4 text-center">
@@ -244,14 +319,24 @@ export default function GondolaDataGridView() {
                     </td>
 
                     <td className="p-4 text-right">
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(prod.id)}
-                        className="p-1.5 rounded-lg text-outline hover:text-rose-600 hover:bg-rose-50 transition-colors"
-                        title="Eliminar producto"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => openEditModal(prod)}
+                          className="p-1.5 rounded-lg text-outline hover:text-primary hover:bg-surface-container transition-colors"
+                          title="Editar producto completo y etiquetas"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(prod.id)}
+                          className="p-1.5 rounded-lg text-outline hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                          title="Eliminar producto"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -270,15 +355,19 @@ export default function GondolaDataGridView() {
                     className="w-12 h-12 rounded-xl object-cover border border-surface-container-high shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <input
-                      type="text"
-                      value={prod.name}
-                      onChange={e => handleInlineChange(prod.id, 'name', e.target.value)}
-                      className="font-bold text-xs text-on-surface bg-surface px-2 py-1 rounded-lg border border-surface-container-high w-full"
-                    />
+                    <span className="font-bold text-xs text-on-surface block truncate">{prod.name}</span>
                     <span className="text-[10px] font-bold text-outline mt-0.5 block">
                       {prod.categoryName}
                     </span>
+                    {prod.tags && prod.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {prod.tags.map((tg, idx) => (
+                          <span key={idx} className="px-1.5 py-0.2 rounded bg-amber-50 text-amber-900 border border-amber-200 text-[9px] font-bold">
+                            {tg}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -294,12 +383,18 @@ export default function GondolaDataGridView() {
                   </div>
                   <div>
                     <label className="text-[10px] font-bold text-outline block mb-1">Stock</label>
-                    <input
-                      type="number"
-                      value={prod.stock || 0}
-                      onChange={e => handleInlineChange(prod.id, 'stock', parseInt(e.target.value) || 0)}
-                      className="w-full px-2.5 py-1.5 rounded-xl bg-surface border border-surface-container-high text-xs font-bold text-center"
-                    />
+                    {prod.hasUnlimitedStock ? (
+                      <div className="w-full px-2.5 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-xs font-bold text-indigo-700 text-center">
+                        Ilimitado
+                      </div>
+                    ) : (
+                      <input
+                        type="number"
+                        value={prod.stock || 0}
+                        onChange={e => handleInlineChange(prod.id, 'stock', parseInt(e.target.value) || 0)}
+                        className="w-full px-2.5 py-1.5 rounded-xl bg-surface border border-surface-container-high text-xs font-bold text-center"
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -314,14 +409,24 @@ export default function GondolaDataGridView() {
                     {prod.inStock ? '✓ En Stock' : '✕ Agotado'}
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(prod.id)}
-                    className="p-1.5 text-rose-600 font-bold text-xs flex items-center gap-1"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    <span>Eliminar</span>
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => openEditModal(prod)}
+                      className="p-1.5 text-primary font-bold text-xs flex items-center gap-1"
+                    >
+                      <Edit3 className="w-3.5 h-3.5" />
+                      <span>Editar</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(prod.id)}
+                      className="p-1.5 text-rose-600 font-bold text-xs flex items-center gap-1"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Eliminar</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -331,84 +436,182 @@ export default function GondolaDataGridView() {
 
       </div>
 
-      {/* New Product Modal */}
-      {newModalOpen && (
+      {/* Product Create / Edit Modal (SC-16, SC-17, SC-20, SC-13) */}
+      {modalMode && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/60 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-surface-container-lowest rounded-3xl shadow-modal border border-surface-container-high w-full max-w-md p-5 sm:p-6 space-y-4">
+          <div className="bg-surface-container-lowest rounded-3xl shadow-modal border border-surface-container-high w-full max-w-lg p-5 sm:p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-surface-container-high pb-3">
-              <h3 className="font-extrabold text-sm sm:text-base text-on-surface">
-                Agregar Nuevo Producto a la Góndola
-              </h3>
-              <button onClick={() => setNewModalOpen(false)} className="text-outline hover:text-on-surface">
-                ✕
+              <div className="flex items-center gap-2">
+                <Package className="w-5 h-5 text-amber-600" />
+                <h3 className="font-extrabold text-sm sm:text-base text-on-surface">
+                  {modalMode === 'create' ? 'Agregar Nuevo Producto' : 'Editar Producto & Etiquetas'}
+                </h3>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setModalMode(null)} 
+                className="text-outline hover:text-on-surface p-1 rounded-full hover:bg-surface-container"
+              >
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateProduct} className="space-y-3 text-xs">
+            <form onSubmit={handleSaveModal} className="space-y-4 text-xs">
               <div>
-                <label className="font-bold text-on-surface block mb-1">Nombre del Producto *</label>
+                <label className="font-bold text-on-surface block mb-1">Nombre del Producto / Ítem *</label>
                 <input
                   type="text"
                   required
-                  placeholder="Ej: Medialuna de Manteca con DDL"
-                  value={newName}
-                  onChange={e => setNewName(e.target.value)}
+                  value={formName}
+                  onChange={e => setFormName(e.target.value)}
+                  placeholder="Ej: Flat White Doble Shot, Pizza Especial..."
                   className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="font-bold text-on-surface block mb-1">Categoría</label>
+                  <label className="font-bold text-on-surface block mb-1">Categoría Interna *</label>
                   <select
-                    value={newCategory}
-                    onChange={e => setNewCategory(e.target.value)}
+                    value={formCategory}
+                    onChange={e => setFormCategory(e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
                   >
-                    <option value="Cafetería de Especialidad">Cafetería</option>
-                    <option value="Pastelería Artesanal">Pastelería</option>
-                    <option value="Brunch & Salado">Brunch & Salado</option>
-                    <option value="Bebidas Frías">Bebidas Frías</option>
+                    {categories.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                    <option value="custom">+ Crear nueva categoría...</option>
                   </select>
                 </div>
 
+                {formCategory === 'custom' && (
+                  <div>
+                    <label className="font-bold text-amber-700 block mb-1">Nombre Nueva Categoría *</label>
+                    <input
+                      type="text"
+                      required
+                      value={customCategory}
+                      onChange={e => setCustomCategory(e.target.value)}
+                      placeholder="Ej: Brunch & Desayunos"
+                      className="w-full px-3 py-2 rounded-xl bg-surface border border-amber-300 text-on-surface focus:outline-none focus:border-amber-600"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="font-bold text-on-surface block mb-1">Precio ($ ARS) *</label>
+                  <label className="font-bold text-on-surface block mb-1">Precio de Venta ($ ARS) *</label>
                   <input
                     type="number"
                     required
+                    value={formPrice}
+                    onChange={e => setFormPrice(e.target.value)}
+                    placeholder="3200"
+                    className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface font-extrabold text-primary focus:outline-none focus:border-primary"
+                  />
+                </div>
+
+                <div>
+                  <label className="font-bold text-on-surface block mb-1">Precio Anterior / Tachado ($)</label>
+                  <input
+                    type="number"
+                    value={formComparePrice}
+                    onChange={e => setFormComparePrice(e.target.value)}
                     placeholder="3500"
-                    value={newPrice}
-                    onChange={e => setNewPrice(e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
                   />
                 </div>
               </div>
 
+              {/* Stock Management Option (SC-20) */}
+              <div className="p-3.5 rounded-2xl bg-surface border border-surface-container-high space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-on-surface">Tipo de Stock</span>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formUnlimitedStock}
+                      onChange={e => setFormUnlimitedStock(e.target.checked)}
+                      className="w-4 h-4 text-primary rounded"
+                    />
+                    <span className="text-xs font-semibold text-on-surface">Stock Ilimitado / A Pedido</span>
+                  </label>
+                </div>
+
+                {!formUnlimitedStock && (
+                  <div>
+                    <label className="font-bold text-on-surface-variant block mb-1">Cantidad en Stock Disponible</label>
+                    <input
+                      type="number"
+                      value={formStock}
+                      onChange={e => setFormStock(e.target.value)}
+                      className="w-32 px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs font-bold"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Tags / Badges Selection (SC-13) */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-on-surface block">Etiquetas del Producto (Opcionales)</label>
+                <div className="flex flex-wrap gap-1.5 p-2.5 rounded-2xl bg-surface border border-surface-container-high">
+                  {tags.map(tg => {
+                    const isSelected = formTags.includes(tg.label);
+                    return (
+                      <button
+                        key={tg.id}
+                        type="button"
+                        onClick={() => toggleTagSelection(tg.label)}
+                        className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
+                          isSelected
+                            ? 'bg-amber-600 text-white shadow-xs'
+                            : 'bg-surface-container-lowest text-on-surface hover:bg-surface-container border border-surface-container-high'
+                        }`}
+                      >
+                        <span>{tg.emoji}</span>
+                        <span>{tg.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               <div>
-                <label className="font-bold text-on-surface block mb-1">Descripción corta</label>
+                <label className="font-bold text-on-surface block mb-1">Descripción Corta</label>
                 <textarea
                   rows={2}
-                  placeholder="Detalle de ingredientes o preparación..."
-                  value={newDesc}
-                  onChange={e => setNewDesc(e.target.value)}
+                  value={formDesc}
+                  onChange={e => setFormDesc(e.target.value)}
+                  placeholder="Ingredientes, elaboración, especificaciones..."
                   className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
                 />
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-2">
+              <div>
+                <label className="font-bold text-on-surface block mb-1">URL de la Imagen</label>
+                <input
+                  type="text"
+                  value={formImage}
+                  onChange={e => setFormImage(e.target.value)}
+                  placeholder="https://images.unsplash.com/..."
+                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-surface-container-high">
                 <button
                   type="button"
-                  onClick={() => setNewModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container font-semibold"
+                  onClick={() => setModalMode(null)}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold text-on-surface hover:bg-surface-container"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-extrabold shadow-md"
+                  className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-extrabold shadow-sm active:scale-95"
                 >
-                  Agregar a Góndola
+                  {modalMode === 'create' ? 'Crear Producto' : 'Guardar Cambios'}
                 </button>
               </div>
             </form>

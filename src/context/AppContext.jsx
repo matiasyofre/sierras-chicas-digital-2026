@@ -10,8 +10,22 @@ export function AppProvider({ children }) {
   const userRole = currentUser ? currentUser.role : 'guest'; // 'guest', 'user', 'merchant', 'admin'
 
   const [locations] = useState(INITIAL_LOCATIONS);
-  const [categories] = useState(INITIAL_CATEGORIES);
-  const [plans] = useState(INITIAL_PLANS);
+  const [categories, setCategories] = useState(() => {
+    const saved = localStorage.getItem('sierras_categories');
+    return saved ? JSON.parse(saved) : INITIAL_CATEGORIES;
+  });
+  const [plans, setPlans] = useState(() => {
+    const saved = localStorage.getItem('sierras_plans');
+    return saved ? JSON.parse(saved) : INITIAL_PLANS;
+  });
+  const [settings, setSettings] = useState(() => {
+    const saved = localStorage.getItem('sierras_settings');
+    return saved ? JSON.parse(saved) : INITIAL_SETTINGS;
+  });
+  const [tags, setTags] = useState(() => {
+    const saved = localStorage.getItem('sierras_tags');
+    return saved ? JSON.parse(saved) : INITIAL_TAGS;
+  });
   
   const [businesses, setBusinesses] = useState(() => localDb.getBusinesses());
   const [products, setProducts] = useState(() => localDb.getProducts());
@@ -21,6 +35,7 @@ export function AppProvider({ children }) {
   // Search & Filters for directory
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Cart state for PWA store
@@ -32,6 +47,23 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localDb.saveAuthSession(currentUser);
   }, [currentUser]);
+
+  // Sync to localStorage
+  useEffect(() => {
+    localStorage.setItem('sierras_categories', JSON.stringify(categories));
+  }, [categories]);
+
+  useEffect(() => {
+    localStorage.setItem('sierras_plans', JSON.stringify(plans));
+  }, [plans]);
+
+  useEffect(() => {
+    localStorage.setItem('sierras_settings', JSON.stringify(settings));
+  }, [settings]);
+
+  useEffect(() => {
+    localStorage.setItem('sierras_tags', JSON.stringify(tags));
+  }, [tags]);
 
   // Sync to local DB
   useEffect(() => {
@@ -183,17 +215,113 @@ export function AppProvider({ children }) {
     setBusinesses(prev => prev.map(b => b.id === updatedBiz.id ? { ...b, ...updatedBiz } : b));
   };
 
+  const addNewBusiness = (newBiz) => {
+    const bizWithId = {
+      ...newBiz,
+      id: 'biz-' + Date.now(),
+      visitsCount: 1,
+      rating: 5.0,
+      reviewCount: 1,
+      status: 'active',
+      isOpen: true,
+      isVerified: true
+    };
+    setBusinesses(prev => [bizWithId, ...prev]);
+    return bizWithId;
+  };
+
+  const deleteBusiness = (bizId) => {
+    setBusinesses(prev => prev.filter(b => b.id !== bizId));
+    setProducts(prev => prev.filter(p => p.businessId !== bizId));
+  };
+
+  const recordVisit = (bizId) => {
+    if (bizId) {
+      setBusinesses(prev => prev.map(b => b.id === bizId ? { ...b, visitsCount: (b.visitsCount || 0) + 1 } : b));
+    }
+    setSettings(prev => ({ ...prev, totalSiteVisits: (prev.totalSiteVisits || 0) + 1 }));
+  };
+
+  // Product operations
   const updateProduct = (updatedProd) => {
     setProducts(prev => prev.map(p => p.id === updatedProd.id ? { ...p, ...updatedProd } : p));
   };
 
   const addProduct = (newProd) => {
-    const prodWithId = { ...newProd, id: 'prod-' + Date.now(), isActive: true, inStock: true };
+    const prodWithId = { 
+      ...newProd, 
+      id: 'prod-' + Date.now(), 
+      isActive: true, 
+      inStock: true,
+      hasUnlimitedStock: newProd.hasUnlimitedStock || false,
+      tags: newProd.tags || []
+    };
     setProducts(prev => [prodWithId, ...prev]);
+    return prodWithId;
   };
 
   const deleteProduct = (prodId) => {
     setProducts(prev => prev.filter(p => p.id !== prodId));
+  };
+
+  // Settings & Plans operations
+  const updateSettings = (newSettings) => {
+    setSettings(prev => ({ ...prev, ...newSettings }));
+  };
+
+  const updatePlan = (updatedPlan) => {
+    setPlans(prev => prev.map(p => p.id === updatedPlan.id ? { ...p, ...updatedPlan } : p));
+  };
+
+  // Taxonomy operations (Rubros, Categorías, Subcategorías)
+  const addCategory = (cat) => {
+    const newCat = {
+      ...cat,
+      id: 'cat-' + Date.now(),
+      slug: cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      subcategories: cat.subcategories || []
+    };
+    setCategories(prev => [...prev, newCat]);
+  };
+
+  const updateCategory = (updatedCat) => {
+    setCategories(prev => prev.map(c => c.id === updatedCat.id ? { ...c, ...updatedCat } : c));
+  };
+
+  const deleteCategory = (catId) => {
+    setCategories(prev => prev.filter(c => c.id !== catId));
+  };
+
+  const addSubcategory = (catId, subName) => {
+    if (!subName.trim()) return;
+    setCategories(prev => prev.map(c => {
+      if (c.id === catId) {
+        const currentSubs = c.subcategories || [];
+        if (!currentSubs.includes(subName)) {
+          return { ...c, subcategories: [...currentSubs, subName] };
+        }
+      }
+      return c;
+    }));
+  };
+
+  const deleteSubcategory = (catId, subName) => {
+    setCategories(prev => prev.map(c => {
+      if (c.id === catId) {
+        return { ...c, subcategories: (c.subcategories || []).filter(s => s !== subName) };
+      }
+      return c;
+    }));
+  };
+
+  // Tag operations
+  const addTag = (tag) => {
+    const newTag = { ...tag, id: 'tag-' + Date.now() };
+    setTags(prev => [...prev, newTag]);
+  };
+
+  const deleteTag = (tagId) => {
+    setTags(prev => prev.filter(t => t.id !== tagId));
   };
 
   // Order operations for POS / Kanban
@@ -228,16 +356,38 @@ export function AppProvider({ children }) {
         logout,
         locations,
         categories,
+        addCategory,
+        updateCategory,
+        deleteCategory,
+        addSubcategory,
+        deleteSubcategory,
         plans,
+        updatePlan,
+        settings,
+        updateSettings,
+        tags,
+        addTag,
+        deleteTag,
         businesses,
+        addNewBusiness,
+        updateBusiness,
+        deleteBusiness,
+        recordVisit,
         products,
+        addProduct,
+        updateProduct,
+        deleteProduct,
         orders,
+        updateOrderStatus,
+        addOrder,
         favorites,
         toggleFavorite,
         selectedLocation,
         setSelectedLocation,
         selectedCategory,
         setSelectedCategory,
+        selectedSubcategory,
+        setSelectedSubcategory,
         searchQuery,
         setSearchQuery,
         cart,
@@ -249,13 +399,7 @@ export function AppProvider({ children }) {
         removeFromCart,
         clearCart,
         cartSubtotal,
-        cartItemCount,
-        updateBusiness,
-        updateProduct,
-        addProduct,
-        deleteProduct,
-        updateOrderStatus,
-        addOrder
+        cartItemCount
       }}
     >
       {children}
@@ -268,3 +412,4 @@ export function useApp() {
   if (!context) throw new Error('useApp must be used within an AppProvider');
   return context;
 }
+

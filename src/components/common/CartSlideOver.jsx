@@ -49,9 +49,12 @@ export default function CartSlideOver() {
       return;
     }
 
+    const orderNumber = '#PED-' + Math.floor(1000 + Math.random() * 9000);
+
     // Format WhatsApp message
-    let message = `🛒 *NUEVO PEDIDO - SIERRAS CHICAS DIGITAL*\n`;
-    message += `🏪 *Comercio:* ${cartBusiness?.name || 'Local'}\n\n`;
+    let message = `🛒 *NUEVO PEDIDO ${orderNumber} - SIERRAS CHICAS DIGITAL*\n`;
+    message += `🏪 *Comercio:* ${cartBusiness?.name || 'Local'}\n`;
+    message += `🔢 *ID de Pedido:* ${orderNumber}\n\n`;
     message += `👤 *Cliente:* ${customerName}\n`;
     message += `📍 *Entrega:* ${deliveryMethod === 'delivery' ? `Envío a domicilio (${customerAddress})` : 'Retiro por mostrador / local'}\n`;
     message += `💳 *Forma de Pago:* ${paymentMethod}\n`;
@@ -69,6 +72,7 @@ export default function CartSlideOver() {
 
     // Save order in POS / Kanban local DB
     addOrder({
+      orderNumber,
       businessId: cartBusiness?.id || 'biz-1',
       customerName,
       customerPhone: '',

@@ -53,10 +53,16 @@ export default function PosKanbanView() {
     setCustTotal('');
   };
 
+  const notifyCustomerWhatsApp = (ord) => {
+    const cleanPhone = (ord.customerPhone || '5493543123456').replace(/[^0-9]/g, '');
+    const msg = `¡Hola *${ord.customerName}*! Tu pedido *${ord.orderNumber || '#PED-' + ord.id.slice(-4)}* en *Sierras Chicas Digital* ya está *LISTO* para retirar / enviar. 🛵 ¡Muchas gracias!`;
+    window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
   const columns = [
     { id: 'pending', title: 'Pendientes / Nuevos', color: 'bg-amber-500 text-amber-950', border: 'border-amber-400', icon: Clock },
-    { id: 'preparing', title: 'En Cocina / Preparación', color: 'bg-indigo-600 text-white', border: 'border-indigo-400', icon: ChefHat },
-    { id: 'ready', title: 'Listos para Entrega / Despacho', color: 'bg-teal-600 text-white', border: 'border-teal-400', icon: Bike },
+    { id: 'preparing', title: 'En Preparación', color: 'bg-indigo-600 text-white', border: 'border-indigo-400', icon: ChefHat },
+    { id: 'ready', title: 'Listos para Entrega / Retiro', color: 'bg-teal-600 text-white', border: 'border-teal-400', icon: Bike },
     { id: 'delivered', title: 'Entregados / Completados', color: 'bg-emerald-700 text-white', border: 'border-emerald-500', icon: CheckCircle2 }
   ];
 
@@ -67,7 +73,7 @@ export default function PosKanbanView() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         
         {/* Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle sticky top-20 z-20 bg-surface-container-lowest/95 backdrop-blur-md">
           <div>
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
@@ -76,7 +82,7 @@ export default function PosKanbanView() {
               </h1>
             </div>
             <p className="text-xs text-on-surface-variant mt-1">
-              Tablero en tiempo real para cocina, salón y delivery. Arrastrá o tocá para avanzar el estado del pedido.
+              Tablero unificado para preparación, mostrador y envíos. Arrastrá o tocá para avanzar el estado del pedido.
             </p>
           </div>
 
@@ -84,7 +90,7 @@ export default function PosKanbanView() {
             <button
               type="button"
               onClick={() => setManualModalOpen(true)}
-              className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-amber-950 font-extrabold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+              className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-amber-950 font-extrabold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95"
             >
               <Plus className="w-4 h-4" />
               <span>Cargar Comanda Manual</span>
@@ -121,7 +127,7 @@ export default function PosKanbanView() {
           })}
         </div>
 
-        {/* 4-Column Kanban Board (Desktop: 4 cols, Tablet: 2 cols, Mobile: active column or scroll) */}
+        {/* 4-Column Kanban Board */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {columns.map(col => {
             const colOrders = orders.filter(o => o.status === col.id);
@@ -203,15 +209,15 @@ export default function PosKanbanView() {
                         </div>
 
                         {/* Actions to Advance Kanban */}
-                        <div className="pt-1 flex items-center justify-between gap-1.5">
+                        <div className="pt-1 space-y-2">
                           {col.id === 'pending' && (
                             <button
                               type="button"
                               onClick={() => updateOrderStatus(ord.id, 'preparing')}
-                              className="w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs"
+                              className="w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs transition-all"
                             >
                               <ChefHat className="w-3.5 h-3.5" />
-                              <span>Pasar a Cocina</span>
+                              <span>Pasar a Preparación</span>
                             </button>
                           )}
 
@@ -219,27 +225,47 @@ export default function PosKanbanView() {
                             <button
                               type="button"
                               onClick={() => updateOrderStatus(ord.id, 'ready')}
-                              className="w-full py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs"
+                              className="w-full py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs transition-all"
                             >
                               <Bike className="w-3.5 h-3.5" />
-                              <span>Listo para Despacho</span>
+                              <span>Listo para Despacho / Retiro</span>
                             </button>
                           )}
 
                           {col.id === 'ready' && (
-                            <button
-                              type="button"
-                              onClick={() => updateOrderStatus(ord.id, 'delivered')}
-                              className="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs"
-                            >
-                              <CheckCircle2 className="w-3.5 h-3.5" />
-                              <span>Marcar Entregado</span>
-                            </button>
+                            <div className="space-y-1.5">
+                              <button
+                                type="button"
+                                onClick={() => notifyCustomerWhatsApp(ord)}
+                                className="w-full py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs flex items-center justify-center gap-1 transition-all"
+                                title="Avisar al cliente por WhatsApp"
+                              >
+                                <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                                <span>Avisar WhatsApp ({ord.orderNumber})</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => updateOrderStatus(ord.id, 'delivered')}
+                                className="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs transition-all"
+                              >
+                                <CheckCircle2 className="w-3.5 h-3.5" />
+                                <span>Marcar Entregado</span>
+                              </button>
+                            </div>
                           )}
 
                           {col.id === 'delivered' && (
-                            <div className="w-full text-center py-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 rounded-lg">
-                              ✓ Finalizado con éxito
+                            <div className="space-y-1.5">
+                              <div className="w-full text-center py-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 rounded-lg border border-emerald-200">
+                                ✓ Entregado con éxito
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => notifyCustomerWhatsApp(ord)}
+                                className="w-full py-1 rounded-lg text-[10px] text-on-surface-variant hover:text-emerald-700 flex items-center justify-center gap-1"
+                              >
+                                <span>Reenviar ticket WhatsApp</span>
+                              </button>
                             </div>
                           )}
                         </div>

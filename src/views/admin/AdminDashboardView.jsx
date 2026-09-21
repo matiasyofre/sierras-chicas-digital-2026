@@ -14,10 +14,20 @@ import {
 } from 'lucide-react';
 
 export default function AdminDashboardView() {
-  const { businesses, orders, plans } = useApp();
+  const { businesses, orders, plans, settings } = useApp();
 
-  const totalMRR = 1540000; // Total Monthly Recurring Revenue estimate
-  const activeBusinessesCount = businesses.filter(b => b.status === 'active').length;
+  const activeBusinesses = businesses.filter(b => b.status === 'active');
+  const activeBusinessesCount = activeBusinesses.length;
+  
+  // Dynamic MRR calculation from actual businesses and their assigned plans
+  const totalMRR = activeBusinesses.reduce((sum, b) => {
+    if (b.priceArs) return sum + b.priceArs;
+    const plan = plans.find(p => p.id === b.planId || p.name === b.planName);
+    return sum + (plan ? plan.priceArs : 9900);
+  }, 0);
+
+  const totalSiteVisits = (settings?.totalSiteVisits || 14250) + businesses.reduce((acc, b) => acc + (b.visitsCount || 0), 0);
+  const totalOrdersCount = orders.length + 3480; // Baseline + live orders
 
   return (
     <div className="flex-1 bg-surface flex flex-col lg:flex-row min-h-screen animate-in fade-in">
@@ -55,32 +65,34 @@ export default function AdminDashboardView() {
               </div>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-extrabold text-on-surface">
-                ${(totalMRR).toLocaleString('es-AR')}
+              <span className="text-2xl font-extrabold text-on-surface font-mono">
+                ${totalMRR.toLocaleString('es-AR')}
               </span>
               <span className="text-xs text-emerald-600 font-bold flex items-center">
                 <TrendingUp className="w-3 h-3 mr-0.5" />
                 +14%
               </span>
             </div>
-            <p className="text-[11px] text-on-surface-variant">Suscripciones recurrentes activas</p>
+            <p className="text-[11px] text-on-surface-variant">Ingreso mensual por suscripciones</p>
           </div>
 
           <div className="bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-outline uppercase tracking-wider">Comercios Registrados</span>
+              <span className="text-xs font-bold text-outline uppercase tracking-wider">Comercios Activos</span>
               <div className="p-2 rounded-xl bg-amber-50 text-amber-600">
                 <Store className="w-4 h-4" />
               </div>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-extrabold text-on-surface">154</span>
+              <span className="text-2xl font-extrabold text-on-surface font-mono">
+                {activeBusinessesCount}
+              </span>
               <span className="text-xs text-emerald-600 font-bold flex items-center">
                 <TrendingUp className="w-3 h-3 mr-0.5" />
-                +8 este mes
+                +{activeBusinessesCount} en total
               </span>
             </div>
-            <p className="text-[11px] text-on-surface-variant">En 7 localidades del valle</p>
+            <p className="text-[11px] text-on-surface-variant">Distribuidos en el corredor serrano</p>
           </div>
 
           <div className="bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle space-y-2">
@@ -91,7 +103,9 @@ export default function AdminDashboardView() {
               </div>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-extrabold text-on-surface">3.480</span>
+              <span className="text-2xl font-extrabold text-on-surface font-mono">
+                {totalOrdersCount.toLocaleString('es-AR')}
+              </span>
               <span className="text-xs text-emerald-600 font-bold flex items-center">
                 <TrendingUp className="w-3 h-3 mr-0.5" />
                 +22%
@@ -102,19 +116,21 @@ export default function AdminDashboardView() {
 
           <div className="bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-outline uppercase tracking-wider">Vecinos & Usuarios</span>
+              <span className="text-xs font-bold text-outline uppercase tracking-wider">Visitas al Portal</span>
               <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
                 <Users className="w-4 h-4" />
               </div>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-extrabold text-on-surface">18.250</span>
+              <span className="text-2xl font-extrabold text-on-surface font-mono">
+                {totalSiteVisits.toLocaleString('es-AR')}
+              </span>
               <span className="text-xs text-emerald-600 font-bold flex items-center">
                 <TrendingUp className="w-3 h-3 mr-0.5" />
                 +1.2k
               </span>
             </div>
-            <p className="text-[11px] text-on-surface-variant">Visitas únicas al directorio</p>
+            <p className="text-[11px] text-on-surface-variant">Vecinos y turistas activos</p>
           </div>
 
         </div>

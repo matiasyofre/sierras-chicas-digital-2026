@@ -6,9 +6,11 @@ import AppFooter from './components/layout/AppFooter';
 import CartSlideOver from './components/common/CartSlideOver';
 import PwaInstallPrompt from './components/common/PwaInstallPrompt';
 import ProtectedRoute from './components/common/ProtectedRoute';
+import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
 
-// Auth View
+// Auth Views
 import LoginView from './views/auth/LoginView';
+import AdminLoginView from './views/auth/AdminLoginView';
 
 // Vecino / Turista Views
 import HomeDirectoryView from './views/pwa/HomeDirectoryView';
@@ -49,6 +51,8 @@ export default function App() {
           <Route path="/tienda/:slug" element={<StoreCartCheckoutView />} />
           <Route path="/favoritos" element={<FavoritesView />} />
           <Route path="/login" element={<LoginView />} />
+          <Route path="/admin-auth" element={<AdminLoginView />} />
+          <Route path="/admin/login" element={<AdminLoginView />} />
 
           {/* Merchant Routes (Restricted to 'merchant' and 'admin') */}
           <Route
@@ -125,6 +129,9 @@ export default function App() {
 
       {/* PWA Install Prompt */}
       <PwaInstallPrompt />
+
+      {/* Floating Regional Support WhatsApp Button */}
+      {!isAdmin && <FloatingWhatsAppButton />}
 
       {/* Footer (Not on admin pages or login) */}
       {!isAdmin && !isAuthPage && <AppFooter />}

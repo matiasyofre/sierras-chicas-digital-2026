@@ -9,13 +9,86 @@ export const INITIAL_LOCATIONS = [
 ];
 
 export const INITIAL_CATEGORIES = [
-  { id: 'cat-1', name: 'Gastronomía', slug: 'gastronomia', icon: 'restaurant', emoji: '🍕', color: '#e11d48' },
-  { id: 'cat-2', name: 'Cabañas & Alojamiento', slug: 'alojamiento', icon: 'holiday_village', emoji: '🏡', color: '#0284c7' },
-  { id: 'cat-3', name: 'Servicios Profesionales', slug: 'servicios-profesionales', icon: 'handyman', emoji: '🔧', color: '#d97706' },
-  { id: 'cat-4', name: 'Salud & Bienestar', slug: 'salud-bienestar', icon: 'spa', emoji: '🩺', color: '#10b981' },
-  { id: 'cat-5', name: 'Comercios & Almacenes', slug: 'comercios-almacenes', icon: 'storefront', emoji: '🛍️', color: '#8b5cf6' },
-  { id: 'cat-6', name: 'Turismo & Excursiones', slug: 'turismo-excursiones', icon: 'hiking', emoji: '🎒', color: '#059669' }
+  { 
+    id: 'cat-1', 
+    name: 'Gastronomía', 
+    slug: 'gastronomia', 
+    icon: 'restaurant', 
+    emoji: '🍕', 
+    color: '#e11d48',
+    subcategories: ['Cafeterías & Pastelería', 'Pizzerías & Empanadas', 'Cervecerías & Bares', 'Restaurantes Serranos', 'Heladerías']
+  },
+  { 
+    id: 'cat-2', 
+    name: 'Cabañas & Alojamiento', 
+    slug: 'alojamiento', 
+    icon: 'holiday_village', 
+    emoji: '🏡', 
+    color: '#0284c7',
+    subcategories: ['Cabañas con Pileta', 'Posadas & Hosterías', 'Casas de Campo', 'Camping & Glamping']
+  },
+  { 
+    id: 'cat-3', 
+    name: 'Servicios Profesionales', 
+    slug: 'servicios-profesionales', 
+    icon: 'handyman', 
+    emoji: '🔧', 
+    color: '#d97706',
+    subcategories: ['Electricistas Matriculados', 'Gasistas & Plomería', 'Informática & Redes', 'Construcción & Pintura', 'Jardinería & Piletas']
+  },
+  { 
+    id: 'cat-4', 
+    name: 'Salud & Bienestar', 
+    slug: 'salud-bienestar', 
+    icon: 'spa', 
+    emoji: '🩺', 
+    color: '#10b981',
+    subcategories: ['Farmacias', 'Consultorios & Odontología', 'Centros de Estética', 'Yoga & Terapias Holísticas']
+  },
+  { 
+    id: 'cat-5', 
+    name: 'Comercios & Almacenes', 
+    slug: 'comercios-almacenes', 
+    icon: 'storefront', 
+    emoji: '🛍️', 
+    color: '#8b5cf6',
+    subcategories: ['Ferreterías & Corralones', 'Dietéticas & Orgánicos', 'Indumentaria & Calzado', 'Verdulerías & Carnicerías', 'Librerías & Regalerías']
+  },
+  { 
+    id: 'cat-6', 
+    name: 'Turismo & Excursiones', 
+    slug: 'turismo-excursiones', 
+    icon: 'hiking', 
+    emoji: '🎒', 
+    color: '#059669',
+    subcategories: ['Trekking & Senderismo', 'Cabalgatas Guiadas', 'Artesanías Serranas', 'Alquiler de Bicis']
+  }
 ];
+
+export const INITIAL_TAGS = [
+  { id: 'tag-1', label: 'Pet Friendly', emoji: '🐾', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
+  { id: 'tag-2', label: 'WiFi 5G', emoji: '📶', color: 'bg-blue-100 text-blue-800 border-blue-300' },
+  { id: 'tag-3', label: 'Masa Madre', emoji: '🥖', color: 'bg-amber-100 text-amber-800 border-amber-300' },
+  { id: 'tag-4', label: 'Urgencias 24hs', emoji: '🚨', color: 'bg-rose-100 text-rose-800 border-rose-300' },
+  { id: 'tag-5', label: 'Matriculado ERSeP', emoji: '📜', color: 'bg-indigo-100 text-indigo-800 border-indigo-300' },
+  { id: 'tag-6', label: 'Sin TACC / Apto Celíaco', emoji: '🌾', color: 'bg-teal-100 text-teal-800 border-teal-300' },
+  { id: 'tag-7', label: 'Descuento Efectivo', emoji: '💵', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
+  { id: 'tag-8', label: 'Envíos sin Cargo', emoji: '🛵', color: 'bg-purple-100 text-purple-800 border-purple-300' }
+];
+
+export const INITIAL_SETTINGS = {
+  platformName: 'Sierras Chicas Digital',
+  tagline: 'Directorio y Ecosistema Comercial de las Sierras Chicas de Córdoba',
+  supportWhatsapp: '+54 9 3543 45-6789',
+  supportEmail: 'contacto@sierraschicasdigital.com',
+  maintenanceMode: false,
+  allowNewRegistrations: true,
+  mercadoPagoPublicKey: 'APP_USR-789012-TEST-KEY',
+  mercadoPagoAccessToken: 'APP_USR-123456-SEC-TOKEN',
+  commissionPercentage: 0,
+  currency: 'ARS',
+  totalSiteVisits: 14250
+};
 
 export const INITIAL_BUSINESSES = [
   {
@@ -26,6 +99,7 @@ export const INITIAL_BUSINESSES = [
     description: 'El mejor café de especialidad de Río Ceballos. Elaboramos panes de masa madre y pastelería fresca todos los días en un entorno natural único.',
     categoryId: 'cat-1',
     categoryName: 'Gastronomía',
+    subcategory: 'Cafeterías & Pastelería',
     locationId: 'loc-1',
     locationName: 'Río Ceballos',
     address: 'Av. San Martín 4520, Río Ceballos',
@@ -34,15 +108,23 @@ export const INITIAL_BUSINESSES = [
     email: 'contacto@cafesierras.com.ar',
     instagram: '@cafesierras.cba',
     openingHours: 'Mar a Dom 08:30 - 20:30',
-    businessMode: 'tienda', // tienda, servicios, catalogo
+    businessMode: 'tienda', // tienda, servicios, aviso
     logoUrl: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=200&auto=format&fit=crop&q=80',
     coverUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&auto=format&fit=crop&q=80'
+    ],
+    tags: ['Pet Friendly', 'WiFi 5G', 'Masa Madre'],
+    visitsCount: 1420,
     isOpen: true,
     isVerified: true,
     isFeatured: true,
     rating: 4.9,
     reviewCount: 128,
     status: 'active',
+    planId: 'plan-2',
     planName: 'Negocio Pro & POS',
     priceArs: 19900
   },
@@ -373,7 +455,17 @@ export const INITIAL_PLANS = [
     slug: 'basico',
     priceArs: 9900,
     billingPeriod: 'mensual',
-    features: ['Ficha digital en directorio', 'Contacto directo WhatsApp', 'Hasta 20 productos', 'SEO Local'],
+    description: 'Presencia institucional y contacto directo en el directorio serrano.',
+    maxProducts: 20,
+    maxPhotos: 3,
+    checkoutUrl: 'https://mpago.la/sierras-basico-9900',
+    features: [
+      'Ficha institucional y aviso en el directorio',
+      'Botón de contacto directo por WhatsApp y llamada',
+      'Hasta 3 fotos en la galería',
+      'Hasta 20 productos de referencia',
+      'Presencia en búsquedas locales de Sierras Chicas'
+    ],
     activeMerchants: 48
   },
   {
@@ -383,7 +475,19 @@ export const INITIAL_PLANS = [
     priceArs: 19900,
     billingPeriod: 'mensual',
     isFeatured: true,
-    features: ['Catálogo ilimitado', 'Carrito & Pedidos wa.me', 'Góndola Data-Grid Rápida', 'POS Comandas Kanban', 'Soporte prioritario'],
+    description: 'Catálogo interactivo con pedidos automáticos y gestión de comandas en vivo.',
+    maxProducts: 150,
+    maxPhotos: 10,
+    checkoutUrl: 'https://mpago.la/sierras-pro-19900',
+    features: [
+      'Todo lo del plan Básico',
+      'Tienda virtual interactiva con carrito',
+      'Checkout con ticket automático a WhatsApp',
+      'Góndola de edición rápida de precios y stock',
+      'Tablero POS / Kanban en vivo para comandas',
+      'Hasta 10 fotos en alta resolución',
+      'Hasta 150 productos activos'
+    ],
     activeMerchants: 84
   },
   {
@@ -392,7 +496,18 @@ export const INITIAL_PLANS = [
     slug: 'vip',
     priceArs: 34900,
     billingPeriod: 'mensual',
-    features: ['Posición #1 en buscador', 'Banner regional exclusivo', 'Múltiples sucursales', 'Dominio personalizado', 'Asesoría de marketing'],
+    description: 'Máxima exposición con posición prioritaria y soporte integral de marketing.',
+    maxProducts: 500,
+    maxPhotos: 30,
+    checkoutUrl: 'https://mpago.la/sierras-vip-34900',
+    features: [
+      'Todo lo del plan Negocio Pro',
+      'Posición destacada #1 en búsquedas y categorías',
+      'Badge VIP dorado y sello verificado premium',
+      'Fotos ilimitadas en galería',
+      'Múltiples sucursales y números de WhatsApp',
+      'Soporte prioritario 24/7 y asesoría de visibilidad'
+    ],
     activeMerchants: 22
   }
 ];

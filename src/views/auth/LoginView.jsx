@@ -89,57 +89,35 @@ export default function LoginView() {
           <p className="text-xs text-on-surface-variant max-w-sm mx-auto">
             Acceso exclusivo para Dueños de Comercios y Administradores de Sierras Chicas Digital.
           </p>
-        </div>
-
-        {/* 1-Click Demo Accounts Selector */}
+        </div>        {/* 1-Click Demo Account for Merchant */}
         <div className="bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle space-y-3">
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-amber-500" />
             <span className="text-xs font-extrabold uppercase tracking-wider text-on-surface">
-              Acceso Directo de Prueba (1 Clic)
+              Acceso Rápido Comercio Demo
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            
+          <div>
             {/* Demo Comercio */}
             <button
               type="button"
               onClick={() => handleDemoLogin('comercio')}
-              className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 hover:bg-amber-100 hover:border-amber-400 text-left transition-all space-y-1.5 group active:scale-95"
+              className="w-full p-4 rounded-2xl bg-amber-50/70 border border-amber-200 hover:bg-amber-100 hover:border-amber-400 text-left transition-all space-y-1.5 group active:scale-95"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-amber-950 flex items-center gap-1">
-                  <Store className="w-3.5 h-3.5 text-amber-700" />
-                  <span>Dueño Comercio</span>
+                <span className="text-xs font-extrabold text-amber-950 flex items-center gap-1.5">
+                  <Store className="w-4 h-4 text-amber-700" />
+                  <span>Dueño de Comercio (Café de las Sierras)</span>
                 </span>
-                <span className="text-[10px] bg-amber-200 text-amber-900 px-1.5 py-0.2 rounded font-mono font-bold">PRO</span>
+                <span className="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-mono font-bold">1-CLIC</span>
               </div>
-              <p className="text-[11px] text-amber-800 leading-tight">
-                Góndola de precios y POS Comandas Kanban
+              <p className="text-xs text-amber-800 leading-tight">
+                Entrar a la Góndola de precios, POS Comandas Kanban y configuración del local.
               </p>
             </button>
-
-            {/* Demo Admin */}
-            <button
-              type="button"
-              onClick={() => handleDemoLogin('admin')}
-              className="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-400 text-left transition-all space-y-1.5 group active:scale-95"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-indigo-950 flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-indigo-700" />
-                  <span>SuperAdmin</span>
-                </span>
-                <span className="text-[10px] bg-indigo-200 text-indigo-900 px-1.5 py-0.2 rounded font-mono font-bold">SaaS</span>
-              </div>
-              <p className="text-[11px] text-indigo-800 leading-tight">
-                Métricas MRR, comercios y configuración del valle
-              </p>
-            </button>
-
           </div>
-        </div>
+        </div>  </div>
 
         {/* Traditional Login Form */}
         <div className="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container-high shadow-card space-y-4">
