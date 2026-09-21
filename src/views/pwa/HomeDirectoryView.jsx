@@ -25,7 +25,10 @@ import {
   Smartphone,
   TrendingUp,
   Award,
-  Compass
+  Compass,
+  Check,
+  Layers,
+  ArrowUpRight
 } from 'lucide-react';
 
 export default function HomeDirectoryView() {
@@ -193,45 +196,57 @@ export default function HomeDirectoryView() {
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full pb-24 md:pb-16 animate-in fade-in bg-[#f8fafc]">
+    <div className="flex-1 flex flex-col w-full pb-24 md:pb-16 animate-in fade-in bg-[#f8fafc] text-slate-900 selection:bg-amber-500 selection:text-slate-950">
       
       {/* ======================================================== */}
-      {/* 1. HERO SECTION (Reference Structure: Deep Blue + Dual Search Box) */}
+      {/* 1. HERO SECTION (UI/UX Pro Max: Obsidian Backdrop + Amber/Cyan Glows) */}
       {/* ======================================================== */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white pt-12 sm:pt-16 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#090d16] via-[#0f172a] to-[#090d16] text-white pt-14 sm:pt-20 pb-20 px-4 sm:px-6 lg:px-8">
         
-        {/* Background Image / Ambient Lighting */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
-          <img
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80"
-            alt="Valle de Sierras Chicas"
-            className="w-full h-full object-cover mix-blend-overlay"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/70 to-transparent"></div>
+        {/* Dynamic Multi-Layer Ambient Lights */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute -top-32 left-1/3 w-[36rem] h-[36rem] rounded-full bg-amber-500/10 blur-[120px] animate-pulse"></div>
+          <div className="absolute top-1/2 -right-24 w-96 h-96 rounded-full bg-teal-500/10 blur-[100px]"></div>
+          <div className="absolute bottom-0 -left-20 w-80 h-80 rounded-full bg-indigo-500/10 blur-[90px]"></div>
+          
+          {/* Subtle Topography Vector */}
+          <svg 
+            className="absolute bottom-0 left-0 right-0 w-full h-28 sm:h-40 opacity-15 text-teal-600 pointer-events-none" 
+            viewBox="0 0 1440 320" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path 
+              fill="currentColor" 
+              d="M0,224L48,208C96,192,192,160,288,165.3C384,171,480,213,576,218.7C672,224,768,192,864,165.3C960,139,1056,117,1152,122.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            />
+          </svg>
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto space-y-6 text-center">
+        <div className="relative z-10 max-w-5xl mx-auto space-y-7 text-center">
           
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-amber-400 border border-white/10 text-xs font-black backdrop-blur-md shadow-inner">
-            <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>DIRECTORIO & RED COMERCIAL DE SIERRAS CHICAS</span>
+          {/* Micro-Pill Tag */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-amber-400 border border-white/10 text-xs font-black backdrop-blur-md transition-all shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" style={{ animationDuration: '8s' }} />
+            <span>PORTAL & GUÍA COMERCIAL DE SIERRAS CHICAS 2026</span>
           </div>
 
-          {/* Hero Main Headline (Matching reference style: "Listovo puede ayudarte a tomar una decisión inteligente") */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto">
-            Sierras Chicas Digital puede <span className="text-amber-400">ayudarte a tomar una decisión inteligente.</span>
-          </h1>
-          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Encontrá comercios verificados, gastronomía artesanal, prestadores profesionales y cabañas en todo el valle.
-          </p>
+          {/* High-Impact Display Heading */}
+          <div className="space-y-3 max-w-4xl mx-auto">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-white">
+              Sierras Chicas Digital puede <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-200">ayudarte a tomar una decisión inteligente.</span>
+            </h1>
+            <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Encontrá comercios verificados, gastronomía artesanal, prestadores profesionales y cabañas en todo el valle sin intermediarios.
+            </p>
+          </div>
 
-          {/* Dual Search Box (Matching reference style: [¿Qué buscas?] [Localidad] [Buscar Button]) */}
+          {/* Dual Search Floating Capsule */}
           <div ref={searchContainerRef} className="relative max-w-3xl mx-auto pt-2">
-            <div className="bg-white rounded-2xl sm:rounded-full p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-slate-200">
+            <div className="bg-white/95 backdrop-blur-xl rounded-[2rem] p-2.5 shadow-2xl shadow-black/40 flex flex-col sm:flex-row items-center gap-2 border border-white/40 ring-4 ring-white/5">
               
-              {/* Input 1: Search Query */}
-              <div className="flex items-center gap-2 w-full sm:flex-1 px-3 py-1.5">
+              {/* Search Query Field */}
+              <div className="flex items-center gap-2.5 w-full sm:flex-1 px-4 py-2">
                 <Search className="w-5 h-5 text-slate-400 shrink-0" />
                 <input
                   type="text"
@@ -242,7 +257,7 @@ export default function HomeDirectoryView() {
                     setIsSearchFocused(true);
                   }}
                   placeholder="¿Qué estás buscando? (Ej: Panadería, Electricista, Cabaña...)"
-                  className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none font-medium"
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none font-semibold"
                 />
                 {searchQuery && (
                   <button
@@ -255,16 +270,16 @@ export default function HomeDirectoryView() {
                 )}
               </div>
 
-              {/* Separator on desktop */}
-              <div className="hidden sm:block w-px h-8 bg-slate-200"></div>
+              {/* Divider */}
+              <div className="hidden sm:block w-px h-8 bg-slate-200/80"></div>
 
-              {/* Input 2: Locality Selector */}
-              <div className="flex items-center gap-2 w-full sm:w-56 px-3 py-1.5">
+              {/* Locality Field */}
+              <div className="flex items-center gap-2 w-full sm:w-60 px-4 py-2">
                 <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
                 <select
                   value={selectedLocation}
                   onChange={e => setSelectedLocation(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm text-slate-800 font-semibold focus:outline-none cursor-pointer"
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-800 font-bold focus:outline-none cursor-pointer"
                 >
                   <option value="all">Todas las Localidades</option>
                   {locations.map(loc => (
@@ -277,21 +292,21 @@ export default function HomeDirectoryView() {
               <button
                 type="button"
                 onClick={scrollToDirectory}
-                className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 sm:px-8 py-3 rounded-xl sm:rounded-full text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30 transition-transform active:scale-95 shrink-0"
+                className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black px-7 py-3.5 rounded-[1.5rem] text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30 transition-transform active:scale-95 shrink-0"
               >
                 <Search className="w-4 h-4 text-slate-950" />
                 <span>Buscar</span>
               </button>
             </div>
 
-            {/* Interactive Taxonomy Search Dropdown */}
+            {/* Interactive Taxonomy Autocomplete Dropdown */}
             {isSearchFocused && matchingTaxonomy.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-2xl p-3 z-50 animate-in fade-in space-y-2 max-h-72 overflow-y-auto text-left">
-                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                    Rubros & Subcategorías sugeridas:
+              <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-3xl shadow-2xl p-4 z-50 animate-in fade-in space-y-2 max-h-80 overflow-y-auto text-left border border-slate-100">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                  <span className="text-[11px] font-black text-slate-400 uppercase tracking-wider">
+                    Sugerencias de Rubros & Subcategorías:
                   </span>
-                  <span className="text-[10px] text-amber-600 font-bold">
+                  <span className="text-[11px] text-amber-600 font-bold">
                     {matchingTaxonomy.length} encontradas
                   </span>
                 </div>
@@ -302,18 +317,18 @@ export default function HomeDirectoryView() {
                       key={idx}
                       type="button"
                       onClick={() => handleSelectTaxonomyItem(item)}
-                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center justify-between text-xs text-slate-800 transition-colors group"
+                      className="w-full text-left px-3.5 py-2.5 rounded-2xl hover:bg-amber-50/60 flex items-center justify-between text-xs text-slate-800 transition-colors group"
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm">{item.emoji}</span>
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-base">{item.emoji}</span>
                         <div>
                           <span className="font-bold text-slate-900 group-hover:text-amber-600">{item.label}</span>
                           {item.parentName && (
-                            <span className="text-[10px] text-slate-400 ml-2">en {item.parentName}</span>
+                            <span className="text-[11px] text-slate-400 ml-2">en {item.parentName}</span>
                           )}
                         </div>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                      <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
                         {item.type === 'rubro' ? 'Rubro' : 'Subcategoría'}
                       </span>
                     </button>
@@ -323,15 +338,15 @@ export default function HomeDirectoryView() {
             )}
           </div>
 
-          {/* Popular Search Tags below Search Box (Matching reference template) */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs">
-            <span className="text-slate-400 font-medium">Búsquedas Populares:</span>
+          {/* Quick-Access Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
+            <span className="text-slate-400 font-medium">Accesos Rápidos:</span>
             {['Cabañas con Pileta', 'Pizzerías', 'Electricistas', 'Masa Madre', 'Pet Friendly', 'Turismo'].map((term, i) => (
               <button
                 key={i}
                 type="button"
                 onClick={() => { setSearchQuery(term); scrollToDirectory(); }}
-                className="px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 text-[11px] border border-white/10 transition-colors"
+                className="px-3 py-1 rounded-full bg-white/5 hover:bg-white/15 text-slate-200 text-xs font-medium border border-white/10 backdrop-blur-sm transition-all active:scale-95"
               >
                 {term}
               </button>
@@ -342,39 +357,39 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 2. METRICS & TRUST STRIP (Matching reference "15,0+M / Más de 700 mil / Más de 150 mil") */}
+      {/* 2. METRICS & TRUST PROOF STRIP */}
       {/* ======================================================== */}
-      <section className="bg-white border-b border-slate-200 py-6 px-4 sm:px-6 lg:px-8 shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <section className="relative -mt-6 z-20 max-w-6xl mx-auto px-4 sm:px-6 w-full">
+        <div className="bg-white rounded-[2rem] p-6 sm:p-7 shadow-xl shadow-slate-900/5 flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-100">
           
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 w-full md:w-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 w-full md:w-auto text-center sm:text-left">
             <div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">+350</div>
-              <p className="text-xs text-slate-500 font-semibold mt-0.5">Comercios & Prestadores</p>
+              <div className="text-3xl font-black text-slate-900 tracking-tight">+350</div>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">Comercios Registrados</p>
             </div>
 
             <div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">7 Ciudades</div>
+              <div className="text-3xl font-black text-slate-900 tracking-tight">7 Ciudades</div>
               <p className="text-xs text-slate-500 font-semibold mt-0.5">Corredor Serrano</p>
             </div>
 
             <div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">+15.000</div>
+              <div className="text-3xl font-black text-slate-900 tracking-tight">+15.000</div>
               <p className="text-xs text-slate-500 font-semibold mt-0.5">Consultas Mensuales</p>
             </div>
 
             <div>
-              <div className="text-2xl sm:text-3xl font-black text-emerald-600 tracking-tight">0% Comisión</div>
+              <div className="text-3xl font-black text-emerald-600 tracking-tight">0% Comisión</div>
               <p className="text-xs text-slate-500 font-semibold mt-0.5">Trato 100% Directo</p>
             </div>
           </div>
 
-          {/* Seal / Badge on right (Matching reference gold badge "Más de 150 mil...") */}
-          <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 px-4 py-2.5 rounded-2xl self-center md:self-auto">
-            <Award className="w-7 h-7 text-amber-600 shrink-0" />
+          {/* Sello de Calidad */}
+          <div className="flex items-center gap-3 bg-amber-500/10 px-5 py-3 rounded-2xl shrink-0">
+            <Award className="w-8 h-8 text-amber-600 shrink-0" />
             <div>
-              <span className="text-xs font-extrabold text-amber-950 block">Red Verificada 2026</span>
-              <span className="text-[11px] text-amber-800">Directorio Oficial Sierras Chicas</span>
+              <span className="text-xs font-black text-slate-900 block">Red Verificada 2026</span>
+              <span className="text-[11px] text-slate-600 font-medium">Directorio Oficial de las Sierras</span>
             </div>
           </div>
 
@@ -382,41 +397,41 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 3. VALUE PROPOSITION SPLIT SECTION (Matching reference "Obtén la mejor experiencia de anuncios...") */}
+      {/* 3. VALUE PROPOSITION SECTION (Bento Style) */}
       {/* ======================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          {/* Left Column: Visual Showcase */}
+          {/* Visual Showcase Card */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 aspect-[4/5] max-w-md mx-auto">
+            <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-slate-900 aspect-[4/5] max-w-md mx-auto group">
               <img
                 src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&auto=format&fit=crop&q=80"
                 alt="Comercio local en Sierras Chicas"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
               
-              {/* Floating Badge Card inside image */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/20 flex items-center gap-3.5">
+              {/* Floating Badge */}
+              <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl flex items-center gap-3.5">
                 <div className="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-xl shrink-0">
                   <Store className="w-6 h-6" />
                 </div>
                 <div>
                   <span className="text-xs font-black text-slate-900 block">Comercio 100% Local</span>
-                  <span className="text-[11px] text-slate-600">Impulsamos la economía de las familias del valle</span>
+                  <span className="text-[11px] text-slate-600">Impulsamos la economía regional del valle</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Value Prop Points */}
+          {/* Proposition Bullets */}
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
-              <span className="text-xs font-black text-amber-600 uppercase tracking-wider">
+              <span className="text-xs font-black text-amber-600 uppercase tracking-wider block">
                 ECOSISTEMA REGIONAL CONECTADO
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
                 Obtén la mejor experiencia comercial y de servicios con Sierras Chicas Digital.
               </h2>
             </div>
@@ -425,41 +440,47 @@ export default function HomeDirectoryView() {
               Diseñado exclusivamente para conectar vecinos y turistas con los comercios de barrio, artesanos, cabañas y profesionales del corredor.
             </p>
 
-            <ul className="space-y-3 text-xs sm:text-sm text-slate-700">
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>Trato y pedidos directos por WhatsApp</strong>: Hablá en tiempo real con el dueño del local sin intermediarios.</span>
+            <ul className="space-y-3.5 text-xs sm:text-sm text-slate-700">
+              <li className="flex items-start gap-3">
+                <div className="p-1 rounded-full bg-emerald-100 text-emerald-700 shrink-0 mt-0.5">
+                  <Check className="w-3.5 h-3.5" />
+                </div>
+                <span><strong>Trato y pedidos directos por WhatsApp</strong>: Hablá en tiempo real con el dueño del local sin intermediarios ni sobreprecios.</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <li className="flex items-start gap-3">
+                <div className="p-1 rounded-full bg-emerald-100 text-emerald-700 shrink-0 mt-0.5">
+                  <Check className="w-3.5 h-3.5" />
+                </div>
                 <span><strong>Filtros por localidad del valle</strong>: Localizá opciones exactas en Río Ceballos, Unquillo, Mendiolaza, Villa Allende y más.</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <li className="flex items-start gap-3">
+                <div className="p-1 rounded-full bg-emerald-100 text-emerald-700 shrink-0 mt-0.5">
+                  <Check className="w-3.5 h-3.5" />
+                </div>
                 <span><strong>Góndola y cartas actualizadas</strong>: Precios y stock sincronizados en vivo.</span>
               </li>
             </ul>
 
-            {/* 3 Metric Counters (Matching reference style) */}
+            {/* 3 Metric Pills */}
             <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200">
-              <div>
+              <div className="bg-slate-100/70 p-3.5 rounded-2xl text-center">
                 <div className="text-xl sm:text-2xl font-black text-slate-900">24/7</div>
-                <div className="text-[11px] text-slate-500 font-medium">Catálogo Online</div>
+                <div className="text-[11px] text-slate-500 font-semibold">Catálogo Online</div>
               </div>
-              <div>
+              <div className="bg-slate-100/70 p-3.5 rounded-2xl text-center">
                 <div className="text-xl sm:text-2xl font-black text-slate-900">100%</div>
-                <div className="text-[11px] text-slate-500 font-medium">Directo sin recargo</div>
+                <div className="text-[11px] text-slate-500 font-semibold">Sin Recargo</div>
               </div>
-              <div>
+              <div className="bg-slate-100/70 p-3.5 rounded-2xl text-center">
                 <div className="text-xl sm:text-2xl font-black text-slate-900">0%</div>
-                <div className="text-[11px] text-slate-500 font-medium">Comisión por venta</div>
+                <div className="text-[11px] text-slate-500 font-semibold">Comisiones</div>
               </div>
             </div>
 
-            <div className="pt-2 flex flex-wrap gap-3">
+            <div className="pt-2">
               <Link
                 to="/panel/perfil"
-                className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs sm:text-sm flex items-center gap-2 shadow-md transition-all active:scale-95"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs sm:text-sm shadow-xl shadow-slate-950/20 transition-all active:scale-95"
               >
                 <span>Sumar mi Comercio al Directorio</span>
                 <ArrowRight className="w-4 h-4 text-amber-400" />
@@ -472,17 +493,17 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 4. FEATURED LISTINGS SECTION (Matching reference "Anuncios destacados") */}
+      {/* 4. FEATURED LISTINGS SECTION (4-Column Modern Cards) */}
       {/* ======================================================== */}
-      <section ref={directorySectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6 w-full">
+      <section ref={directorySectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-7 w-full">
         
-        {/* Section Header with Tabs & View Switcher */}
+        {/* Header with Mode Filter & Switcher */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
           <div>
             <span className="text-xs font-black text-amber-600 uppercase tracking-wider block">
               CATÁLOGO REGIONAL
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Anuncios & Comercios Destacados
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -491,13 +512,13 @@ export default function HomeDirectoryView() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            {/* Filter Pills */}
-            <div className="flex items-center gap-1 bg-slate-200/70 p-1 rounded-xl overflow-x-auto no-scrollbar">
+            {/* Mode Pills */}
+            <div className="flex items-center gap-1 bg-slate-200/80 p-1.5 rounded-2xl overflow-x-auto no-scrollbar">
               <button
                 type="button"
                 onClick={() => { setFilterMode('all'); setSelectedCategory('all'); setSelectedSubcategory('all'); }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  filterMode === 'all' && selectedCategory === 'all' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  filterMode === 'all' && selectedCategory === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Todos
@@ -505,8 +526,8 @@ export default function HomeDirectoryView() {
               <button
                 type="button"
                 onClick={() => setFilterMode('tienda')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  filterMode === 'tienda' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  filterMode === 'tienda' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 🛍️ Tiendas
@@ -514,8 +535,8 @@ export default function HomeDirectoryView() {
               <button
                 type="button"
                 onClick={() => setFilterMode('servicios')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  filterMode === 'servicios' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  filterMode === 'servicios' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 🔧 Servicios
@@ -523,8 +544,8 @@ export default function HomeDirectoryView() {
               <button
                 type="button"
                 onClick={() => setFilterMode('aviso')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  filterMode === 'aviso' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  filterMode === 'aviso' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 📢 Avisos
@@ -532,12 +553,12 @@ export default function HomeDirectoryView() {
             </div>
 
             {/* Grid / List Switcher */}
-            <div className="flex items-center gap-1 bg-slate-200/70 p-1 rounded-xl">
+            <div className="flex items-center gap-1 bg-slate-200/80 p-1.5 rounded-2xl">
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-lg transition-colors ${
-                  viewMode === 'grid' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                className={`p-1.5 rounded-xl transition-colors ${
+                  viewMode === 'grid' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
                 }`}
                 title="Vista Cuadrícula"
               >
@@ -546,8 +567,8 @@ export default function HomeDirectoryView() {
               <button
                 type="button"
                 onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-lg transition-colors ${
-                  viewMode === 'list' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                className={`p-1.5 rounded-xl transition-colors ${
+                  viewMode === 'list' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
                 }`}
                 title="Vista Lista"
               >
@@ -557,26 +578,26 @@ export default function HomeDirectoryView() {
           </div>
         </div>
 
-        {/* Selected Category / Subcategory Active Pills */}
+        {/* Selected Filter Tags */}
         {(selectedCategory !== 'all' || selectedSubcategory !== 'all' || selectedLocation !== 'all') && (
-          <div className="flex flex-wrap items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-2xl animate-in fade-in">
-            <span className="text-xs font-bold text-amber-900">Filtros activos:</span>
+          <div className="flex flex-wrap items-center gap-2 p-3.5 bg-amber-50 rounded-2xl animate-in fade-in">
+            <span className="text-xs font-bold text-amber-900">Filtros aplicados:</span>
             {selectedCategory !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-xs font-semibold text-slate-800 border border-slate-200">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white text-xs font-bold text-slate-800 shadow-xs">
                 Rubro: {categories.find(c => c.slug === selectedCategory)?.name}
-                <button type="button" onClick={() => setSelectedCategory('all')} className="hover:text-rose-600">×</button>
+                <button type="button" onClick={() => setSelectedCategory('all')} className="hover:text-rose-600 ml-1">×</button>
               </span>
             )}
             {selectedSubcategory !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-xs font-semibold text-slate-800 border border-slate-200">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white text-xs font-bold text-slate-800 shadow-xs">
                 Subcategoría: {selectedSubcategory}
-                <button type="button" onClick={() => setSelectedSubcategory('all')} className="hover:text-rose-600">×</button>
+                <button type="button" onClick={() => setSelectedSubcategory('all')} className="hover:text-rose-600 ml-1">×</button>
               </span>
             )}
             {selectedLocation !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-xs font-semibold text-slate-800 border border-slate-200">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white text-xs font-bold text-slate-800 shadow-xs">
                 Localidad: {locations.find(l => l.slug === selectedLocation)?.name}
-                <button type="button" onClick={() => setSelectedLocation('all')} className="hover:text-rose-600">×</button>
+                <button type="button" onClick={() => setSelectedLocation('all')} className="hover:text-rose-600 ml-1">×</button>
               </span>
             )}
             <button
@@ -589,9 +610,9 @@ export default function HomeDirectoryView() {
           </div>
         )}
 
-        {/* Listings Render */}
+        {/* Listings Content */}
         {filteredBusinesses.length === 0 ? (
-          <div className="py-16 text-center bg-white rounded-3xl border border-slate-200 p-8 space-y-3 shadow-sm">
+          <div className="py-16 text-center bg-white rounded-3xl p-8 space-y-3 shadow-sm border border-slate-100">
             <Store className="w-12 h-12 text-slate-300 mx-auto" />
             <h4 className="font-extrabold text-base text-slate-900">No se encontraron comercios</h4>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
@@ -606,8 +627,8 @@ export default function HomeDirectoryView() {
             </button>
           </div>
         ) : viewMode === 'grid' ? (
-          /* 4-Column Responsive Grid (Matching reference 4-card layout) */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          /* 4-Column Responsive Grid */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredBusinesses.map(biz => {
               const isFav = favorites.includes(biz.id);
               const isNotice = biz.businessMode === 'aviso' || biz.businessMode === 'catalogo';
@@ -618,24 +639,24 @@ export default function HomeDirectoryView() {
               return (
                 <div
                   key={biz.id}
-                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border border-slate-100/80"
                 >
                   <div>
                     {/* Cover & Badges */}
-                    <div className="relative h-40 w-full overflow-hidden bg-slate-100">
+                    <div className="relative h-44 w-full overflow-hidden bg-slate-900">
                       <img
                         src={biz.coverUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'}
                         alt={biz.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
 
                       {/* Favorite Button */}
                       <button
                         type="button"
                         onClick={() => toggleFavorite(biz.id)}
-                        className={`absolute top-2.5 right-2.5 w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center transition-all ${
-                          isFav ? 'bg-rose-500 text-white' : 'bg-black/30 text-white hover:bg-black/50'
+                        className={`absolute top-3 right-3 w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center transition-all ${
+                          isFav ? 'bg-rose-500 text-white' : 'bg-black/40 text-white hover:bg-black/60'
                         }`}
                         title="Guardar favorito"
                       >
@@ -643,8 +664,8 @@ export default function HomeDirectoryView() {
                       </button>
 
                       {/* Mode Badge */}
-                      <div className="absolute top-2.5 left-2.5">
-                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider backdrop-blur-md text-white ${
+                      <div className="absolute top-3 left-3">
+                        <span className={`px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider backdrop-blur-md text-white ${
                           isNotice ? 'bg-indigo-700/90' : isService ? 'bg-amber-600/90' : 'bg-teal-700/90'
                         }`}>
                           {isNotice ? 'Aviso' : isService ? 'Servicio' : 'Tienda'}
@@ -652,27 +673,27 @@ export default function HomeDirectoryView() {
                       </div>
 
                       {/* Location in Cover */}
-                      <div className="absolute bottom-2.5 left-2.5 text-white flex items-center gap-1 text-[11px] font-semibold drop-shadow">
-                        <MapPin className="w-3 h-3 text-emerald-400" />
+                      <div className="absolute bottom-3 left-3 text-white flex items-center gap-1 text-xs font-semibold drop-shadow">
+                        <MapPin className="w-3.5 h-3.5 text-emerald-400" />
                         <span>{biz.locationName || biz.location}</span>
                       </div>
                     </div>
 
                     {/* Card Body */}
-                    <div className="p-4 space-y-2">
-                      <div className="flex items-center justify-between text-[11px]">
-                        <span className="font-bold text-amber-700">{biz.categoryName || biz.category}</span>
+                    <div className="p-5 space-y-2.5">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-black text-amber-700">{biz.categoryName || biz.category}</span>
                         <div className="flex items-center gap-1 text-amber-500 font-bold">
-                          <Star className="w-3 h-3 fill-amber-500" />
+                          <Star className="w-3.5 h-3.5 fill-amber-500" />
                           <span>{biz.rating || 5.0}</span>
                         </div>
                       </div>
 
-                      <h3 className="font-extrabold text-sm text-slate-900 leading-snug group-hover:text-amber-600 transition-colors line-clamp-1">
+                      <h3 className="font-extrabold text-base text-slate-900 leading-snug group-hover:text-amber-600 transition-colors line-clamp-1">
                         {biz.name}
                       </h3>
 
-                      <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                         {biz.tagline || biz.description}
                       </p>
 
@@ -682,7 +703,7 @@ export default function HomeDirectoryView() {
                           {biz.tags.slice(0, 2).map((tag, idx) => (
                             <span
                               key={idx}
-                              className="px-1.5 py-0.5 rounded bg-slate-100 text-[9px] font-bold text-slate-600 border border-slate-200"
+                              className="px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-bold text-slate-600"
                             >
                               {tag}
                             </span>
@@ -693,10 +714,10 @@ export default function HomeDirectoryView() {
                   </div>
 
                   {/* Footer Action */}
-                  <div className="p-4 pt-0">
+                  <div className="p-5 pt-0">
                     <Link
                       to={targetUrl}
-                      className="w-full py-2 rounded-xl bg-slate-100 hover:bg-amber-500 hover:text-slate-950 text-slate-800 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all group-hover:bg-amber-500 group-hover:text-slate-950"
+                      className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-amber-500 hover:text-slate-950 text-slate-800 text-xs font-black flex items-center justify-center gap-1.5 transition-all group-hover:bg-amber-500 group-hover:text-slate-950"
                     >
                       <span>{ctaLabel}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -719,10 +740,10 @@ export default function HomeDirectoryView() {
               return (
                 <div
                   key={biz.id}
-                  className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-slate-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="bg-white p-4 sm:p-5 rounded-3xl shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-slate-100/80"
                 >
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-900 shrink-0">
                       <img
                         src={biz.coverUrl || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'}
                         alt={biz.name}
@@ -737,15 +758,15 @@ export default function HomeDirectoryView() {
                         }`}>
                           {isNotice ? 'Aviso' : isService ? 'Servicio' : 'Tienda'}
                         </span>
-                        <span className="text-xs font-semibold text-amber-700">{biz.categoryName || biz.category}</span>
+                        <span className="text-xs font-bold text-amber-700">{biz.categoryName || biz.category}</span>
                         <span className="text-slate-300 text-xs">·</span>
-                        <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <span className="text-xs text-slate-500 flex items-center gap-1 font-medium">
                           <MapPin className="w-3 h-3 text-emerald-600" />
                           {biz.locationName || biz.location}
                         </span>
                       </div>
 
-                      <h3 className="font-extrabold text-sm sm:text-base text-slate-900">
+                      <h3 className="font-black text-sm sm:text-base text-slate-900">
                         {biz.name}
                       </h3>
 
@@ -763,7 +784,7 @@ export default function HomeDirectoryView() {
 
                     <Link
                       to={targetUrl}
-                      className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all"
+                      className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black flex items-center gap-1.5 shadow-sm transition-all"
                     >
                       <span>{ctaLabel}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -777,39 +798,38 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 5. MULTI-COLUMN CATEGORY & SUBCATEGORY DIRECTORY */}
-      {/* (Matching reference "Elige la categoría del producto que buscas" with 2-column cards & subcategory rows with `>`) */}
+      {/* 5. MULTI-COLUMN CATEGORY DIRECTORY (2-Column Bento Cards) */}
       {/* ======================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 w-full">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-8 w-full">
         <div className="text-center space-y-2 max-w-2xl mx-auto">
-          <span className="text-xs font-black text-amber-600 uppercase tracking-wider">
+          <span className="text-xs font-black text-amber-600 uppercase tracking-wider block">
             EXPLORA LA GUÍA COMERCIAL COMPLETA
           </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
             Elegí la categoría del producto o servicio que buscás
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-            Accedé directamente a las subcategorías especializadas para encontrar exactamente el prestador que necesitás en tu localidad.
+            Accedé directamente a las subcategorías especializadas para encontrar el prestador que necesitás en tu localidad.
           </p>
         </div>
 
-        {/* 2-Column Grid of Categories with Subcategory lists */}
+        {/* 2-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {categories.map(cat => (
             <div
               key={cat.id}
-              className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-6"
+              className="bg-white rounded-[2rem] p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col sm:flex-row gap-6 border border-slate-100"
             >
-              {/* Category Main Brand Box */}
+              {/* Category Header */}
               <div className="sm:w-44 flex flex-col justify-between space-y-4 pb-4 sm:pb-0 sm:pr-4 border-b sm:border-b-0 sm:border-r border-slate-100">
                 <div className="space-y-2">
-                  <div className="w-14 h-14 rounded-2xl bg-amber-50 text-2xl flex items-center justify-center border border-amber-100 shadow-xs">
+                  <div className="w-14 h-14 rounded-2xl bg-amber-500/10 text-2xl flex items-center justify-center shadow-xs">
                     {cat.emoji || '📁'}
                   </div>
-                  <h3 className="font-extrabold text-base text-slate-900 leading-tight">
+                  <h3 className="font-black text-base text-slate-900 leading-tight">
                     {cat.name}
                   </h3>
-                  <span className="text-[11px] font-semibold text-slate-400 block">
+                  <span className="text-[11px] font-bold text-slate-400 block">
                     {(cat.subcategories || []).length} especialidades
                   </span>
                 </div>
@@ -817,21 +837,21 @@ export default function HomeDirectoryView() {
                 <button
                   type="button"
                   onClick={() => handleCategoryCardClick(cat.slug)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-amber-500 hover:text-slate-950 text-slate-800 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-colors"
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-amber-500 hover:text-slate-950 text-slate-800 text-xs font-black flex items-center justify-center gap-1.5 transition-colors"
                 >
                   <span>Ver Rubro</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              {/* Subcategories Vertical List with Chevron Right arrows (Matching reference layout) */}
+              {/* Subcategories List */}
               <div className="flex-1 space-y-1 divide-y divide-slate-100">
                 {(cat.subcategories || []).map((sub, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => handleSubcategoryClick(cat.slug, sub)}
-                    className="w-full text-left py-2.5 px-2 rounded-lg hover:bg-slate-50 flex items-center justify-between text-xs text-slate-700 hover:text-slate-950 font-medium transition-colors group"
+                    className="w-full text-left py-2.5 px-2 rounded-xl hover:bg-slate-50 flex items-center justify-between text-xs text-slate-700 hover:text-slate-950 font-semibold transition-colors group"
                   >
                     <span className="group-hover:translate-x-1 transition-transform">{sub}</span>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-amber-600 transition-colors" />
@@ -844,15 +864,15 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 6. PUBLIC SAAS PLANS & MERCADO PAGO SECTION (Preserved as requested) */}
+      {/* 6. PUBLIC SAAS PLANS & MERCADO PAGO */}
       {/* ======================================================== */}
-      <section id="planes-saas" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 w-full border-t border-slate-200">
+      <section id="planes-saas" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8 w-full border-t border-slate-200">
         <div className="text-center space-y-2 max-w-2xl mx-auto">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-extrabold">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-black">
             <Zap className="w-3.5 h-3.5 text-indigo-600" />
             <span>Suscripción Mensual SaaS para Comercios</span>
           </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
             Planes Comerciales para el Valle de Sierras Chicas
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
@@ -864,21 +884,21 @@ export default function HomeDirectoryView() {
           {plans.map(plan => (
             <div
               key={plan.id}
-              className={`p-6 sm:p-7 rounded-3xl border flex flex-col justify-between space-y-5 transition-all shadow-sm ${
+              className={`p-7 rounded-[2rem] flex flex-col justify-between space-y-5 transition-all shadow-sm ${
                 plan.isFeatured
-                  ? 'bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 text-white border-indigo-500 ring-2 ring-indigo-500/40 shadow-xl'
-                  : 'bg-white text-slate-900 border-slate-200'
+                  ? 'bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-950 text-white shadow-2xl shadow-indigo-950/40 ring-2 ring-indigo-500/40'
+                  : 'bg-white text-slate-900 border border-slate-100'
               }`}
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${
                     plan.isFeatured ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
                   }`}>
                     {plan.slug}
                   </span>
                   {plan.isFeatured && (
-                    <span className="px-2 py-0.5 rounded-full bg-amber-400 text-amber-950 text-[10px] font-black uppercase">
+                    <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-amber-950 text-[10px] font-black uppercase">
                       Más Popular
                     </span>
                   )}
@@ -915,7 +935,7 @@ export default function HomeDirectoryView() {
                 href={plan.mpCheckoutUrl || 'https://mpago.la/sierras-chicas-saas'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`w-full py-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
+                className={`w-full py-3.5 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
                   plan.isFeatured
                     ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-950/40'
                     : 'bg-slate-900 hover:bg-slate-800 text-white'
@@ -931,12 +951,11 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 7. BOTTOM CALL-TO-ACTION NEWSLETTER / COMMERCE BANNER */}
-      {/* (Matching reference bottom banner: "Regístrate para recibir las últimas actualizaciones y noticias") */}
+      {/* 7. PRE-FOOTER NEWSLETTER & REGISTRATION BANNER */}
       {/* ======================================================== */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-14 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center space-y-5">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
             Registrate para recibir las últimas actualizaciones y novedades del valle.
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
@@ -950,11 +969,11 @@ export default function HomeDirectoryView() {
               value={newsletterEmail}
               onChange={e => setNewsletterEmail(e.target.value)}
               placeholder="Ingresá tu correo electrónico..."
-              className="flex-1 px-4 py-3 rounded-xl bg-white text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none font-medium"
+              className="flex-1 px-4 py-3.5 rounded-2xl bg-white text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none font-semibold"
             />
             <button
               type="submit"
-              className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95 shrink-0"
+              className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-7 py-3.5 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95 shrink-0"
             >
               <span>{newsletterSuccess ? '¡Registrado!' : 'Suscribirme'}</span>
               <ArrowRight className="w-4 h-4" />
