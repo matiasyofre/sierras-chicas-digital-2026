@@ -98,17 +98,13 @@ export default function Hero9Section({
             videoLoaded ? 'opacity-85' : 'opacity-0'
           }`}
         >
-          {/* Scenic drone mountain slope & valley footage */}
+          {/* Real drone footage of Sierras Chicas */}
+          <source 
+            src="/videos/hero-drone-sierras-chicas.mp4" 
+            type="video/mp4" 
+          />
           <source 
             src="https://assets.mixkit.co/videos/preview/mixkit-drone-flying-over-a-green-mountain-forest-42360-large.mp4" 
-            type="video/mp4" 
-          />
-          <source 
-            src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-green-mountain-slopes-42358-large.mp4" 
-            type="video/mp4" 
-          />
-          <source 
-            src="https://assets.mixkit.co/videos/preview/mixkit-flying-over-a-green-mountain-valley-41314-large.mp4" 
             type="video/mp4" 
           />
         </video>
