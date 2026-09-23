@@ -160,8 +160,8 @@ export default function Hero9Section({
       {/* ======================================================== */}
       <div className="relative z-20 max-w-4xl mx-auto space-y-7 text-center">
         
-        {/* Live Regional Beacon Pill */}
-        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 hover:bg-white/15 text-emerald-300 border border-emerald-500/30 text-xs font-black backdrop-blur-md transition-all shadow-inner hf-badge-glow">
+        {/* Live Regional Beacon Pill with Glassmorphism */}
+        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-slate-900/60 hover:bg-slate-900/70 text-emerald-300 border border-emerald-400/40 text-xs font-black backdrop-blur-xl transition-all shadow-xl hf-badge-glow">
           <span className="flex h-2.5 w-2.5 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -169,8 +169,8 @@ export default function Hero9Section({
           <span className="tracking-wider uppercase">🌿 PORTAL & GUÍA REGIONAL DE SIERRAS CHICAS 2026</span>
         </div>
 
-        {/* High-Impact Headline with React Bits Blur Text Reveal */}
-        <div className="space-y-4">
+        {/* High-Impact Headline with Glassmorphic Backdrop Card */}
+        <div className="space-y-4 bg-slate-950/45 backdrop-blur-md border border-white/20 p-6 sm:p-8 rounded-[2rem] shadow-2xl shadow-black/60 max-w-3xl mx-auto ring-1 ring-white/10">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-white">
             <BlurTextReveal 
               text="Descubrí el latido de"
@@ -187,7 +187,7 @@ export default function Hero9Section({
             />
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-200 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow">
+          <p className="text-sm sm:text-base md:text-lg text-slate-100 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow">
             Conectamos a vecinos y turistas con comercios de cercanía, cabañas, gastronomía y servicios matriculados en todo el corredor serrano.
           </p>
         </div>
