@@ -184,3 +184,26 @@
 .hf-shimmer-btn:hover::after {
   animation: hfShimmerSweep 1.2s ease-in-out;
 }
+
+/* React Bits Pro Hero 9 Blur Text Reveal Animation */
+@keyframes blurReveal {
+  0% {
+    filter: blur(16px);
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  60% {
+    filter: blur(4px);
+    opacity: 0.85;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-blur-reveal {
+  animation: blurReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

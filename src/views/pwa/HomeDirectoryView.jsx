@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
+import Hero9Section from '../../components/layout/Hero9Section';
 import { 
   Search, 
   MapPin, 
@@ -247,215 +248,22 @@ export default function HomeDirectoryView() {
     <div className="flex-1 flex flex-col w-full pb-24 md:pb-16 animate-in fade-in bg-[#f8fafc] text-slate-900 selection:bg-amber-500 selection:text-slate-950 font-sans">
       
       {/* ======================================================== */}
-      {/* 1. HERO SECTION WITH HYPERFRAMES KINETIC FLOATING LAYER */}
+      {/* 1. HERO 9 SECTION (REACT BITS PRO - SIERRAS CHICAS)     */}
       {/* ======================================================== */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#050811] via-[#091122] to-[#060a12] text-white pt-16 sm:pt-24 pb-28 px-4 sm:px-6 lg:px-8">
-        
-        {/* Dynamic Multi-Layer Ambient Lights & Topography Mesh */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[46rem] h-[46rem] rounded-full bg-amber-500/15 blur-[150px] hf-glow-pulse"></div>
-          <div className="absolute top-1/3 -right-24 w-[30rem] h-[30rem] rounded-full bg-teal-500/15 blur-[130px]"></div>
-          <div className="absolute bottom-0 -left-20 w-96 h-96 rounded-full bg-indigo-500/15 blur-[110px]"></div>
-          
-          {/* Subtle Grid Matrix */}
-          <div 
-            className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-            style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}
-          ></div>
-
-          {/* Mountain Topography Waves */}
-          <svg 
-            className="absolute bottom-0 left-0 right-0 w-full h-36 sm:h-48 opacity-20 text-teal-400 pointer-events-none" 
-            viewBox="0 0 1440 320" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path 
-              fill="currentColor" 
-              d="M0,224L48,208C96,192,192,160,288,165.3C384,171,480,213,576,218.7C672,224,768,192,864,165.3C960,139,1056,117,1152,122.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            />
-          </svg>
-        </div>
-
-        {/* HyperFrames Floating 3D Motion Micro-Widgets (Hidden on very small screens, responsive on desktop) */}
-        <div className="hidden lg:block absolute inset-0 pointer-events-none max-w-7xl mx-auto z-10">
-          
-          {/* Floating Widget 1: Direct WhatsApp Chat */}
-          <div className="absolute top-24 left-6 hf-float-slow bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-3xl shadow-2xl max-w-xs text-left">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                <MessageCircle className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5 text-xs font-black text-white">
-                  <span>Trato Directo 1 a 1</span>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                </div>
-                <p className="text-[11px] text-slate-300 font-medium">Sin comisiones ni intermediarios</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Floating Widget 2: ERSeP Verified Badge */}
-          <div className="absolute top-36 right-8 hf-float-reverse bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-3xl shadow-2xl max-w-xs text-left">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/30">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-black text-white">Prestadores Verificados</div>
-                <div className="flex items-center gap-1 text-[11px] text-amber-300 font-bold">
-                  <Star className="w-3 h-3 fill-amber-300" />
-                  <span>4.9 / 5.0 en Sierras Chicas</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-20 max-w-4xl mx-auto space-y-7 text-center">
-          
-          {/* Live Regional Beacon Pill */}
-          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 hover:bg-white/15 text-amber-300 border border-white/15 text-xs font-black backdrop-blur-md transition-all shadow-inner hf-badge-glow">
-            <span className="flex h-2.5 w-2.5 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-            </span>
-            <span className="tracking-wider">PORTAL & GUÍA COMERCIAL DE SIERRAS CHICAS 2026</span>
-          </div>
-
-          {/* High-Impact Editorial Heading */}
-          <div className="space-y-4">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-white">
-              Sierras Chicas Digital puede <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-emerald-300">
-                ayudarte a tomar una decisión inteligente.
-              </span>
-            </h1>
-            <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium">
-              Conectamos a vecinos y turistas con los comercios de cercanía, cabañas, artesanos y servicios matriculados en todo el corredor serrano.
-            </p>
-          </div>
-
-          {/* Dual Search Floating Capsule with Shimmer Accent */}
-          <div ref={searchContainerRef} className="relative max-w-3xl mx-auto pt-2">
-            <div className="bg-white/95 backdrop-blur-2xl rounded-[2.2rem] p-2.5 shadow-2xl shadow-black/70 flex flex-col sm:flex-row items-center gap-2 border border-white/60 ring-4 ring-white/10 transition-all focus-within:ring-amber-400/50">
-              
-              {/* Search Query Field */}
-              <div className="flex items-center gap-3 w-full sm:flex-1 px-4 py-2">
-                <Search className="w-5 h-5 text-slate-400 shrink-0" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onChange={e => {
-                    setSearchQuery(e.target.value);
-                    setIsSearchFocused(true);
-                  }}
-                  placeholder="¿Qué estás buscando? (Ej: Panadería, Electricista, Cabaña...)"
-                  className="w-full bg-transparent text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none font-bold"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery('')}
-                    className="text-slate-400 hover:text-slate-600 p-1"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-
-              {/* Divider */}
-              <div className="hidden sm:block w-px h-8 bg-slate-200"></div>
-
-              {/* Locality Field */}
-              <div className="flex items-center gap-2 w-full sm:w-60 px-4 py-2">
-                <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
-                <select
-                  value={selectedLocation}
-                  onChange={e => setSelectedLocation(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm text-slate-800 font-bold focus:outline-none cursor-pointer"
-                >
-                  <option value="all">Todas las Localidades</option>
-                  {locations.map(loc => (
-                    <option key={loc.id} value={loc.slug}>{loc.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Action Button */}
-              <button
-                type="button"
-                onClick={scrollToDirectory}
-                className="w-full sm:w-auto bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300 hover:from-amber-400 hover:to-amber-200 text-slate-950 font-black px-8 py-3.5 rounded-[1.6rem] text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/40 transition-all duration-200 active:scale-95 shrink-0 hf-shimmer-btn"
-              >
-                <Search className="w-4 h-4 text-slate-950" />
-                <span>Explorar</span>
-              </button>
-            </div>
-
-            {/* Interactive Taxonomy Autocomplete Dropdown */}
-            {isSearchFocused && matchingTaxonomy.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-3xl shadow-2xl p-4 z-50 animate-in fade-in space-y-2 max-h-80 overflow-y-auto text-left border border-slate-100 ring-1 ring-slate-900/5">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                  <span className="text-[11px] font-black text-slate-400 uppercase tracking-wider">
-                    Sugerencias de Rubros & Subcategorías:
-                  </span>
-                  <span className="text-[11px] text-amber-600 font-bold">
-                    {matchingTaxonomy.length} encontradas
-                  </span>
-                </div>
-
-                <div className="space-y-1">
-                  {matchingTaxonomy.map((item, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleSelectTaxonomyItem(item)}
-                      className="w-full text-left px-3.5 py-2.5 rounded-2xl hover:bg-amber-50/70 flex items-center justify-between text-xs text-slate-800 transition-colors group"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span className="text-base">{item.emoji}</span>
-                        <div>
-                          <span className="font-bold text-slate-900 group-hover:text-amber-600">{item.label}</span>
-                          {item.parentName && (
-                            <span className="text-[11px] text-slate-400 ml-2">en {item.parentName}</span>
-                          )}
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
-                        {item.type === 'rubro' ? 'Rubro' : 'Subcategoría'}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Quick-Access Search Tags */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
-            <span className="text-slate-400 font-semibold flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5 text-amber-400" />
-              <span>Populares:</span>
-            </span>
-            {['Cabañas con Pileta', 'Panaderías', 'Electricistas ERSeP', 'Pizzerías', 'Pet Friendly'].map((term, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => { setSearchQuery(term); scrollToDirectory(); }}
-                className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 text-xs font-semibold border border-white/10 backdrop-blur-sm transition-all active:scale-95"
-              >
-                {term}
-              </button>
-            ))}
-          </div>
-
-        </div>
-      </section>
+      <Hero9Section
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        selectedLocation={selectedLocation}
+        setSelectedLocation={setSelectedLocation}
+        locations={locations}
+        scrollToDirectory={scrollToDirectory}
+        matchingTaxonomy={matchingTaxonomy}
+        isSearchFocused={isSearchFocused}
+        setIsSearchFocused={setIsSearchFocused}
+        handleSelectTaxonomyItem={handleSelectTaxonomyItem}
+        searchContainerRef={searchContainerRef}
+        onCategoryQuickSelect={handleCategoryCardClick}
+      />
 
       {/* ======================================================== */}
       {/* 2. NOVELTY COMPONENT: HYPERFRAMES LIVE FLASH TICKER */}
