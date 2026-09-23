@@ -71,21 +71,13 @@ export default function Hero9Section({
   ];
 
   return (
-    <section className="relative min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-center items-center overflow-hidden bg-slate-950 text-white pt-16 sm:pt-20 pb-24 px-4 sm:px-6 lg:px-8">
+    <section className="relative min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-center items-center overflow-hidden text-white pt-16 sm:pt-20 pb-24 px-4 sm:px-6 lg:px-8">
       
       {/* ======================================================== */}
       {/* 1. FULL-SCREEN VIDEO / CINEMATIC BACKGROUND (HERO 9)     */}
       {/* ======================================================== */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950">
-        {/* Background Image / Poster with Ken-Burns slow zoom effect */}
-        <img
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80"
-          alt="Paisaje Sierras Chicas"
-          className="absolute inset-0 w-full h-full object-cover object-center scale-105 transition-transform duration-10000 ease-out animate-pulse"
-          style={{ animationDuration: '8s' }}
-        />
-
-        {/* Background Video Layer */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Background Video Layer - 100% Brightness & Visible */}
         <video
           ref={videoRef}
           autoPlay
@@ -93,44 +85,14 @@ export default function Hero9Section({
           muted
           playsInline
           preload="auto"
-          onLoadedData={() => setVideoLoaded(true)}
-          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
-            videoLoaded ? 'opacity-85' : 'opacity-0'
-          }`}
+          className="w-full h-full object-cover object-center"
         >
           {/* Real drone footage of Sierras Chicas */}
           <source 
             src="/videos/hero-drone-sierras-chicas.mp4" 
             type="video/mp4" 
           />
-          <source 
-            src="https://assets.mixkit.co/videos/preview/mixkit-drone-flying-over-a-green-mountain-forest-42360-large.mp4" 
-            type="video/mp4" 
-          />
         </video>
-
-        {/* Cinematic Translucent Dark Overlay (Balanced for high text readability & vivid background) */}
-        <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-[1px] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-slate-950/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950 pointer-events-none" />
-        
-        {/* Ambient Warm & Emerald Glow Orbs */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[40rem] h-[40rem] rounded-full bg-emerald-400/20 blur-[140px] pointer-events-none hf-glow-pulse" />
-        <div className="absolute top-1/4 -right-16 w-96 h-96 rounded-full bg-amber-400/20 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-10 -left-16 w-80 h-80 rounded-full bg-teal-400/20 blur-[100px] pointer-events-none" />
-
-        {/* Mountain Topography Waves Accent */}
-        <svg 
-          className="absolute bottom-0 left-0 right-0 w-full h-24 sm:h-36 opacity-30 text-emerald-400 pointer-events-none" 
-          viewBox="0 0 1440 320" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path 
-            fill="currentColor" 
-            d="M0,224L48,208C96,192,192,160,288,165.3C384,171,480,213,576,218.7C672,224,768,192,864,165.3C960,139,1056,117,1152,122.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-          />
-        </svg>
 
         {/* Video Controls Toggle (Bottom Right Corner) */}
         <div className="absolute bottom-4 right-4 z-30 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-slate-200 text-xs shadow-xl">
