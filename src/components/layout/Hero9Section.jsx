@@ -76,21 +76,29 @@ export default function Hero9Section({
       {/* ======================================================== */}
       {/* 1. FULL-SCREEN VIDEO / CINEMATIC BACKGROUND (HERO 9)     */}
       {/* ======================================================== */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Background Video */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950">
+        {/* Background Image / Poster with Ken-Burns slow zoom effect */}
+        <img
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80"
+          alt="Paisaje Sierras Chicas"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105 transition-transform duration-10000 ease-out animate-pulse"
+          style={{ animationDuration: '8s' }}
+        />
+
+        {/* Background Video Layer */}
         <video
           ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
           onLoadedData={() => setVideoLoaded(true)}
-          poster="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop"
-          className={`w-full h-full object-cover object-center transition-opacity duration-1000 scale-105 ${
-            videoLoaded ? 'opacity-40' : 'opacity-25'
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
+            videoLoaded ? 'opacity-85' : 'opacity-0'
           }`}
         >
-          {/* Scenic aerial mountain landscape (Sierras Chicas mood) */}
+          {/* Scenic drone mountain slope & valley footage */}
           <source 
             src="https://assets.mixkit.co/videos/preview/mixkit-drone-flying-over-a-green-mountain-forest-42360-large.mp4" 
             type="video/mp4" 
@@ -99,20 +107,25 @@ export default function Hero9Section({
             src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-green-mountain-slopes-42358-large.mp4" 
             type="video/mp4" 
           />
+          <source 
+            src="https://assets.mixkit.co/videos/preview/mixkit-flying-over-a-green-mountain-valley-41314-large.mp4" 
+            type="video/mp4" 
+          />
         </video>
 
-        {/* Multi-tier Gradient & Glass Overlays for High Contrast Readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/40 to-slate-950/90 pointer-events-none" />
+        {/* Cinematic Translucent Dark Overlay (Balanced for high text readability & vivid background) */}
+        <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-[1px] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-slate-950/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950 pointer-events-none" />
         
-        {/* Ambient Glow Orbs */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[48rem] h-[48rem] rounded-full bg-emerald-500/10 blur-[160px] pointer-events-none hf-glow-pulse" />
-        <div className="absolute top-1/3 -right-20 w-[32rem] h-[32rem] rounded-full bg-amber-500/15 blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-10 -left-20 w-96 h-96 rounded-full bg-teal-500/15 blur-[120px] pointer-events-none" />
+        {/* Ambient Warm & Emerald Glow Orbs */}
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[40rem] h-[40rem] rounded-full bg-emerald-400/20 blur-[140px] pointer-events-none hf-glow-pulse" />
+        <div className="absolute top-1/4 -right-16 w-96 h-96 rounded-full bg-amber-400/20 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-10 -left-16 w-80 h-80 rounded-full bg-teal-400/20 blur-[100px] pointer-events-none" />
 
-        {/* Subtle Mountain Topography SVG */}
+        {/* Mountain Topography Waves Accent */}
         <svg 
-          className="absolute bottom-0 left-0 right-0 w-full h-28 sm:h-44 opacity-25 text-emerald-500 pointer-events-none" 
+          className="absolute bottom-0 left-0 right-0 w-full h-24 sm:h-36 opacity-30 text-emerald-400 pointer-events-none" 
           viewBox="0 0 1440 320" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +137,7 @@ export default function Hero9Section({
         </svg>
 
         {/* Video Controls Toggle (Bottom Right Corner) */}
-        <div className="absolute bottom-4 right-4 z-30 flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-slate-300 text-xs shadow-lg">
+        <div className="absolute bottom-4 right-4 z-30 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-slate-200 text-xs shadow-xl">
           <button
             type="button"
             onClick={togglePlay}
