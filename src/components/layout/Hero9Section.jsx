@@ -3,17 +3,11 @@ import {
   Search, 
   MapPin, 
   Sparkles, 
-  ShieldCheck, 
-  MessageCircle, 
-  Star, 
   X, 
   Play, 
   Pause, 
   Volume2, 
-  VolumeX, 
-  Compass,
-  ArrowRight,
-  TrendingUp
+  VolumeX 
 } from 'lucide-react';
 import BlurTextReveal from '../common/BlurTextReveal';
 
@@ -117,61 +111,13 @@ export default function Hero9Section({
       </div>
 
       {/* ======================================================== */}
-      {/* 2. FLOATING KINETIC BADGES (HERO 9 ACCENTS)              */}
-      {/* ======================================================== */}
-      <div className="hidden xl:block absolute inset-0 pointer-events-none max-w-7xl mx-auto z-10">
-        
-        {/* Floating Badge 1: Direct WhatsApp Chat */}
-        <div className="absolute top-28 left-8 hf-float-slow bg-slate-900/80 backdrop-blur-xl border border-white/15 p-4 rounded-3xl shadow-2xl max-w-xs text-left">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 shrink-0">
-              <MessageCircle className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 text-xs font-black text-white">
-                <span>Trato Directo 1 a 1</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              </div>
-              <p className="text-[11px] text-slate-300 font-medium">WhatsApp directo al comercio o profesional</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating Badge 2: Verified Local Providers */}
-        <div className="absolute top-40 right-10 hf-float-reverse bg-slate-900/80 backdrop-blur-xl border border-white/15 p-4 rounded-3xl shadow-2xl max-w-xs text-left">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/30 shrink-0">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="text-xs font-black text-white">Prestadores Verificados</div>
-              <div className="flex items-center gap-1 text-[11px] text-amber-300 font-bold">
-                <Star className="w-3.5 h-3.5 fill-amber-300" />
-                <span>4.9 / 5.0 en el corredor serrano</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      {/* ======================================================== */}
-      {/* 3. HERO CONTENT & BLUR TEXT REVEAL                       */}
+      {/* 2. HERO CONTENT & BLUR TEXT REVEAL                       */}
       {/* ======================================================== */}
       <div className="relative z-20 max-w-4xl mx-auto space-y-7 text-center">
         
-        {/* Live Regional Beacon Pill with Glassmorphism */}
-        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-slate-900/60 hover:bg-slate-900/70 text-emerald-300 border border-emerald-400/40 text-xs font-black backdrop-blur-xl transition-all shadow-xl hf-badge-glow">
-          <span className="flex h-2.5 w-2.5 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </span>
-          <span className="tracking-wider uppercase">🌿 PORTAL & GUÍA REGIONAL DE SIERRAS CHICAS 2026</span>
-        </div>
-
-        {/* High-Impact Headline with Glassmorphic Backdrop Card */}
-        <div className="space-y-4 bg-slate-950/45 backdrop-blur-md border border-white/20 p-6 sm:p-8 rounded-[2rem] shadow-2xl shadow-black/60 max-w-3xl mx-auto ring-1 ring-white/10">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-white">
+        {/* High-Impact Headline with Soft Diffuse Glassmorphic Card */}
+        <div className="space-y-4 bg-slate-950/40 backdrop-blur-xl border border-white/10 p-6 sm:p-10 rounded-[2.5rem] shadow-[0_0_40px_rgba(0,0,0,0.6)] shadow-black/70 max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] text-white">
             <BlurTextReveal 
               text="Descubrí el latido de"
               delay={60}
@@ -183,7 +129,7 @@ export default function Hero9Section({
               text="Sierras Chicas Digital"
               delay={80}
               initialDelay={350}
-              wordClassName="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-amber-300 to-amber-400 drop-shadow-lg"
+              wordClassName="text-emerald-400 drop-shadow-lg"
             />
           </h1>
 
