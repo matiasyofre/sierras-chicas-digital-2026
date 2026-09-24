@@ -115,25 +115,25 @@ export default function Hero9Section({
       {/* ======================================================== */}
       <div className="relative z-20 max-w-4xl mx-auto space-y-7 text-center">
         
-        {/* High-Impact Headline with Soft Diffuse Glassmorphic Card */}
-        <div className="space-y-4 bg-slate-950/40 backdrop-blur-xl border border-white/10 p-6 sm:p-10 rounded-[2.5rem] shadow-[0_0_40px_rgba(0,0,0,0.6)] shadow-black/70 max-w-3xl mx-auto">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] text-white">
+        {/* High-Impact Headline with Subtle Translucent Glassmorphic Card */}
+        <div className="space-y-4 bg-black/15 backdrop-blur-[6px] border border-white/10 p-6 sm:p-8 rounded-3xl shadow-xl shadow-black/30 max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.95)]">
             <BlurTextReveal 
               text="Descubrí el latido de"
               delay={60}
               initialDelay={100}
-              className="text-white drop-shadow-md"
+              className="text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.95)]"
             />
             <br />
             <BlurTextReveal 
               text="Sierras Chicas Digital"
               delay={80}
               initialDelay={350}
-              wordClassName="text-emerald-400 drop-shadow-lg"
+              wordClassName="text-emerald-400 drop-shadow-[0_3px_12px_rgba(0,0,0,0.95)]"
             />
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-100 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow">
+          <p className="text-sm sm:text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             Conectamos a vecinos y turistas con comercios de cercanía, cabañas, gastronomía y servicios matriculados en todo el corredor serrano.
           </p>
         </div>
