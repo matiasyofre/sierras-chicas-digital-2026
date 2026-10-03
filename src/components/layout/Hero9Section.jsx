@@ -115,22 +115,12 @@ export default function Hero9Section({
       {/* ======================================================== */}
       <div className="relative z-20 max-w-4xl mx-auto space-y-7 text-center">
         
-        {/* High-Impact Headline with Subtle Translucent Glassmorphic Card */}
-        <div className="space-y-4 bg-black/15 backdrop-blur-[6px] border border-white/10 p-6 sm:p-8 rounded-3xl shadow-xl shadow-black/30 max-w-3xl mx-auto">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.95)]">
-            <BlurTextReveal 
-              text="Descubrí el latido de"
-              delay={60}
-              initialDelay={100}
-              className="text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.95)]"
-            />
+        {/* High-Impact Headline with Glassmorphic Card */}
+        <div className="space-y-4 bg-black/40 backdrop-blur-md border border-white/15 p-7 sm:p-10 rounded-[2.5rem] shadow-2xl shadow-black/80 max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            <span>Descubrí el latido de</span>
             <br />
-            <BlurTextReveal 
-              text="Sierras Chicas Digital"
-              delay={80}
-              initialDelay={350}
-              wordClassName="text-emerald-400 drop-shadow-[0_3px_12px_rgba(0,0,0,0.95)]"
-            />
+            <span className="text-emerald-400">Sierras Chicas Digital</span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
