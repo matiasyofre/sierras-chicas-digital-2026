@@ -500,7 +500,11 @@ export default function MerchantProfileView() {
                   onChange={e => setFormData({ ...formData, coverUrl: e.target.value })}
                   placeholder="O pegar URL de la portada..."
                   className="w-full px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-[11px]"
-                      {/* Gallery Photos List */}
+                />
+              </div>
+            </div>
+
+            {/* Gallery Photos List */}
             <div className="p-4 rounded-2xl bg-surface border border-surface-container-high space-y-3 pt-3">
               <div className="flex items-center justify-between">
                 <label className="font-bold text-on-surface block">
