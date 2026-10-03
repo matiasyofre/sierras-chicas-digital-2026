@@ -16,7 +16,10 @@ import {
   Plus,
   Trash2,
   Tag,
-  ShieldCheck
+  ShieldCheck,
+  Video,
+  Truck,
+  DollarSign
 } from 'lucide-react';
 
 export default function MerchantProfileView() {
@@ -40,13 +43,22 @@ export default function MerchantProfileView() {
     whatsapp: currentBiz.whatsapp || '',
     email: currentBiz.email || '',
     instagram: currentBiz.instagram || '',
+    videoUrl: currentBiz.videoUrl || '',
     openingHours: currentBiz.openingHours || '',
     businessMode: currentBiz.businessMode || 'tienda', // aviso, tienda, servicios
     logoUrl: currentBiz.logoUrl || '',
     coverUrl: currentBiz.coverUrl || '',
     gallery: currentBiz.gallery || [],
-    tags: currentBiz.tags || []
+    tags: currentBiz.tags || [],
+    deliveryZones: currentBiz.deliveryZones || [
+      { id: 'z1', name: 'Radio Céntrico (hasta 3km)', price: 1200 },
+      { id: 'z2', name: 'Localidades Vecinas (hasta 8km)', price: 2200 }
+    ],
+    isFeatured: currentBiz.isFeatured || false
   });
+
+  const [newZoneName, setNewZoneName] = useState('');
+  const [newZonePrice, setNewZonePrice] = useState('');
 
   const [saved, setSaved] = useState(false);
   const [newGalleryUrl, setNewGalleryUrl] = useState('');
@@ -90,6 +102,29 @@ export default function MerchantProfileView() {
       tags: prev.tags.includes(tagLabel)
         ? prev.tags.filter(t => t !== tagLabel)
         : [...prev.tags, tagLabel]
+    }));
+  };
+
+  const handleAddZone = () => {
+    if (!newZoneName.trim() || !newZonePrice) return;
+    const priceNum = parseInt(newZonePrice, 10) || 0;
+    const newZone = {
+      id: `zone-${Date.now()}`,
+      name: newZoneName.trim(),
+      price: priceNum
+    };
+    setFormData(prev => ({
+      ...prev,
+      deliveryZones: [...(prev.deliveryZones || []), newZone]
+    }));
+    setNewZoneName('');
+    setNewZonePrice('');
+  };
+
+  const handleRemoveZone = (zoneId) => {
+    setFormData(prev => ({
+      ...prev,
+      deliveryZones: (prev.deliveryZones || []).filter(z => z.id !== zoneId)
     }));
   };
 
@@ -465,11 +500,7 @@ export default function MerchantProfileView() {
                   onChange={e => setFormData({ ...formData, coverUrl: e.target.value })}
                   placeholder="O pegar URL de la portada..."
                   className="w-full px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-[11px]"
-                />
-              </div>
-            </div>
-
-            {/* Gallery Photos List */}
+                      {/* Gallery Photos List */}
             <div className="p-4 rounded-2xl bg-surface border border-surface-container-high space-y-3 pt-3">
               <div className="flex items-center justify-between">
                 <label className="font-bold text-on-surface block">
@@ -497,6 +528,153 @@ export default function MerchantProfileView() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Video de Presentación */}
+            <div className="p-4 rounded-2xl bg-surface border border-surface-container-high space-y-3 pt-3">
+              <div className="flex items-center gap-2">
+                <Video className="w-4 h-4 text-amber-600" />
+                <label className="font-bold text-on-surface block">
+                  Video de Presentación del Comercio (YouTube, Vimeo o URL directa)
+                </label>
+              </div>
+              <input
+                type="url"
+                placeholder="https://www.youtube.com/watch?v=... o https://vimeo.com/..."
+                value={formData.videoUrl}
+                onChange={e => setFormData({ ...formData, videoUrl: e.target.value })}
+                className="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface focus:outline-none focus:border-primary text-xs"
+              />
+              <p className="text-[11px] text-on-surface-variant">
+                Se reproducirá de manera interactiva en tu ficha para aumentar las consultas y pedidos de clientes.
+              </p>
+            </div>
+          </div>
+
+          {/* Delivery Zones & Shipping Fees (SC-19 / Page 5 & 6) */}
+          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Truck className="w-5 h-5 text-amber-600" />
+                <div>
+                  <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
+                    Zonas y Tarifas de Delivery / Envío
+                  </h3>
+                  <p className="text-on-surface-variant text-[11px]">
+                    Configurá los costos de envío según el barrio o localidad para que se sumen automáticamente en el carrito.
+                  </p>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-bold">
+                {formData.deliveryZones?.length || 0} Zonas Activas
+              </span>
+            </div>
+
+            {/* Add Zone form */}
+            <div className="p-3.5 rounded-2xl bg-surface border border-surface-container-high flex flex-col sm:flex-row items-center gap-3">
+              <div className="flex-1 w-full">
+                <label className="text-[10px] font-bold text-on-surface-variant block mb-1">Nombre de la Zona o Barrio</label>
+                <input
+                  type="text"
+                  placeholder="Ej: Villa Silvina / Mendiolaza Golf"
+                  value={newZoneName}
+                  onChange={e => setNewZoneName(e.target.value)}
+                  className="w-full px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs"
+                />
+              </div>
+              <div className="w-full sm:w-36">
+                <label className="text-[10px] font-bold text-on-surface-variant block mb-1">Costo de Envío ($)</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1.5 text-xs text-on-surface-variant">$</span>
+                  <input
+                    type="number"
+                    placeholder="1500"
+                    value={newZonePrice}
+                    onChange={e => setNewZonePrice(e.target.value)}
+                    className="w-full pl-6 pr-2 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs font-mono font-bold"
+                  />
+                </div>
+              </div>
+              <div className="pt-4 sm:pt-4 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={handleAddZone}
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-sm"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Agregar Zona</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Zones List */}
+            <div className="space-y-2 pt-1">
+              {(formData.deliveryZones || []).map((zone) => (
+                <div
+                  key={zone.id}
+                  className="flex items-center justify-between p-3 rounded-2xl bg-surface border border-surface-container-high hover:border-amber-400 transition-colors"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center text-amber-900 font-bold text-xs">
+                      📍
+                    </div>
+                    <div>
+                      <span className="font-bold text-on-surface block text-xs">{zone.name}</span>
+                      <span className="text-[10px] text-on-surface-variant font-mono">ID: {zone.id}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="px-3 py-1 rounded-xl bg-surface-container-lowest border border-surface-container-high font-mono font-black text-amber-700 text-xs">
+                      ${zone.price.toLocaleString('es-AR')}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveZone(zone.id)}
+                      className="p-1.5 rounded-lg text-outline hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                      title="Eliminar zona"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Featured & Spotlight Settings (SC-20 / Page 5 & 6) */}
+          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-amber-600" />
+              <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
+                Presencia & Posicionamiento Destacado
+              </h3>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-surface-container to-surface-container-lowest border border-amber-500/30 gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-extrabold text-on-surface text-xs">Aparición en "Tiendas & Comercios Destacados"</span>
+                  {currentPlan?.allowFeatured && (
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-black uppercase">
+                      Incluido en Plan {currentPlan.name}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-on-surface-variant max-w-xl">
+                  Tu comercio aparecerá con badge verificado ⭐ en la portada principal, el carrusel de novedades y en la parte superior del Radar Serrano.
+                </p>
+              </div>
+
+              <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                <input
+                  type="checkbox"
+                  checked={formData.isFeatured}
+                  onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-surface-container-high after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+              </label>
             </div>
           </div>
 

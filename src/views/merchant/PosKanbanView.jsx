@@ -336,7 +336,7 @@ export default function PosKanbanView() {
                               <span>Gestionar Cobro & Envío</span>
                             </button>
 
-                            {/* Advance Kanban Column Buttons */}
+                            {/* Advance & Rollback Kanban Column Buttons */}
                             {col.id === 'pending' && (
                               <button
                                 type="button"
@@ -344,19 +344,29 @@ export default function PosKanbanView() {
                                 className="w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs transition-all"
                               >
                                 <ChefHat className="w-3.5 h-3.5" />
-                                <span>Pasar a Preparación / Empaque</span>
+                                <span>Pasar a Preparación / Empaque →</span>
                               </button>
                             )}
 
                             {col.id === 'preparing' && (
-                              <button
-                                type="button"
-                                onClick={() => updateOrderStatus(ord.id, 'ready')}
-                                className="w-full py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs transition-all"
-                              >
-                                <Bike className="w-3.5 h-3.5" />
-                                <span>Listo para Despacho / Retiro</span>
-                              </button>
+                              <div className="space-y-1.5">
+                                <button
+                                  type="button"
+                                  onClick={() => updateOrderStatus(ord.id, 'ready')}
+                                  className="w-full py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs transition-all"
+                                >
+                                  <Bike className="w-3.5 h-3.5" />
+                                  <span>Listo para Despacho / Retiro →</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => updateOrderStatus(ord.id, 'pending')}
+                                  className="w-full py-1.5 rounded-xl bg-surface hover:bg-surface-container border border-surface-container-high text-outline hover:text-amber-800 text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
+                                  title="Volver a Pendiente si no está pagado o hubo un error"
+                                >
+                                  <span>← Volver a Pendiente</span>
+                                </button>
+                              </div>
                             )}
 
                             {col.id === 'ready' && (
@@ -376,7 +386,15 @@ export default function PosKanbanView() {
                                   className="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-xs transition-all"
                                 >
                                   <CheckCircle2 className="w-3.5 h-3.5" />
-                                  <span>Marcar Entregado</span>
+                                  <span>Marcar Entregado ✓</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => updateOrderStatus(ord.id, 'preparing')}
+                                  className="w-full py-1 rounded-xl bg-surface hover:bg-surface-container border border-surface-container-high text-outline hover:text-indigo-800 text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
+                                  title="Volver a etapa de preparación"
+                                >
+                                  <span>← Volver a Preparación</span>
                                 </button>
                               </div>
                             )}
@@ -386,9 +404,18 @@ export default function PosKanbanView() {
                                 <div className="w-full text-center py-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 rounded-lg border border-emerald-200">
                                   ✓ Pedido Completado
                                 </div>
+                                <button
+                                  type="button"
+                                  onClick={() => updateOrderStatus(ord.id, 'ready')}
+                                  className="w-full py-1 rounded-xl bg-surface hover:bg-surface-container border border-surface-container-high text-outline hover:text-rose-700 text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
+                                  title="Reabrir pedido si se marcó entregado por error"
+                                >
+                                  <span>← Reabrir / Volver a Listo</span>
+                                </button>
                               </div>
                             )}
                           </div>
+
 
                         </div>
                       );
@@ -732,15 +759,59 @@ export default function PosKanbanView() {
                 Estado actual: <strong className="uppercase text-on-surface font-extrabold">{selectedOrder.status}</strong>
               </div>
 
-              <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={() => setSelectedOrderId(null)}
-                  className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-semibold text-on-surface-variant hover:bg-surface-container"
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-on-surface-variant hover:bg-surface-container"
                 >
                   Cerrar
                 </button>
 
+                {/* Rollback Buttons */}
+                {selectedOrder.status === 'preparing' && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateOrderStatus(selectedOrder.id, 'pending');
+                      setSelectedOrderId(null);
+                    }}
+                    className="px-3.5 py-2.5 rounded-xl border border-surface-container-high bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-bold text-xs flex items-center justify-center gap-1"
+                    title="Devolver a pendientes"
+                  >
+                    <span>← A Pendiente</span>
+                  </button>
+                )}
+
+                {selectedOrder.status === 'ready' && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateOrderStatus(selectedOrder.id, 'preparing');
+                      setSelectedOrderId(null);
+                    }}
+                    className="px-3.5 py-2.5 rounded-xl border border-surface-container-high bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-bold text-xs flex items-center justify-center gap-1"
+                    title="Devolver a preparación"
+                  >
+                    <span>← A Preparación</span>
+                  </button>
+                )}
+
+                {selectedOrder.status === 'delivered' && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateOrderStatus(selectedOrder.id, 'ready');
+                      setSelectedOrderId(null);
+                    }}
+                    className="px-3.5 py-2.5 rounded-xl border border-surface-container-high bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-bold text-xs flex items-center justify-center gap-1"
+                    title="Reabrir pedido a listo para despacho"
+                  >
+                    <span>← Reabrir a Listo</span>
+                  </button>
+                )}
+
+                {/* Advance Buttons */}
                 {selectedOrder.status === 'pending' && (
                   <button
                     type="button"
@@ -748,10 +819,10 @@ export default function PosKanbanView() {
                       updateOrderStatus(selectedOrder.id, 'preparing');
                       setSelectedOrderId(null);
                     }}
-                    className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs shadow-md flex items-center justify-center gap-1"
+                    className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs shadow-md flex items-center justify-center gap-1"
                   >
                     <ChefHat className="w-4 h-4" />
-                    <span>Avanzar a Preparación / Empaque</span>
+                    <span>Avanzar a Preparación</span>
                   </button>
                 )}
 
@@ -762,10 +833,10 @@ export default function PosKanbanView() {
                       updateOrderStatus(selectedOrder.id, 'ready');
                       setSelectedOrderId(null);
                     }}
-                    className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-extrabold text-xs shadow-md flex items-center justify-center gap-1"
+                    className="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-extrabold text-xs shadow-md flex items-center justify-center gap-1"
                   >
                     <Bike className="w-4 h-4" />
-                    <span>Listo para Despacho / Retiro</span>
+                    <span>Listo para Despacho</span>
                   </button>
                 )}
 
@@ -776,10 +847,10 @@ export default function PosKanbanView() {
                       updateOrderStatus(selectedOrder.id, 'delivered');
                       setSelectedOrderId(null);
                     }}
-                    className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-md flex items-center justify-center gap-1"
+                    className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-md flex items-center justify-center gap-1"
                   >
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Marcar Entregado</span>
+                    <span>Marcar Entregado ✓</span>
                   </button>
                 )}
               </div>

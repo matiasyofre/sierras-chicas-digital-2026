@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { localDb, DEMO_ACCOUNTS, supabase } from '../services/supabase';
-import { INITIAL_CATEGORIES, INITIAL_LOCATIONS, INITIAL_PLANS, INITIAL_SETTINGS, INITIAL_TAGS } from '../data/mockData';
+import { 
+  INITIAL_CATEGORIES, 
+  INITIAL_LOCATIONS, 
+  INITIAL_PLANS, 
+  INITIAL_SETTINGS, 
+  INITIAL_TAGS,
+  INITIAL_SPONSORED_BANNERS,
+  INITIAL_SIMULATOR_LEVELS
+} from '../data/mockData';
 
 const AppContext = createContext(null);
 
@@ -26,6 +34,10 @@ export function AppProvider({ children }) {
     const saved = localStorage.getItem('sierras_tags');
     return saved ? JSON.parse(saved) : INITIAL_TAGS;
   });
+  const [sponsoredBanners, setSponsoredBanners] = useState(() => {
+    const saved = localStorage.getItem('sierras_banners');
+    return saved ? JSON.parse(saved) : INITIAL_SPONSORED_BANNERS;
+  });
   
   const [businesses, setBusinesses] = useState(() => localDb.getBusinesses());
   const [products, setProducts] = useState(() => localDb.getProducts());
@@ -42,6 +54,7 @@ export function AppProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [cartBusiness, setCartBusiness] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isPwaModalOpen, setIsPwaModalOpen] = useState(false);
 
   // Sync session
   useEffect(() => {
@@ -64,6 +77,11 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('sierras_tags', JSON.stringify(tags));
   }, [tags]);
+
+  useEffect(() => {
+    localStorage.setItem('sierras_banners', JSON.stringify(sponsoredBanners));
+  }, [sponsoredBanners]);
+
 
   // Sync to local DB
   useEffect(() => {
@@ -371,6 +389,20 @@ export function AppProvider({ children }) {
     return orderWithId;
   };
 
+  const updateSponsoredBanners = (newBanners) => {
+    setSponsoredBanners(newBanners);
+  };
+
+  const addSponsoredBanner = (banner) => {
+    const bannerWithId = { ...banner, id: 'ban-' + Date.now() };
+    setSponsoredBanners(prev => [bannerWithId, ...prev]);
+    return bannerWithId;
+  };
+
+  const deleteSponsoredBanner = (bannerId) => {
+    setSponsoredBanners(prev => prev.filter(b => b.id !== bannerId));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -398,6 +430,10 @@ export function AppProvider({ children }) {
         tags,
         addTag,
         deleteTag,
+        sponsoredBanners,
+        updateSponsoredBanners,
+        addSponsoredBanner,
+        deleteSponsoredBanner,
         businesses,
         addNewBusiness,
         updateBusiness,
@@ -426,6 +462,8 @@ export function AppProvider({ children }) {
         cartBusiness,
         isCartOpen,
         setIsCartOpen,
+        isPwaModalOpen,
+        setIsPwaModalOpen,
         addToCart,
         updateCartQty,
         removeFromCart,
@@ -444,4 +482,5 @@ export function useApp() {
   if (!context) throw new Error('useApp must be used within an AppProvider');
   return context;
 }
+
 

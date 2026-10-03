@@ -76,10 +76,74 @@ export const INITIAL_TAGS = [
   { id: 'tag-8', label: 'Envíos sin Cargo', emoji: '🛵', color: 'bg-purple-100 text-purple-800 border-purple-300' }
 ];
 
+export const INITIAL_SIMULATOR_LEVELS = [
+  {
+    id: 'inicial',
+    levelTag: 'NIVEL 1: PRESENCIA BÁSICA',
+    title: 'Profesionales & Avisos',
+    description: 'Aparición en el directorio, SEO local y botón directo a WhatsApp.',
+    planRef: 'plan-1'
+  },
+  {
+    id: 'pro',
+    levelTag: 'NIVEL 2: COMERCIO ACTIVO (RECOMENDADO)',
+    title: 'Góndola & Pedidos Online',
+    description: 'Carta/catálogo digital con carrito de compras, comandas POS y pedidos por WhatsApp.',
+    planRef: 'plan-2'
+  },
+  {
+    id: 'full',
+    levelTag: 'NIVEL 3: MÁXIMA TRACCIÓN',
+    title: 'Multi-Sucursal & Banner Destacado',
+    description: 'Posicionamiento VIP prioritario en búsquedas, pauta en carrusel y asesoría.',
+    planRef: 'plan-3'
+  }
+];
+
+export const INITIAL_SPONSORED_BANNERS = [
+  {
+    id: 'ban-1',
+    title: 'Café de las Sierras · Brunch & Pastelería',
+    subtitle: 'Vení a disfrutar de café de especialidad y masas madre en Río Ceballos.',
+    badge: 'Pauta Destacada',
+    tag: 'Gastronomía Serrana',
+    imageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80',
+    link: '/tienda/cafe-de-las-sierras',
+    ctaText: 'Ver Tienda Online',
+    merchantName: 'Café de las Sierras',
+    location: 'Río Ceballos'
+  },
+  {
+    id: 'ban-2',
+    title: 'Cabañas El Remanso Serrano',
+    subtitle: 'Escapadas de fin de semana con piscina climatizada y vista panorámica.',
+    badge: 'Espacio Exclusivo VIP',
+    tag: 'Turismo & Relax',
+    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&auto=format&fit=crop&q=80',
+    link: '/comercio/cabanas-el-remanso',
+    ctaText: 'Consultar Fechas & Tarifas',
+    merchantName: 'Cabañas El Remanso',
+    location: 'Salsipuedes'
+  },
+  {
+    id: 'ban-3',
+    title: 'Electro Sierras · Instalaciones Matriculadas',
+    subtitle: 'Urgencias 24hs, instalación de energía solar y protocolos ERSeP.',
+    badge: 'Profesional Verificado',
+    tag: 'Servicios Técnicos',
+    imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&auto=format&fit=crop&q=80',
+    link: '/comercio/electro-sierras-electricista',
+    ctaText: 'Pedir Presupuesto WhatsApp',
+    merchantName: 'Electro Sierras',
+    location: 'Unquillo'
+  }
+];
+
 export const INITIAL_SETTINGS = {
   platformName: 'Sierras Chicas Digital',
   tagline: 'Directorio y Ecosistema Comercial de las Sierras Chicas de Córdoba',
-  supportWhatsapp: '+54 9 3543 45-6789',
+  supportWhatsApp: '5493543123456',
+  supportWhatsapp: '5493543123456',
   supportEmail: 'contacto@sierraschicasdigital.com',
   maintenanceMode: false,
   allowNewRegistrations: true,
@@ -87,7 +151,8 @@ export const INITIAL_SETTINGS = {
   mercadoPagoAccessToken: 'APP_USR-123456-SEC-TOKEN',
   commissionPercentage: 0,
   currency: 'ARS',
-  totalSiteVisits: 14250
+  totalSiteVisits: 14250,
+  simulatorLevels: INITIAL_SIMULATOR_LEVELS
 };
 
 export const INITIAL_BUSINESSES = [
@@ -116,7 +181,13 @@ export const INITIAL_BUSINESSES = [
       'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&auto=format&fit=crop&q=80'
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     tags: ['Pet Friendly', 'WiFi 5G', 'Masa Madre'],
+    deliveryZones: [
+      { id: 'dz-1', name: 'Centro y Casco Urbano (Río Ceballos)', fee: 1200 },
+      { id: 'dz-2', name: 'Barrios Altos / Los Quebrachitos / Dique', fee: 2000 },
+      { id: 'dz-3', name: 'Localidades Vecinas (Unquillo / Salsipuedes)', fee: 3200 }
+    ],
     visitsCount: 1420,
     isOpen: true,
     isVerified: true,
@@ -147,12 +218,23 @@ export const INITIAL_BUSINESSES = [
     businessMode: 'servicios',
     logoUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200&auto=format&fit=crop&q=80',
     coverUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&auto=format&fit=crop&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&auto=format&fit=crop&q=80'
+    ],
+    videoUrl: '',
+    tags: ['Matriculado ERSeP', 'Urgencias 24hs', 'Descuento Efectivo'],
+    deliveryZones: [
+      { id: 'dz-1', name: 'Visita Técnica Zona Unquillo / Mendiolaza', fee: 2500 },
+      { id: 'dz-2', name: 'Visita Técnica Todo Sierras Chicas', fee: 4000 }
+    ],
     isOpen: true,
     isVerified: true,
     isFeatured: true,
     rating: 5.0,
     reviewCount: 64,
     status: 'active',
+    planId: 'plan-1',
     planName: 'Comercio Básico',
     priceArs: 9900
   },
@@ -175,12 +257,21 @@ export const INITIAL_BUSINESSES = [
     businessMode: 'tienda',
     logoUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&auto=format&fit=crop&q=80',
     coverUrl: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1200&auto=format&fit=crop&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&auto=format&fit=crop&q=80'
+    ],
+    tags: ['Masa Madre', 'Envíos sin Cargo'],
+    deliveryZones: [
+      { id: 'dz-1', name: 'Radio Urbano Río Ceballos', fee: 1000 },
+      { id: 'dz-2', name: 'Zona Dique / Salsipuedes', fee: 2200 }
+    ],
     isOpen: true,
     isVerified: true,
     isFeatured: false,
     rating: 4.8,
     reviewCount: 92,
     status: 'active',
+    planId: 'plan-2',
     planName: 'Negocio Pro & POS',
     priceArs: 19900
   },
@@ -203,12 +294,19 @@ export const INITIAL_BUSINESSES = [
     businessMode: 'servicios',
     logoUrl: 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=200&auto=format&fit=crop&q=80',
     coverUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&auto=format&fit=crop&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=800&auto=format&fit=crop&q=80'
+    ],
+    tags: ['Pet Friendly', 'WiFi 5G'],
+    deliveryZones: [],
     isOpen: true,
     isVerified: true,
     isFeatured: true,
     rating: 4.9,
     reviewCount: 215,
     status: 'active',
+    planId: 'plan-3',
     planName: 'Valle Destacado VIP',
     priceArs: 34900
   },
@@ -231,12 +329,21 @@ export const INITIAL_BUSINESSES = [
     businessMode: 'aviso',
     logoUrl: 'https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?w=200&auto=format&fit=crop&q=80',
     coverUrl: 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=1200&auto=format&fit=crop&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=800&auto=format&fit=crop&q=80'
+    ],
+    tags: ['Descuento Efectivo'],
+    deliveryZones: [
+      { id: 'dz-1', name: 'Flete Materiales Mendiolaza / Villa Allende', fee: 3500 },
+      { id: 'dz-2', name: 'Flete Sierras Chicas Extendido', fee: 6000 }
+    ],
     isOpen: true,
     isVerified: true,
     isFeatured: false,
     rating: 4.7,
     reviewCount: 45,
     status: 'active',
+    planId: 'plan-1',
     planName: 'Comercio Básico',
     priceArs: 9900
   },
@@ -259,12 +366,18 @@ export const INITIAL_BUSINESSES = [
     businessMode: 'aviso',
     logoUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=200&auto=format&fit=crop&q=80',
     coverUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&auto=format&fit=crop&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80'
+    ],
+    tags: ['Urgencias 24hs'],
+    deliveryZones: [],
     isOpen: true,
     isVerified: true,
     isFeatured: true,
     rating: 4.9,
     reviewCount: 18,
     status: 'active',
+    planId: 'plan-1',
     planName: 'Comercio Básico',
     priceArs: 9900
   }
@@ -466,12 +579,27 @@ export const INITIAL_PLANS = [
     description: 'Presencia institucional y contacto directo en el directorio serrano.',
     maxProducts: 20,
     maxPhotos: 3,
+    maxVideos: 1,
+    allowFeatured: false,
+    allowTags: true,
+    allowGondolaLive: false,
+    allowBannerAds: false,
+    allowDeliveryZones: false,
+    allowInstagram: true,
+    allowVerifiedBadge: true,
+    allowQuoteRequests: true,
+    allowStoreCart: false,
+    allowPosKanban: false,
+    allowPaymentLinks: false,
+    mpCheckoutUrl: 'https://mpago.la/sierras-basico-9900',
     checkoutUrl: 'https://mpago.la/sierras-basico-9900',
     features: [
-      'Ficha institucional y aviso en el directorio',
+      'Publicar aviso publicitario en el directorio',
+      'Panel para gestionar y actualizar el aviso',
       'Botón de contacto directo por WhatsApp y llamada',
-      'Hasta 3 fotos en la galería',
-      'Hasta 20 productos de referencia',
+      'Hasta 3 fotos en la galería y 1 video',
+      'Hasta 20 productos / servicios de referencia',
+      'Acceso a Instagram y datos del comercio',
       'Presencia en búsquedas locales de Sierras Chicas'
     ],
     activeMerchants: 48
@@ -483,17 +611,33 @@ export const INITIAL_PLANS = [
     priceArs: 19900,
     billingPeriod: 'mensual',
     isFeatured: true,
-    description: 'Catálogo interactivo con pedidos automáticos y gestión de comandas en vivo.',
+    description: 'Catálogo interactivo con pedidos automáticos, delivery y gestión de comandas en vivo.',
     maxProducts: 150,
     maxPhotos: 10,
+    maxVideos: 3,
+    allowFeatured: true,
+    allowTags: true,
+    allowGondolaLive: true,
+    allowBannerAds: false,
+    allowDeliveryZones: true,
+    allowInstagram: true,
+    allowVerifiedBadge: true,
+    allowQuoteRequests: true,
+    allowStoreCart: true,
+    allowPosKanban: true,
+    allowPaymentLinks: true,
+    mpCheckoutUrl: 'https://mpago.la/sierras-pro-19900',
     checkoutUrl: 'https://mpago.la/sierras-pro-19900',
     features: [
       'Todo lo del plan Básico',
-      'Tienda virtual interactiva con carrito',
+      'Publicar tienda virtual interactiva con carrito',
       'Checkout con ticket automático a WhatsApp',
       'Góndola de edición rápida de precios y stock',
       'Tablero POS / Kanban en vivo para comandas',
-      'Hasta 10 fotos en alta resolución',
+      'Establecer zonas de precios para delivery',
+      'Generación de links de pago Mercado Pago',
+      'Banner góndola en vivo incluido',
+      'Hasta 10 fotos y 3 videos en alta resolución',
       'Hasta 150 productos activos'
     ],
     activeMerchants: 84
@@ -504,18 +648,34 @@ export const INITIAL_PLANS = [
     slug: 'vip',
     priceArs: 34900,
     billingPeriod: 'mensual',
-    description: 'Máxima exposición con posición prioritaria y soporte integral de marketing.',
+    description: 'Máxima exposición con posición prioritaria, pauta en carrusel y soporte integral.',
     maxProducts: 500,
     maxPhotos: 30,
+    maxVideos: 10,
+    allowFeatured: true,
+    allowTags: true,
+    allowGondolaLive: true,
+    allowBannerAds: true,
+    allowDeliveryZones: true,
+    allowInstagram: true,
+    allowVerifiedBadge: true,
+    allowQuoteRequests: true,
+    allowStoreCart: true,
+    allowPosKanban: true,
+    allowPaymentLinks: true,
+    mpCheckoutUrl: 'https://mpago.la/sierras-vip-34900',
     checkoutUrl: 'https://mpago.la/sierras-vip-34900',
     features: [
       'Todo lo del plan Negocio Pro',
+      'Banner publicitario en carrusel de la landing',
       'Posición destacada #1 en búsquedas y categorías',
       'Badge VIP dorado y sello verificado premium',
-      'Fotos ilimitadas en galería',
+      'Fotos y videos ampliados (hasta 30 fotos / 10 videos)',
+      'Hasta 500 productos en catálogo online',
       'Múltiples sucursales y números de WhatsApp',
       'Soporte prioritario 24/7 y asesoría de visibilidad'
     ],
     activeMerchants: 22
   }
 ];
+

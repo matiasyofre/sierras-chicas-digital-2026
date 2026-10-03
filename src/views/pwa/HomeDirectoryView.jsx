@@ -20,6 +20,7 @@ import {
   Zap,
   SlidersHorizontal,
   ChevronRight,
+  ChevronLeft,
   X,
   ShieldCheck,
   PhoneCall,
@@ -43,7 +44,11 @@ import {
   DollarSign,
   MessageCircle,
   Eye,
-  CheckCheck
+  CheckCheck,
+  HelpCircle,
+  Users,
+  Send,
+  Download
 } from 'lucide-react';
 
 export default function HomeDirectoryView() {
@@ -53,6 +58,8 @@ export default function HomeDirectoryView() {
     locations, 
     plans, 
     products,
+    settings,
+    sponsoredBanners,
     selectedLocation, 
     setSelectedLocation,
     selectedCategory, 
@@ -62,7 +69,8 @@ export default function HomeDirectoryView() {
     searchQuery, 
     setSearchQuery,
     favorites, 
-    toggleFavorite 
+    toggleFavorite,
+    setIsPwaModalOpen
   } = useApp();
 
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'aviso', 'tienda', 'servicios'
@@ -71,12 +79,27 @@ export default function HomeDirectoryView() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
   
-  // Interactive Merchant ROI Simulator State
+  // Interactive Merchant Growth Simulator State
   const [simulatorGoal, setSimulatorGoal] = useState('pro'); // 'inicial', 'pro', 'full'
   const [activeRadarCity, setActiveRadarCity] = useState(null);
 
+  // Sponsored Carousel State
+  const [activeBannerIndex, setActiveBannerIndex] = useState(0);
+
+  // FAQ open index state
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+
   const searchContainerRef = useRef(null);
   const directorySectionRef = useRef(null);
+
+  // Auto cycle sponsored banners
+  useEffect(() => {
+    if (!sponsoredBanners || sponsoredBanners.length === 0) return;
+    const interval = setInterval(() => {
+      setActiveBannerIndex(prev => (prev + 1) % sponsoredBanners.length);
+    }, 5500);
+    return () => clearInterval(interval);
+  }, [sponsoredBanners]);
 
   // Close suggestions on outside click
   useEffect(() => {
@@ -172,6 +195,8 @@ export default function HomeDirectoryView() {
     return true;
   });
 
+  const storesCount = businesses.filter(b => b.businessMode === 'tienda').length;
+
   const scrollToDirectory = () => {
     if (directorySectionRef.current) {
       directorySectionRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -210,6 +235,13 @@ export default function HomeDirectoryView() {
     scrollToDirectory();
   };
 
+  const handleFilterStoresOnly = () => {
+    setFilterMode('tienda');
+    setSelectedCategory('all');
+    setSelectedSubcategory('all');
+    scrollToDirectory();
+  };
+
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     if (!newsletterEmail.trim()) return;
@@ -233,7 +265,7 @@ export default function HomeDirectoryView() {
     }
   };
 
-  // Live Flash Ticker Highlights
+  // Flash Ticker Highlights
   const flashHighlights = [
     { text: '🥐 Masa Madre & Croissants recién horneados', city: 'Unquillo', cat: 'gastronomia' },
     { text: '⚡ Electricista Matriculado ERSeP 24hs', city: 'Villa Allende', cat: 'construccion-hogar' },
@@ -244,8 +276,57 @@ export default function HomeDirectoryView() {
     { text: '🛠️ Taller mecánico integral e inyección electrónica', city: 'La Calera', cat: 'automotor' }
   ];
 
+  // Simulator levels from settings or defaults
+  const simulatorLevels = settings?.simulatorLevels || [
+    {
+      id: 'inicial',
+      levelTag: 'NIVEL 1: PRESENCIA BÁSICA',
+      title: 'Profesionales & Avisos',
+      description: 'Aparición en el directorio, SEO local y botón directo a WhatsApp.',
+      planRef: 'plan-1'
+    },
+    {
+      id: 'pro',
+      levelTag: 'NIVEL 2: COMERCIO ACTIVO (RECOMENDADO)',
+      title: 'Góndola & Pedidos Online',
+      description: 'Carta/catálogo digital con carrito de compras, comandas POS y pedidos por WhatsApp.',
+      planRef: 'plan-2'
+    },
+    {
+      id: 'full',
+      levelTag: 'NIVEL 3: MÁXIMA TRACCIÓN',
+      title: 'Multi-Sucursal & Banner Destacado',
+      description: 'Posicionamiento VIP prioritario en búsquedas, pauta en carrusel y asesoría.',
+      planRef: 'plan-3'
+    }
+  ];
+
+  // FAQ questions list
+  const faqs = [
+    {
+      q: '¿Cómo publico mi comercio o servicio profesional en el portal?',
+      a: 'Podés registrarte desde el botón "Mi Panel" o "Soy Comercio". Elegís tu plan (Básico, Pro o VIP), completás tus datos comerciales, fotos, horarios y números de WhatsApp, y tu ficha quedará activa de inmediato en el directorio.'
+    },
+    {
+      q: '¿Tiene algún costo para vecinos y turistas explorar el directorio?',
+      a: '¡Ninguno! Para vecinos y turistas la plataforma es 100% gratuita y sin comisiones intermediarias. El contacto y la compra con los comercios es directo por WhatsApp o en mostrador.'
+    },
+    {
+      q: '¿Cómo funciona la tienda online con carrito y checkout por WhatsApp?',
+      a: 'Los comercios con Plan Pro o VIP disponen de una tienda virtual. El cliente agrega productos a su carrito, selecciona entrega a domicilio o retiro, y el sistema genera automáticamente el ticket listo para enviar por WhatsApp al número oficial del comercio.'
+    },
+    {
+      q: '¿Puedo cobrar por Mercado Pago o coordinar fletes personalizados?',
+      a: 'Sí. El comercio puede fijar zonas de delivery con tarifas diferenciadas y enviar links de cobro directo de Mercado Pago o datos de transferencia bancaria desde el panel de comandas POS.'
+    }
+  ];
+
+  const currentBanner = sponsoredBanners && sponsoredBanners.length > 0
+    ? sponsoredBanners[activeBannerIndex]
+    : null;
+
   return (
-    <div className="flex-1 flex flex-col w-full pb-24 md:pb-16 animate-in fade-in bg-[#f8fafc] text-slate-900 selection:bg-amber-500 selection:text-slate-950 font-sans">
+    <div className="flex-1 flex flex-col w-full pb-0 animate-in fade-in bg-[#f8fafc] text-slate-900 selection:bg-amber-500 selection:text-slate-950 font-sans">
       
       {/* ======================================================== */}
       {/* 1. HERO 9 SECTION (REACT BITS PRO - SIERRAS CHICAS)     */}
@@ -266,9 +347,9 @@ export default function HomeDirectoryView() {
       />
 
       {/* ======================================================== */}
-      {/* 2. NOVELTY COMPONENT: HYPERFRAMES LIVE FLASH TICKER */}
+      {/* 2. GÓNDOLA EN VIVO FLASH TICKER                          */}
       {/* ======================================================== */}
-      <section className="relative -mt-6 z-30 overflow-hidden bg-amber-500 text-slate-950 py-3 shadow-xl">
+      <section className="relative -mt-6 z-30 overflow-hidden bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-3 shadow-xl">
         <div className="flex items-center">
           <div className="bg-slate-950 text-amber-400 px-4 py-1.5 rounded-r-2xl font-black text-xs flex items-center gap-2 shrink-0 z-10 shadow-md">
             <Radio className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
@@ -299,9 +380,49 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 3. NOVELTY COMPONENT: RADAR SERRANO & LOCALITY CONSTELLATION */}
+      {/* 3. NOVELTY SECTION: "VER TIENDAS ONLINE" (PAGE 1 REQUIREMENT) */}
       {/* ======================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8 w-full">
+      <section id="tiendas-destacadas" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4 w-full">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-950 text-white p-6 sm:p-8 shadow-2xl border border-emerald-700/40">
+          
+          {/* Ambient Glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-10 left-1/3 w-64 h-64 bg-amber-500/15 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="space-y-2.5 text-center lg:text-left max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black border border-emerald-400/30">
+                <ShoppingBag className="w-3.5 h-3.5" />
+                <span>VENTA DIRECTA & GÓNDOLA VIRTUAL</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+                ¿Buscás comprar online directo? Explorá todas las Tiendas con Carrito del Valle
+              </h2>
+              <p className="text-xs sm:text-sm text-emerald-100/90 font-medium leading-relaxed">
+                Entrá a las cartas gastronómicas y catálogos de almacenes con precios actualizados, delivery por zona y checkout inmediato a WhatsApp.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto shrink-0">
+              <button
+                type="button"
+                onClick={handleFilterStoresOnly}
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-200 text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-amber-500/30 flex items-center justify-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 hf-shimmer-btn"
+              >
+                <ShoppingBag className="w-4 h-4 text-slate-950" />
+                <span>Ver Tiendas Online ({storesCount})</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 4. RADAR SERRANO · CORREDOR RUTA E-53 (PAGE 1 REQUIREMENT) */}
+      {/* ======================================================== */}
+      <section id="radar-serrano" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 w-full">
         <div className="bg-gradient-to-br from-slate-900 via-[#0e172a] to-slate-950 rounded-[2.5rem] p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-slate-800">
           
           {/* Ambient Background Grid */}
@@ -313,10 +434,10 @@ export default function HomeDirectoryView() {
             <div className="space-y-3 text-center lg:text-left max-w-lg">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-teal-500/10 text-teal-400 text-xs font-black border border-teal-500/20">
                 <Compass className="w-3.5 h-3.5" />
-                <span>RADAR SERRANO · CORREDOR RUTA E-53 & E-57</span>
+                <span>RADAR SERRANO · CORREDOR RUTA E-53</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-                Explorá el valle ciudad por ciudad
+                Explorá ciudad por ciudad
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
                 Seleccioná una localidad para activar el radar y filtrar al instante todos los comercios, prestadores y cartas gastronómicas disponibles.
@@ -368,49 +489,126 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 4. METRICS & TRUST PROOF STRIP */}
+      {/* 5. SPONSORED CAROUSEL BANNER (PAGE 1 REQUIREMENT)        */}
       {/* ======================================================== */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 w-full py-4">
-        <div className="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-xl shadow-slate-900/5 flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-100">
-          
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 w-full md:w-auto text-center sm:text-left">
-            <div>
-              <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">+350</div>
-              <p className="text-xs text-slate-500 font-bold mt-1">Comercios Verificados</p>
+      {currentBanner && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 w-full">
+          <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-950 border border-slate-800 shadow-xl">
+            
+            {/* Background Cover Image with Rich Gradient */}
+            <div className="relative h-64 sm:h-80 w-full overflow-hidden">
+              <img
+                src={currentBanner.imageUrl}
+                alt={currentBanner.title}
+                className="w-full h-full object-cover object-center opacity-70 transform transition-transform duration-1000 scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/40 to-transparent"></div>
+
+              {/* Content Overlay */}
+              <div className="absolute inset-0 p-6 sm:p-10 flex flex-col justify-between text-white z-10">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black uppercase tracking-wider shadow-md">
+                      ⭐ {currentBanner.badge}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold">
+                      📍 {currentBanner.location}
+                    </span>
+                  </div>
+
+                  {/* Carousel Controls */}
+                  <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md p-1 rounded-full border border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => setActiveBannerIndex(prev => (prev - 1 + sponsoredBanners.length) % sponsoredBanners.length)}
+                      className="p-1.5 rounded-full hover:bg-white/20 text-white transition-colors"
+                      title="Anterior"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <span className="text-[11px] font-bold px-1 text-slate-300">
+                      {activeBannerIndex + 1}/{sponsoredBanners.length}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setActiveBannerIndex(prev => (prev + 1) % sponsoredBanners.length)}
+                      className="p-1.5 rounded-full hover:bg-white/20 text-white transition-colors"
+                      title="Siguiente"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2 max-w-xl">
+                  <span className="text-amber-400 font-bold text-xs uppercase tracking-wider block">
+                    {currentBanner.tag}
+                  </span>
+                  <h3 className="text-xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">
+                    {currentBanner.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-200 font-medium line-clamp-2">
+                    {currentBanner.subtitle}
+                  </p>
+                  
+                  <div className="pt-2 flex items-center gap-3">
+                    <Link
+                      to={currentBanner.link}
+                      className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs inline-flex items-center gap-1.5 shadow-md transition-all active:scale-95"
+                    >
+                      <span>{currentBanner.ctaText}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                    <a
+                      href="#planes-saas"
+                      className="text-xs text-slate-400 hover:text-white underline font-semibold"
+                    >
+                      Pautá tu comercio aquí
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">7 Ciudades</div>
-              <p className="text-xs text-slate-500 font-bold mt-1">Corredor Conectado</p>
-            </div>
+          </div>
+        </section>
+      )}
 
-            <div>
-              <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">+15.000</div>
-              <p className="text-xs text-slate-500 font-bold mt-1">Búsquedas Mensuales</p>
-            </div>
-
-            <div>
-              <div className="text-3xl sm:text-4xl font-black text-emerald-600 tracking-tight">0% Comisión</div>
-              <p className="text-xs text-slate-500 font-bold mt-1">Contacto 100% Directo</p>
-            </div>
+      {/* ======================================================== */}
+      {/* 6. PWA PROMO CARD (PAGE 2 REQUIREMENT - "QUEDA COMO ESTA") */}
+      {/* ======================================================== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 w-full">
+        <div className="bg-gradient-to-r from-[#0d1e2c] via-[#0b2838] to-[#0d1e2c] rounded-[2.5rem] p-6 sm:p-8 text-white shadow-xl border border-teal-800/40 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div className="space-y-2 max-w-xl text-center md:text-left z-10">
+            <span className="text-[10px] font-black uppercase tracking-widest text-teal-400 bg-teal-950/60 px-2.5 py-1 rounded-md border border-teal-700/40">
+              TECNOLOGÍA PWA
+            </span>
+            <h3 className="text-xl sm:text-2xl font-black text-white">
+              La Guía PWA que va con vos
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed font-medium">
+              Instalá nuestra App en tu celular y consultá los comercios incluso sin conexión de datos en todo Sierras Chicas.
+            </p>
           </div>
 
-          {/* Sello de Garantía Regional */}
-          <div className="flex items-center gap-3.5 bg-gradient-to-br from-amber-500/15 to-amber-500/5 border border-amber-500/20 px-5 py-3.5 rounded-2xl shrink-0">
-            <Award className="w-9 h-9 text-amber-600 shrink-0" />
-            <div>
-              <span className="text-xs font-black text-slate-900 block">Red Verificada 2026</span>
-              <span className="text-[11px] text-slate-600 font-medium">Directorio Oficial de Sierras Chicas</span>
-            </div>
+          <div className="flex items-center gap-3 z-10">
+            <button
+              type="button"
+              onClick={() => setIsPwaModalOpen(true)}
+              className="px-6 py-3 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-xs flex items-center gap-2 shadow-lg shadow-teal-900/40 transition-transform active:scale-95"
+            >
+              <Smartphone className="w-4 h-4" />
+              <span>Instalar Gratis</span>
+            </button>
           </div>
-
         </div>
       </section>
 
       {/* ======================================================== */}
-      {/* 5. FEATURED LISTINGS SECTION (4-Column Modern Responsive Grid) */}
+      {/* 7. FEATURED LISTINGS SECTION (CATÁLOGO REGIONAL)         */}
       {/* ======================================================== */}
-      <section ref={directorySectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-7 w-full">
+      <section ref={directorySectionRef} id="catalogo-directorio" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-7 w-full">
         
         {/* Header with Mode Filter & Switcher */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
@@ -542,7 +740,7 @@ export default function HomeDirectoryView() {
             </button>
           </div>
         ) : viewMode === 'grid' ? (
-          /* 4-Column Responsive Grid with Smooth Elevation Physics */
+          /* 4-Column Responsive Grid */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredBusinesses.map(biz => {
               const isFav = favorites.includes(biz.id);
@@ -713,9 +911,9 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 6. MULTI-COLUMN CATEGORY DIRECTORY (2-Column Bento Cards) */}
+      {/* 8. MULTI-COLUMN CATEGORY DIRECTORY (2-Column Bento Cards) */}
       {/* ======================================================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-8 w-full">
+      <section id="categorias-guia" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-8 w-full">
         <div className="text-center space-y-2 max-w-2xl mx-auto">
           <span className="text-xs font-black text-amber-600 uppercase tracking-widest block">
             EXPLORA LA GUÍA COMERCIAL COMPLETA
@@ -779,87 +977,57 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 7. NOVELTY COMPONENT: MERCHANT GROWTH SIMULATOR & SAAS PLANS */}
+      {/* 9. MERCHANT GROWTH SIMULATOR & SAAS PLANS (PAGE 3 & 4)    */}
       {/* ======================================================== */}
       <section id="planes-saas" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10 w-full border-t border-slate-200">
         
-        {/* Interactive Growth Simulator Header */}
+        {/* Interactive Growth Simulator Header (Updated Title & Configurable Levels) */}
         <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-950 text-white rounded-[2.5rem] p-6 sm:p-10 shadow-2xl space-y-8 border border-indigo-900/40 relative overflow-hidden">
           
           <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-amber-500/10 blur-[100px] pointer-events-none"></div>
 
           <div className="max-w-3xl space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/10 text-amber-300 text-xs font-black border border-amber-400/20">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>SIMULADOR DE IMPACTO COMERCIAL 2026</span>
-            </div>
             <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
-              ¿Cuánto querés hacer crecer tu negocio este mes?
+              ¿Cuánto querés hacer crecer tu negocio?
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 font-medium">
               Elegí tu objetivo y descubrí la herramienta de venta directa por WhatsApp que mejor se adapta a tu emprendimiento:
             </p>
           </div>
 
-          {/* Simulator Toggle Pills */}
+          {/* Simulator Toggle Pills (Rendered dynamically from configurable levels) */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => setSimulatorGoal('inicial')}
-              className={`p-4 rounded-2xl text-left border transition-all duration-300 ${
-                simulatorGoal === 'inicial'
-                  ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 scale-[1.02]'
-                  : 'bg-white/5 hover:bg-white/10 text-white border-white/10'
-              }`}
-            >
-              <div className="text-xs font-black uppercase tracking-wider">Nivel 1: Presencia Básica</div>
-              <div className="text-base font-black mt-1">Profesionales & Avisos</div>
-              <p className={`text-[11px] mt-1 ${simulatorGoal === 'inicial' ? 'text-slate-900 font-bold' : 'text-slate-400'}`}>
-                Aparición en el directorio, SEO y botón WhatsApp directo.
-              </p>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSimulatorGoal('pro')}
-              className={`p-4 rounded-2xl text-left border transition-all duration-300 ${
-                simulatorGoal === 'pro'
-                  ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 scale-[1.02]'
-                  : 'bg-white/5 hover:bg-white/10 text-white border-white/10'
-              }`}
-            >
-              <div className="text-xs font-black uppercase tracking-wider">Nivel 2: Comercio Activo (Recomendado)</div>
-              <div className="text-base font-black mt-1">Góndola & Pedidos Online</div>
-              <p className={`text-[11px] mt-1 ${simulatorGoal === 'pro' ? 'text-slate-900 font-bold' : 'text-slate-400'}`}>
-                Carta/catálogo digital con carrito de compras y pedidos a WhatsApp.
-              </p>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSimulatorGoal('full')}
-              className={`p-4 rounded-2xl text-left border transition-all duration-300 ${
-                simulatorGoal === 'full'
-                  ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 scale-[1.02]'
-                  : 'bg-white/5 hover:bg-white/10 text-white border-white/10'
-              }`}
-            >
-              <div className="text-xs font-black uppercase tracking-wider">Nivel 3: Máxima Tracción</div>
-              <div className="text-base font-black mt-1">Multi-Sucursal & Banner Destacado</div>
-              <p className={`text-[11px] mt-1 ${simulatorGoal === 'full' ? 'text-slate-900 font-bold' : 'text-slate-400'}`}>
-                Posicionamiento premium en el Hero y campañas destacadas.
-              </p>
-            </button>
+            {simulatorLevels.map((lvl) => {
+              const isSelected = simulatorGoal === lvl.id;
+              return (
+                <button
+                  key={lvl.id}
+                  type="button"
+                  onClick={() => setSimulatorGoal(lvl.id)}
+                  className={`p-4 rounded-2xl text-left border transition-all duration-300 ${
+                    isSelected
+                      ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-lg shadow-amber-500/30 scale-[1.02]'
+                      : 'bg-white/5 hover:bg-white/10 text-white border-white/10'
+                  }`}
+                >
+                  <div className="text-xs font-black uppercase tracking-wider">{lvl.levelTag}</div>
+                  <div className="text-base font-black mt-1">{lvl.title}</div>
+                  <p className={`text-[11px] mt-1 ${isSelected ? 'text-slate-900 font-bold' : 'text-slate-400'}`}>
+                    {lvl.description}
+                  </p>
+                </button>
+              );
+            })}
           </div>
 
         </div>
 
-        {/* Public SaaS Plans Pricing Grid */}
+        {/* Public SaaS Plans Pricing Grid (Configured from SaaS Admin) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {plans.map(plan => {
-            const isMatch = (simulatorGoal === 'inicial' && plan.id === 'plan-inicial') ||
-                            (simulatorGoal === 'pro' && plan.id === 'plan-pro') ||
-                            (simulatorGoal === 'full' && plan.id === 'plan-full');
+            const isMatch = (simulatorGoal === 'inicial' && (plan.id === 'plan-1' || plan.id === 'plan-inicial')) ||
+                            (simulatorGoal === 'pro' && (plan.id === 'plan-2' || plan.id === 'plan-pro')) ||
+                            (simulatorGoal === 'full' && (plan.id === 'plan-3' || plan.id === 'plan-full' || plan.id === 'plan-vip'));
 
             return (
               <div
@@ -887,7 +1055,7 @@ export default function HomeDirectoryView() {
                   <div>
                     <h3 className="text-xl font-black">{plan.name}</h3>
                     <p className="text-xs opacity-75 mt-1 font-medium">
-                      Ideal para {plan.id === 'plan-inicial' ? 'profesionales y avisos simples' : plan.id === 'plan-pro' ? 'comercios y gastronomía con pedidos' : 'cadenas y marcas líderes'}.
+                      {plan.description || (plan.id === 'plan-1' ? 'Ideal para profesionales y avisos simples' : plan.id === 'plan-2' ? 'Ideal para comercios y gastronomía con pedidos' : 'Ideal para marcas consolidadas y cadenas')}.
                     </p>
                   </div>
 
@@ -912,7 +1080,7 @@ export default function HomeDirectoryView() {
                 </div>
 
                 <a
-                  href={plan.mpCheckoutUrl || 'https://mpago.la/sierras-chicas-saas'}
+                  href={plan.mpCheckoutUrl || plan.checkoutUrl || 'https://mpago.la/sierras-chicas-saas'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-full py-3.5 rounded-2xl font-black text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 hf-shimmer-btn ${
@@ -932,9 +1100,137 @@ export default function HomeDirectoryView() {
       </section>
 
       {/* ======================================================== */}
-      {/* 8. PRE-FOOTER NEWSLETTER & REGISTRATION BANNER */}
+      {/* 10. SECCIÓN NOSOTROS (PAGE 1 REQUIREMENT)                 */}
       {/* ======================================================== */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white py-16 px-4 sm:px-6 lg:px-8">
+      <section id="nosotros" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 w-full">
+        <div className="bg-white rounded-[2.5rem] p-6 sm:p-10 border border-slate-100 shadow-xl space-y-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="space-y-4 max-w-2xl">
+              <span className="text-xs font-black text-emerald-800 uppercase tracking-widest block">
+                CONOCENOS
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                El corazón digital del valle de Sierras Chicas
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+                <strong>Sierras Chicas Digital</strong> nació con el propósito de conectar de manera directa y moderna a vecinos, turistas, comerciantes y prestadores de servicios de todo el corredor serrano (desde La Calera hasta La Granja).
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100 space-y-1.5">
+                  <h4 className="font-black text-sm text-emerald-950 flex items-center gap-2">
+                    <span>🏔️</span> Comercio de Cercanía
+                  </h4>
+                  <p className="text-xs text-emerald-900/80">
+                    Fomentamos el consumo local, eliminando intermediarios y conectando clientes con locales en tiempo real.
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-100 space-y-1.5">
+                  <h4 className="font-black text-sm text-amber-950 flex items-center gap-2">
+                    <span>⚡</span> Tecnología PWA & POS
+                  </h4>
+                  <p className="text-xs text-amber-900/80">
+                    Herramientas ágiles para comandas en mostrador, carritos para WhatsApp y pagos inmediatos.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full lg:w-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-100 bg-slate-900 shrink-0">
+              <img
+                src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80"
+                alt="Paisaje Sierras Chicas"
+                className="w-full h-72 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 11. PREGUNTAS FRECUENTES (PAGE 1 REQUIREMENT)            */}
+      {/* ======================================================== */}
+      <section id="preguntas" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-6 w-full">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-black text-amber-600 uppercase tracking-widest block">
+            DUDAS FRECUENTES
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            Preguntas Frecuentes
+          </h2>
+          <p className="text-xs text-slate-500 font-medium">
+            Todo lo que necesitás saber sobre el uso del directorio y la publicación de comercios.
+          </p>
+        </div>
+
+        <div className="space-y-3 pt-2">
+          {faqs.map((faq, idx) => {
+            const isOpen = openFaqIndex === idx;
+            return (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs transition-all"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-3 text-xs sm:text-sm font-black text-slate-900 hover:bg-slate-50"
+                >
+                  <span>{faq.q}</span>
+                  <ChevronRight className={`w-4 h-4 text-slate-400 shrink-0 transition-transform ${isOpen ? 'rotate-90 text-amber-600' : ''}`} />
+                </button>
+                {isOpen && (
+                  <div className="px-4 sm:px-5 pb-5 text-xs text-slate-600 leading-relaxed font-medium animate-in fade-in border-t border-slate-100 pt-3">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 12. SECCIÓN CONTACTO (PAGE 1 & 5 REQUIREMENT)            */}
+      {/* ======================================================== */}
+      <section id="contacto" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-[2.5rem] p-6 sm:p-10 border border-slate-800 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 max-w-xl text-center lg:text-left">
+            <span className="text-xs font-black text-emerald-400 uppercase tracking-widest block">
+              CANAL OFICIAL
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              ¿Querés comunicarte con nuestro equipo?
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed">
+              Escribinos para sumar tu municipio, asociar tu cámara comercial o consultar por pauta destacada en el portal.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto shrink-0">
+            <a
+              href={`https://wa.me/${(settings?.supportWhatsApp || '5493543123456').replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hola Sierras Chicas Digital, quiero contactarme.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/30 transition-transform active:scale-95"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Contactar por WhatsApp</span>
+            </a>
+            <Link
+              to="/login"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center gap-2 border border-white/10 backdrop-blur-md"
+            >
+              <Store className="w-4 h-4 text-amber-400" />
+              <span>Acceso Comercios</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 13. PRE-FOOTER NEWSLETTER (PAGE 4: NO EXTRA BLANK SPACE) */}
+      {/* ======================================================== */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white pt-12 pb-12 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
         <div className="max-w-4xl mx-auto text-center space-y-5">
           <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
             Registrate para recibir las últimas novedades y promociones del valle.
@@ -972,4 +1268,3 @@ export default function HomeDirectoryView() {
     </div>
   );
 }
-

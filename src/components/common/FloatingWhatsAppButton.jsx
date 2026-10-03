@@ -6,7 +6,7 @@ export default function FloatingWhatsAppButton() {
   const { settings } = useApp();
   const [isOpen, setIsOpen] = useState(false);
 
-  const supportPhone = settings?.supportWhatsapp || '5493543123456';
+  const supportPhone = settings?.supportWhatsApp || settings?.supportWhatsapp || '5493543123456';
   const cleanPhone = supportPhone.replace(/[^0-9]/g, '');
 
   const openWhatsApp = (msg) => {
@@ -14,6 +14,7 @@ export default function FloatingWhatsAppButton() {
     window.open(`https://wa.me/${cleanPhone}?text=${text}`, '_blank');
     setIsOpen(false);
   };
+
 
   return (
     <div className="fixed bottom-20 md:bottom-6 right-4 z-40 flex flex-col items-end">

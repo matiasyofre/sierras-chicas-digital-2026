@@ -27,6 +27,7 @@ export default function CartSlideOver() {
   } = useApp();
 
   const [deliveryMethod, setDeliveryMethod] = useState('delivery'); // 'delivery', 'takeaway'
+  const [selectedZoneId, setSelectedZoneId] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
   const [customerNotes, setCustomerNotes] = useState('');
@@ -35,7 +36,13 @@ export default function CartSlideOver() {
 
   if (!isCartOpen) return null;
 
-  const deliveryFee = deliveryMethod === 'delivery' ? 1200 : 0;
+  const availableZones = cartBusiness?.deliveryZones || [
+    { id: 'z1', name: 'Radio Céntrico / Base', price: 1200 },
+    { id: 'z2', name: 'Localidades Vecinas / Radio Extendido', price: 2200 }
+  ];
+
+  const currentZone = availableZones.find(z => z.id === selectedZoneId) || availableZones[0];
+  const deliveryFee = deliveryMethod === 'delivery' ? (currentZone?.price ?? 1200) : 0;
   const total = cartSubtotal + deliveryFee;
 
   const handleCheckoutWhatsApp = () => {
@@ -56,7 +63,13 @@ export default function CartSlideOver() {
     message += `🏪 *Comercio:* ${cartBusiness?.name || 'Local'}\n`;
     message += `🔢 *ID de Pedido:* ${orderNumber}\n\n`;
     message += `👤 *Cliente:* ${customerName}\n`;
-    message += `📍 *Entrega:* ${deliveryMethod === 'delivery' ? `Envío a domicilio (${customerAddress})` : 'Retiro por mostrador / local'}\n`;
+    if (deliveryMethod === 'delivery') {
+      message += `📍 *Modalidad:* Envío a Domicilio\n`;
+      message += `🛵 *Zona:* ${currentZone?.name || 'Zona General'} ($${deliveryFee.toLocaleString('es-AR')})\n`;
+      message += `🏠 *Dirección:* ${customerAddress}\n`;
+    } else {
+      message += `📍 *Modalidad:* Retiro por Mostrador / Local\n`;
+    }
     message += `💳 *Forma de Pago:* ${paymentMethod}\n`;
     if (customerNotes) message += `📝 *Aclaraciones:* ${customerNotes}\n`;
     message += `\n📋 *DETALLE DEL PEDIDO:*\n`;
@@ -66,7 +79,7 @@ export default function CartSlideOver() {
     });
 
     message += `\n*Subtotal:* $${cartSubtotal.toLocaleString('es-AR')}\n`;
-    if (deliveryFee > 0) message += `*Costo de Envío:* $${deliveryFee.toLocaleString('es-AR')}\n`;
+    if (deliveryFee > 0) message += `*Costo de Envío (${currentZone?.name || 'Delivery'}):* $${deliveryFee.toLocaleString('es-AR')}\n`;
     message += `*TOTAL FINAL:* $${total.toLocaleString('es-AR')}\n\n`;
     message += `_Pedido generado desde Sierras Chicas Digital PWA_`;
 
@@ -76,9 +89,10 @@ export default function CartSlideOver() {
       businessId: cartBusiness?.id || 'biz-1',
       customerName,
       customerPhone: '',
-      customerAddress: deliveryMethod === 'delivery' ? customerAddress : 'Retira por local',
+      customerAddress: deliveryMethod === 'delivery' ? `${customerAddress} (${currentZone?.name || 'Envío'})` : 'Retira por local',
       customerNotes,
       deliveryMethod,
+      deliveryZoneName: currentZone?.name || '',
       paymentMethod,
       items: cart.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
       subtotal: cartSubtotal,
@@ -222,19 +236,19 @@ export default function CartSlideOver() {
                       onClick={() => setDeliveryMethod('delivery')}
                       className={`p-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${
                         deliveryMethod === 'delivery'
-                          ? 'bg-primary-fixed border-primary text-on-primary-fixed shadow-sm'
+                          ? 'bg-amber-50 border-amber-500 text-amber-900 shadow-sm ring-2 ring-amber-500/20'
                           : 'bg-surface border-surface-container-high text-on-surface-variant'
                       }`}
                     >
                       <Truck className="w-4 h-4" />
-                      <span>Envío ($1.200)</span>
+                      <span>Envío a Domicilio</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setDeliveryMethod('takeaway')}
                       className={`p-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${
                         deliveryMethod === 'takeaway'
-                          ? 'bg-primary-fixed border-primary text-on-primary-fixed shadow-sm'
+                          ? 'bg-amber-50 border-amber-500 text-amber-900 shadow-sm ring-2 ring-amber-500/20'
                           : 'bg-surface border-surface-container-high text-on-surface-variant'
                       }`}
                     >
@@ -243,6 +257,30 @@ export default function CartSlideOver() {
                     </button>
                   </div>
                 </div>
+
+                {/* Delivery Zone Selector */}
+                {deliveryMethod === 'delivery' && (
+                  <div className="space-y-2 p-3 rounded-2xl bg-amber-50/50 border border-amber-200">
+                    <label className="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-amber-700" />
+                      <span>Zona o Barrio de Entrega *</span>
+                    </label>
+                    <select
+                      value={selectedZoneId || currentZone?.id}
+                      onChange={e => setSelectedZoneId(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-amber-300 text-xs font-bold text-on-surface focus:outline-none focus:border-amber-600"
+                    >
+                      {availableZones.map(zone => (
+                        <option key={zone.id} value={zone.id}>
+                          {zone.name} — ${zone.price.toLocaleString('es-AR')}
+                        </option>
+                      ))}
+                    </select>
+                    <p className="text-[10px] text-amber-800">
+                      Tarifa asignada por el comercio según la distancia en el corredor.
+                    </p>
+                  </div>
+                )}
 
                 {/* Customer Details Form */}
                 <div className="space-y-2.5 pt-2">
