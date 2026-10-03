@@ -329,13 +329,43 @@ export function AppProvider({ children }) {
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: nextStatus } : o));
   };
 
+  const updateOrder = (orderId, updatedFields) => {
+    setOrders(prev => prev.map(o => {
+      if (o.id !== orderId) return o;
+      const merged = { ...o, ...updatedFields };
+      if ('deliveryFee' in updatedFields || 'subtotal' in updatedFields) {
+        const sub = Number(merged.subtotal) || 0;
+        const fee = Number(merged.deliveryFee) || 0;
+        merged.total = sub + fee;
+      }
+      return merged;
+    }));
+  };
+
+  const generateOrderPaymentLink = (orderId) => {
+    let generatedUrl = '';
+    setOrders(prev => prev.map(o => {
+      if (o.id !== orderId) return o;
+      const randomId = Math.random().toString(36).substring(2, 8);
+      const cleanNum = (o.orderNumber || 'PED').replace(/[^a-zA-Z0-9]/g, '');
+      generatedUrl = `https://mpago.la/sierras-${cleanNum}-${randomId}`;
+      return {
+        ...o,
+        paymentLink: generatedUrl,
+        paymentStatus: 'link_sent'
+      };
+    }));
+    return generatedUrl;
+  };
+
   const addOrder = (newOrder) => {
     const orderWithId = {
       ...newOrder,
       id: 'ord-' + Date.now(),
       orderNumber: '#' + Math.floor(1000 + Math.random() * 9000),
       timeAgo: 'Recién',
-      status: 'pending'
+      status: 'pending',
+      paymentStatus: newOrder.paymentStatus || 'pending'
     };
     setOrders(prev => [orderWithId, ...prev]);
     return orderWithId;
@@ -379,6 +409,8 @@ export function AppProvider({ children }) {
         deleteProduct,
         orders,
         updateOrderStatus,
+        updateOrder,
+        generateOrderPaymentLink,
         addOrder,
         favorites,
         toggleFavorite,

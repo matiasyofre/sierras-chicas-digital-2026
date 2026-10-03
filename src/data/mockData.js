@@ -374,9 +374,11 @@ export const INITIAL_ORDERS = [
     customerName: 'Sofía Martínez',
     customerPhone: '+5493516554433',
     customerAddress: 'Los Aromos 240, Río Ceballos',
-    customerNotes: 'Timbre blanco al fondo, gracias!',
+    customerNotes: 'Coordinamos envío por WhatsApp, consultar costo a barrio Los Quebrachitos',
     deliveryMethod: 'delivery',
     paymentMethod: 'Mercado Pago',
+    paymentStatus: 'pending', // pending, link_sent, paid, cash_on_delivery, transfer_verified
+    paymentLink: null,
     status: 'pending', // pending, preparing, ready, delivered
     timeAgo: 'Hace 4 min',
     items: [
@@ -384,8 +386,8 @@ export const INITIAL_ORDERS = [
       { name: 'Croissant de Almendras', qty: 1, price: 3900 }
     ],
     subtotal: 10300,
-    deliveryFee: 1200,
-    total: 11500
+    deliveryFee: 1500,
+    total: 11800
   },
   {
     id: 'ord-1081',
@@ -393,10 +395,12 @@ export const INITIAL_ORDERS = [
     businessId: 'biz-1',
     customerName: 'Gonzalo Romero',
     customerPhone: '+5493543887766',
-    customerAddress: 'Mesa 4 (Salón)',
-    customerNotes: 'Sin azúcar, edulcorante aparte',
-    deliveryMethod: 'dine_in',
+    customerAddress: 'San Martín 450, Unquillo',
+    customerNotes: 'Paga en efectivo al cadete en mano',
+    deliveryMethod: 'delivery',
     paymentMethod: 'Efectivo',
+    paymentStatus: 'cash_on_delivery',
+    paymentLink: null,
     status: 'preparing',
     timeAgo: 'Hace 14 min',
     items: [
@@ -404,8 +408,8 @@ export const INITIAL_ORDERS = [
       { name: 'Limonada Serrano & Menta', qty: 1, price: 2800 }
     ],
     subtotal: 9300,
-    deliveryFee: 0,
-    total: 9300
+    deliveryFee: 1200,
+    total: 10500
   },
   {
     id: 'ord-1080',
@@ -413,10 +417,12 @@ export const INITIAL_ORDERS = [
     businessId: 'biz-1',
     customerName: 'Lucía Pereyra',
     customerPhone: '+5493512233445',
-    customerAddress: 'Retira por mostrador',
-    customerNotes: 'Paso a buscarlo en 10 min',
+    customerAddress: 'Retira por mostrador / local',
+    customerNotes: 'Paso a buscarlo en 15 min, comprobante enviado',
     deliveryMethod: 'takeaway',
     paymentMethod: 'Transferencia',
+    paymentStatus: 'paid',
+    paymentLink: null,
     status: 'ready',
     timeAgo: 'Hace 28 min',
     items: [
@@ -432,10 +438,12 @@ export const INITIAL_ORDERS = [
     businessId: 'biz-1',
     customerName: 'Esteban Morales',
     customerPhone: '+5493519988776',
-    customerAddress: 'Av. San Martín 1200',
+    customerAddress: 'Av. Goycoechea 1400, Villa Allende',
     customerNotes: 'Entregado con éxito',
     deliveryMethod: 'delivery',
     paymentMethod: 'Mercado Pago',
+    paymentStatus: 'paid',
+    paymentLink: 'https://mpago.la/sierras-1079-demo',
     status: 'delivered',
     timeAgo: 'Hace 45 min',
     items: [
@@ -443,8 +451,8 @@ export const INITIAL_ORDERS = [
       { name: 'Tostón Avocado', qty: 1, price: 6500 }
     ],
     subtotal: 12900,
-    deliveryFee: 1200,
-    total: 14100
+    deliveryFee: 1800,
+    total: 14700
   }
 ];
 
