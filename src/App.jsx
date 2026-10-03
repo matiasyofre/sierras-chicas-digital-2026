@@ -1,143 +1,42 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import AppNavbar from './components/layout/AppNavbar';
-import BottomNavigation from './components/layout/BottomNavigation';
-import AppFooter from './components/layout/AppFooter';
-import CartSlideOver from './components/common/CartSlideOver';
-import PwaInstallPrompt from './components/common/PwaInstallPrompt';
-import ProtectedRoute from './components/common/ProtectedRoute';
-import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
-
-// Auth Views
-import LoginView from './views/auth/LoginView';
-import AdminLoginView from './views/auth/AdminLoginView';
-
-// Vecino / Turista Views
-import HomeDirectoryView from './views/pwa/HomeDirectoryView';
-import ProfessionalProfileView from './views/pwa/ProfessionalProfileView';
-import StoreCartCheckoutView from './views/pwa/StoreCartCheckoutView';
-import NoticeBusinessView from './views/pwa/NoticeBusinessView';
-import FavoritesView from './views/pwa/FavoritesView';
-
-// Merchant Views (Protected)
-import GondolaDataGridView from './views/merchant/GondolaDataGridView';
-import PosKanbanView from './views/merchant/PosKanbanView';
-import MerchantProfileView from './views/merchant/MerchantProfileView';
-
-// Admin Views (Protected)
-import AdminDashboardView from './views/admin/AdminDashboardView';
-import AdminMerchantsView from './views/admin/AdminMerchantsView';
-import AdminSubscriptionsView from './views/admin/AdminSubscriptionsView';
-import AdminTaxonomyView from './views/admin/AdminTaxonomyView';
-import AdminSettingsView from './views/admin/AdminSettingsView';
+import { Sparkles, MapPin, Compass } from 'lucide-react';
 
 export default function App() {
-  const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin');
-  const isAuthPage = location.pathname === '/login';
+  const cities = ['Villa Allende', 'Mendiolaza', 'Unquillo', 'Río Ceballos', 'Salsipuedes', 'El Manzano', 'Agua de Oro', 'La Granja', 'La Calera'];
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface text-on-surface">
-      {/* Top Navbar */}
-      <AppNavbar />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-white px-4 relative overflow-hidden font-sans">
+      {/* Ambient background glows */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      {/* Main Routes with Role-Based Protection */}
-      <div className="flex-1 flex flex-col">
-        <Routes>
-          {/* Public & Vecino / Turista PWA Routes */}
-          <Route path="/" element={<HomeDirectoryView />} />
-          <Route path="/aviso/:slug" element={<NoticeBusinessView />} />
-          <Route path="/comercio/:slug" element={<ProfessionalProfileView />} />
-          <Route path="/tienda/:slug" element={<StoreCartCheckoutView />} />
-          <Route path="/favoritos" element={<FavoritesView />} />
-          <Route path="/login" element={<LoginView />} />
-          <Route path="/admin-auth" element={<AdminLoginView />} />
-          <Route path="/admin/login" element={<AdminLoginView />} />
+      <div className="relative z-10 max-w-xl text-center space-y-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-amber-400 text-xs font-bold uppercase tracking-wider shadow-lg">
+          <Compass className="w-4 h-4 text-amber-400" />
+          <span>Sierras Chicas Digital · 2026</span>
+        </div>
 
-          {/* Merchant Routes (Restricted to 'merchant' and 'admin') */}
-          <Route
-            path="/panel/gondola"
-            element={
-              <ProtectedRoute allowedRoles={['merchant', 'admin']}>
-                <GondolaDataGridView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/panel/pos"
-            element={
-              <ProtectedRoute allowedRoles={['merchant', 'admin']}>
-                <PosKanbanView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/panel/perfil"
-            element={
-              <ProtectedRoute allowedRoles={['merchant', 'admin']}>
-                <MerchantProfileView />
-              </ProtectedRoute>
-            }
-          />
+        <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+          Próximamente en <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">Sierras Chicas</span>
+        </h1>
 
-          {/* SuperAdmin Routes (Restricted strictly to 'admin') */}
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminDashboardView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/comercios"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminMerchantsView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/suscripciones"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminSubscriptionsView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/categorias"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminTaxonomyView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/configuracion"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminSettingsView />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+        <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-md mx-auto">
+          Estamos preparando la nueva plataforma digital de comercios, turismo, gastronomía y servicios para todo el corredor.
+        </p>
+
+        <div className="pt-4 flex flex-wrap justify-center gap-2 max-w-md mx-auto">
+          {cities.map((city, idx) => (
+            <span key={idx} className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300 font-medium flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-amber-500" />
+              {city}
+            </span>
+          ))}
+        </div>
+
+        <div className="pt-8 border-t border-slate-900 text-xs text-slate-500">
+          Entorno en preparación · Red Regional Sierras Chicas
+        </div>
       </div>
-
-      {/* Global Interactive Cart Drawer */}
-      <CartSlideOver />
-
-      {/* PWA Install Prompt */}
-      <PwaInstallPrompt />
-
-      {/* Floating Regional Support WhatsApp Button */}
-      {!isAdmin && <FloatingWhatsAppButton />}
-
-      {/* Footer (Not on admin pages or login) */}
-      {!isAdmin && !isAuthPage && <AppFooter />}
-
-      {/* Mobile Bottom Navigation */}
-      <BottomNavigation />
     </div>
   );
 }
