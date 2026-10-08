@@ -30,10 +30,10 @@ import {
 export default function PosKanbanView() {
   const { orders, updateOrderStatus, updateOrder, generateOrderPaymentLink, addOrder, currentUser, businesses } = useApp();
 
-  const currentBiz = businesses.find(b => b.id === currentUser?.businessId) || businesses[0];
+  const currentBiz = (businesses && businesses.find(b => b.id === currentUser?.businessId)) || (businesses && businesses[0]) || {};
   
   // Tenant Isolation: strictly filter orders for currentBiz
-  const merchantOrders = orders.filter(o => o.businessId === currentBiz.id);
+  const merchantOrders = (orders || []).filter(o => !currentBiz?.id || o.businessId === currentBiz?.id);
 
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'pending', 'preparing', 'ready', 'delivered'
   const [manualModalOpen, setManualModalOpen] = useState(false);

@@ -6,12 +6,12 @@ import { useApp } from '../../context/AppContext';
 export default function MerchantNav() {
   const { currentUser, businesses } = useApp();
   
-  const currentBiz = businesses.find(b => b.id === currentUser?.businessId) || businesses[0];
-  const targetPreviewUrl = currentBiz.businessMode === 'aviso'
-    ? `/aviso/${currentBiz.slug}`
-    : currentBiz.businessMode === 'servicios'
-    ? `/comercio/${currentBiz.slug}`
-    : `/tienda/${currentBiz.slug}`;
+  const currentBiz = (businesses && businesses.find(b => b.id === currentUser?.businessId)) || (businesses && businesses[0]) || {};
+  const targetPreviewUrl = currentBiz?.businessMode === 'aviso'
+    ? `/aviso/${currentBiz?.slug || ''}`
+    : currentBiz?.businessMode === 'servicios'
+    ? `/comercio/${currentBiz?.slug || ''}`
+    : `/tienda/${currentBiz?.slug || ''}`;
 
   return (
     <div className="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-16 sm:top-20 z-40 shadow-xs">
@@ -28,7 +28,7 @@ export default function MerchantNav() {
                   Panel de Autogestión del Comercio
                 </h2>
                 <span className="text-[11px] text-slate-500 font-bold">
-                  {currentBiz.name} · {currentBiz.planName || 'Plan Pro'}
+                  {currentBiz?.name || 'Mi Comercio'} · {currentBiz?.planName || 'Plan Pro'}
                 </span>
               </div>
             </div>

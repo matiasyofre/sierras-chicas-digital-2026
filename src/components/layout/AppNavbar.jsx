@@ -47,7 +47,7 @@ export default function AppNavbar() {
   const locationDropdownRef = useRef(null);
   const userDropdownRef = useRef(null);
 
-  const selectedLocObj = locations.find(l => l.slug === selectedLocation);
+  const selectedLocObj = (locations || []).find(l => l.slug === selectedLocation);
 
   // Click outside listener for dropdowns
   useEffect(() => {

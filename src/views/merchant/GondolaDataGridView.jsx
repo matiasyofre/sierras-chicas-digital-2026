@@ -17,18 +17,19 @@ import {
   Tag,
   Infinity as InfinityIcon,
   Layers,
-  X
+  X,
+  Eye
 } from 'lucide-react';
 
 export default function GondolaDataGridView() {
   const { products, updateProduct, addProduct, deleteProduct, tags, categories: adminCategories, currentUser, businesses } = useApp();
   
-  const currentBiz = businesses.find(b => b.id === currentUser?.businessId) || businesses[0];
-  const targetPreviewUrl = currentBiz.businessMode === 'aviso'
-    ? `/aviso/${currentBiz.slug}`
-    : currentBiz.businessMode === 'servicios'
-    ? `/comercio/${currentBiz.slug}`
-    : `/tienda/${currentBiz.slug}`;
+  const currentBiz = (businesses && businesses.find(b => b.id === currentUser?.businessId)) || (businesses && businesses[0]) || {};
+  const targetPreviewUrl = currentBiz?.businessMode === 'aviso'
+    ? `/aviso/${currentBiz?.slug || ''}`
+    : currentBiz?.businessMode === 'servicios'
+    ? `/comercio/${currentBiz?.slug || ''}`
+    : `/tienda/${currentBiz?.slug || ''}`;
 
   const [localProducts, setLocalProducts] = useState(products);
   const [searchTerm, setSearchTerm] = useState('');
@@ -296,7 +297,7 @@ export default function GondolaDataGridView() {
 
                     <td className="p-4">
                       <select
-                        value={prod.categoryName || defaultCategory}
+                        value={prod.categoryName || defaultCatObj.name}
                         onChange={e => handleInlineChange(prod.id, 'categoryName', e.target.value)}
                         className="px-2.5 py-1 rounded-xl bg-surface border border-surface-container-high text-[11px] font-semibold text-on-surface focus:outline-none focus:border-primary"
                       >
