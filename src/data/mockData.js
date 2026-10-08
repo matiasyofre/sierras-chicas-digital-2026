@@ -307,7 +307,7 @@ export const INITIAL_BUSINESSES = [
     reviewCount: 215,
     status: 'active',
     planId: 'plan-3',
-    planName: 'Valle Destacado VIP',
+    planName: 'Corredor Destacado VIP',
     priceArs: 34900
   },
   {
@@ -352,7 +352,7 @@ export const INITIAL_BUSINESSES = [
     name: 'HyFact Software & Instalaciones',
     slug: 'hyfact-software-instalaciones',
     tagline: 'Software de gestión, cableado estructurado y soporte informático en Sierras Chicas.',
-    description: 'Soluciones integrales de software comercial, redes y soporte técnico para locales, cabañas y profesionales del valle. Atención personalizada y presupuestos sin cargo.',
+    description: 'Soluciones integrales de software comercial, redes y soporte técnico para locales, cabañas y profesionales del corredor. Atención personalizada y presupuestos sin cargo.',
     categoryId: 'cat-3',
     categoryName: 'Servicios Profesionales',
     locationId: 'loc-1',
@@ -569,6 +569,13 @@ export const INITIAL_ORDERS = [
   }
 ];
 
+export const INITIAL_BADGES = [
+  { id: 'badge-1', label: '⭐ Destacado', color: 'bg-amber-100 text-amber-900 border-amber-300', description: 'Prioridad máxima en búsquedas y explorador' },
+  { id: 'badge-2', label: '🛡️ Verificado', color: 'bg-emerald-100 text-emerald-900 border-emerald-300', description: 'Comercio o profesional con identidad validada' },
+  { id: 'badge-3', label: '⚡ Góndola en Vivo', color: 'bg-teal-100 text-teal-900 border-teal-300', description: 'Aparece en el banner dinámico de últimas altas' },
+  { id: 'badge-4', label: '👑 VIP Corredor', color: 'bg-indigo-100 text-indigo-900 border-indigo-300', description: 'Presencia premium con pauta en carrusel' }
+];
+
 export const INITIAL_PLANS = [
   {
     id: 'plan-1',
@@ -576,21 +583,27 @@ export const INITIAL_PLANS = [
     slug: 'basico',
     priceArs: 9900,
     billingPeriod: 'mensual',
-    description: 'Presencia institucional y contacto directo en el directorio serrano.',
-    maxProducts: 20,
-    maxPhotos: 3,
-    maxVideos: 1,
-    allowFeatured: false,
-    allowTags: true,
-    allowGondolaLive: false,
-    allowBannerAds: false,
-    allowDeliveryZones: false,
-    allowInstagram: true,
-    allowVerifiedBadge: true,
-    allowQuoteRequests: true,
-    allowStoreCart: false,
-    allowPosKanban: false,
-    allowPaymentLinks: false,
+    description: 'Presencia institucional, aviso clasificado y contacto directo en el corredor serrano.',
+    // Matriz de 19 Funcionalidades
+    allowNotice: true,                // 1. Publicar aviso publicitario
+    allowNoticePanel: true,           // 2. Panel para gestionar el aviso
+    maxPhotos: 3,                     // 3. Cantidad de fotos del aviso
+    maxVideos: 1,                     // 4. Cantidad de videos
+    allowFeatured: false,             // 5. Posibilidad de destacar el aviso
+    allowTags: true,                  // 6. Posibilidad de usar etiquetas
+    allowStoreCart: false,            // 7. Publicar tienda
+    maxProducts: 20,                  // 8. Cantidad de productos
+    allowProductPanel: true,          // 9. Panel para cargar productos
+    allowPosKanban: false,            // 10. Módulo de pedidos
+    allowBannerAds: false,            // 11. Banner publicitario en landing
+    allowFeaturedStore: false,        // 12. Tienda destacada
+    allowVerifiedBadge: true,         // 13. Comercio o profesional verificado
+    allowInstagram: true,             // 14. Acceso a Instagram del comercio
+    allowServices: true,              // 15. Publicitar servicios
+    allowQuoteRequests: true,         // 16. Pedir presupuestos
+    allowPaymentLinks: false,         // 17. Integración con Mercado Pago para links
+    allowGondolaLive: false,          // 18. Banner góndola en vivo
+    allowDeliveryZones: false,        // 19. Determinar zonas de delivery
     mpCheckoutUrl: 'https://mpago.la/sierras-basico-9900',
     checkoutUrl: 'https://mpago.la/sierras-basico-9900',
     features: [
@@ -600,6 +613,8 @@ export const INITIAL_PLANS = [
       'Hasta 3 fotos en la galería y 1 video',
       'Hasta 20 productos / servicios de referencia',
       'Acceso a Instagram y datos del comercio',
+      'Publicitar servicios y recibir presupuestos',
+      'Distintivo de comercio verificado',
       'Presencia en búsquedas locales de Sierras Chicas'
     ],
     activeMerchants: 48
@@ -612,20 +627,26 @@ export const INITIAL_PLANS = [
     billingPeriod: 'mensual',
     isFeatured: true,
     description: 'Catálogo interactivo con pedidos automáticos, delivery y gestión de comandas en vivo.',
-    maxProducts: 150,
+    // Matriz de 19 Funcionalidades
+    allowNotice: true,
+    allowNoticePanel: true,
     maxPhotos: 10,
     maxVideos: 3,
     allowFeatured: true,
     allowTags: true,
-    allowGondolaLive: true,
-    allowBannerAds: false,
-    allowDeliveryZones: true,
-    allowInstagram: true,
-    allowVerifiedBadge: true,
-    allowQuoteRequests: true,
     allowStoreCart: true,
+    maxProducts: 150,
+    allowProductPanel: true,
     allowPosKanban: true,
+    allowBannerAds: false,
+    allowFeaturedStore: true,
+    allowVerifiedBadge: true,
+    allowInstagram: true,
+    allowServices: true,
+    allowQuoteRequests: true,
     allowPaymentLinks: true,
+    allowGondolaLive: true,
+    allowDeliveryZones: true,
     mpCheckoutUrl: 'https://mpago.la/sierras-pro-19900',
     checkoutUrl: 'https://mpago.la/sierras-pro-19900',
     features: [
@@ -635,39 +656,47 @@ export const INITIAL_PLANS = [
       'Góndola de edición rápida de precios y stock',
       'Tablero POS / Kanban en vivo para comandas',
       'Establecer zonas de precios para delivery',
-      'Generación de links de pago Mercado Pago',
-      'Banner góndola en vivo incluido',
+      'Integración Mercado Pago para generación de links de pago',
+      'Banner góndola en vivo incluido (últimas tiendas)',
+      'Tienda destacada con sello especial',
       'Hasta 10 fotos y 3 videos en alta resolución',
-      'Hasta 150 productos activos'
+      'Hasta 150 productos activos en catálogo'
     ],
     activeMerchants: 84
   },
   {
     id: 'plan-3',
-    name: 'Valle Destacado VIP',
+    name: 'Corredor Destacado VIP',
     slug: 'vip',
     priceArs: 34900,
     billingPeriod: 'mensual',
     description: 'Máxima exposición con posición prioritaria, pauta en carrusel y soporte integral.',
-    maxProducts: 500,
+    // Matriz de 19 Funcionalidades
+    allowNotice: true,
+    allowNoticePanel: true,
     maxPhotos: 30,
     maxVideos: 10,
     allowFeatured: true,
     allowTags: true,
-    allowGondolaLive: true,
-    allowBannerAds: true,
-    allowDeliveryZones: true,
-    allowInstagram: true,
-    allowVerifiedBadge: true,
-    allowQuoteRequests: true,
     allowStoreCart: true,
+    maxProducts: 500,
+    allowProductPanel: true,
     allowPosKanban: true,
+    allowBannerAds: true,
+    allowFeaturedStore: true,
+    allowVerifiedBadge: true,
+    allowInstagram: true,
+    allowServices: true,
+    allowQuoteRequests: true,
     allowPaymentLinks: true,
+    allowGondolaLive: true,
+    allowDeliveryZones: true,
     mpCheckoutUrl: 'https://mpago.la/sierras-vip-34900',
     checkoutUrl: 'https://mpago.la/sierras-vip-34900',
     features: [
-      'Todo lo del plan Negocio Pro',
+      'Todo lo del plan Negocio Pro & POS',
       'Banner publicitario en carrusel de la landing',
+      'Formulario exclusivo para configurar banner carrusel',
       'Posición destacada #1 en búsquedas y categorías',
       'Badge VIP dorado y sello verificado premium',
       'Fotos y videos ampliados (hasta 30 fotos / 10 videos)',

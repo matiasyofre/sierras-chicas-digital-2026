@@ -1,24 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { 
   Search, 
   MapPin, 
   Sparkles, 
-  X, 
-  Play, 
-  Pause, 
-  Volume2, 
-  VolumeX 
+  X
 } from 'lucide-react';
-import BlurTextReveal from '../common/BlurTextReveal';
 
 /**
- * Hero9Section - React Bits Pro "Hero 9" Block
- * Adapted for Sierras Chicas Digital (Córdoba, Argentina)
+ * Hero9Section - Cinematic Drone Hero with Dynamic Quick Badges & Calibrated Contrast Overlay
  * Features:
- * - Full-screen cinematic video background of Sierras Chicas mountains & nature
- * - Staggered Blur Text Reveal animation
- * - Integrated Live Regional Search & City Selector
- * - Glassmorphic floating badges & micro-interactions
+ * - Autoplay loop muted drone footage of Sierras Chicas
+ * - Soft desaturating / clarifying overlay for eye comfort and maximum sharpness
+ * - Dynamic fast-access category capsules (only categories with active merchants)
+ * - Live auto-completing search bar & city selector
  */
 export default function Hero9Section({
   searchQuery,
@@ -26,6 +20,8 @@ export default function Hero9Section({
   selectedLocation,
   setSelectedLocation,
   locations = [],
+  categories = [],
+  businesses = [],
   scrollToDirectory,
   matchingTaxonomy = [],
   isSearchFocused,
@@ -34,44 +30,28 @@ export default function Hero9Section({
   searchContainerRef,
   onCategoryQuickSelect
 }) {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef(null);
 
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  const quickBadges = [
-    { label: '🏡 Cabañas & Turismo', cat: 'turismo-alojamiento' },
-    { label: '🍕 Gastronomía Serrana', cat: 'gastronomia' },
-    { label: '⚡ Electricistas & Gasistas', cat: 'construccion-hogar' },
-    { label: '🐾 Veterinarias & Salud', cat: 'salud-bienestar' },
-  ];
+  // Compute dynamic fast-access category capsules based on categories with active merchants
+  const dynamicQuickBadges = categories
+    .filter(cat => {
+      if (!businesses || businesses.length === 0) return true;
+      return businesses.some(b => b.categoryId === cat.id || b.categoryName === cat.name || b.category === cat.slug);
+    })
+    .slice(0, 5)
+    .map(cat => ({
+      label: `${cat.emoji || '✨'} ${cat.name}`,
+      cat: cat.slug
+    }));
 
   return (
     <section className="relative min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-center items-center overflow-hidden text-white pt-16 sm:pt-20 pb-24 px-4 sm:px-6 lg:px-8">
       
       {/* ======================================================== */}
-      {/* 1. FULL-SCREEN VIDEO / CINEMATIC BACKGROUND (HERO 9)     */}
+      {/* 1. CINEMATIC VIDEO BACKGROUND WITH CLARIFYING OVERLAY     */}
       {/* ======================================================== */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Background Video Layer - 100% Brightness & Visible */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+        {/* Real drone footage of Sierras Chicas - AutoPlay, Loop, Muted, No visible controls */}
         <video
           ref={videoRef}
           autoPlay
@@ -79,52 +59,38 @@ export default function Hero9Section({
           muted
           playsInline
           preload="auto"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center scale-105 filter contrast-105"
         >
-          {/* Real drone footage of Sierras Chicas */}
           <source 
             src="/videos/hero-drone-sierras-chicas.mp4" 
             type="video/mp4" 
           />
         </video>
 
-        {/* Video Controls Toggle (Bottom Right Corner) */}
-        <div className="absolute bottom-4 right-4 z-30 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-slate-200 text-xs shadow-xl">
-          <button
-            type="button"
-            onClick={togglePlay}
-            className="hover:text-white transition-colors p-1"
-            title={isPlaying ? 'Pausar video' : 'Reproducir video'}
-          >
-            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-          </button>
-          <div className="w-px h-3 bg-white/20" />
-          <button
-            type="button"
-            onClick={toggleMute}
-            className="hover:text-white transition-colors p-1"
-            title={isMuted ? 'Activar sonido' : 'Silenciar'}
-          >
-            {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-          </button>
-        </div>
+        {/* Softening & clarifying overlay: reduces harsh saturation while preserving 100% sharpness */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-900/35 to-slate-950/60 backdrop-brightness-95 backdrop-saturate-90"></div>
       </div>
 
       {/* ======================================================== */}
-      {/* 2. HERO CONTENT & BLUR TEXT REVEAL                       */}
+      {/* 2. HERO CONTENT & HEADLINE                               */}
       {/* ======================================================== */}
       <div className="relative z-20 max-w-4xl mx-auto space-y-7 text-center">
         
         {/* High-Impact Headline with Glassmorphic Card */}
-        <div className="space-y-4 bg-black/40 backdrop-blur-md border border-white/15 p-7 sm:p-10 rounded-[2.5rem] shadow-2xl shadow-black/80 max-w-3xl mx-auto">
+        <div className="space-y-4 bg-slate-950/45 backdrop-blur-md border border-white/15 p-7 sm:p-10 rounded-[2.5rem] shadow-2xl shadow-black/80 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black border border-emerald-400/30 uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Guía Digital del Corredor</span>
+          </div>
+
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.12] text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
-            <span>Descubrí el latido de</span>
+            <span>El Portal Digital de</span>
             <br />
-            <span className="text-emerald-400">Sierras Chicas Digital</span>
+            <span className="text-emerald-400">Sierras Chicas</span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-            Conectamos a vecinos y turistas con comercios de cercanía, cabañas, gastronomía y servicios matriculados en todo el corredor serrano.
+            Conectamos a vecinos y turistas con comercios de cercanía, cabañas, gastronomía y servicios matriculados en todo el corredor de Sierras Chicas.
           </p>
         </div>
 
@@ -175,7 +141,7 @@ export default function Hero9Section({
               </select>
             </div>
 
-            {/* Action Button */}
+            {/* Action Button: Explorar Todo el Directorio */}
             <button
               type="button"
               onClick={scrollToDirectory}
@@ -229,23 +195,25 @@ export default function Hero9Section({
           )}
         </div>
 
-        {/* Quick Access Badges for Instant Exploration */}
-        <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-          <span className="text-xs text-slate-300 font-semibold flex items-center gap-1 mr-1">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            Acceso Rápido:
-          </span>
-          {quickBadges.map((badge, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => onCategoryQuickSelect?.(badge.cat)}
-              className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-slate-200 hover:text-white backdrop-blur-md transition-all active:scale-95"
-            >
-              {badge.label}
-            </button>
-          ))}
-        </div>
+        {/* Dynamic Fast-Access Category Badges */}
+        {dynamicQuickBadges.length > 0 && (
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+            <span className="text-xs text-slate-300 font-semibold flex items-center gap-1 mr-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              Rubros Activos:
+            </span>
+            {dynamicQuickBadges.map((badge, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => onCategoryQuickSelect?.(badge.cat)}
+                className="text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-slate-200 hover:text-white backdrop-blur-md transition-all active:scale-95"
+              >
+                {badge.label}
+              </button>
+            ))}
+          </div>
+        )}
 
       </div>
 

@@ -19,15 +19,25 @@ import {
   ShieldCheck,
   Video,
   Truck,
-  DollarSign
+  DollarSign,
+  Info,
+  Lock,
+  ExternalLink
 } from 'lucide-react';
 
 export default function MerchantProfileView() {
-  const { businesses, updateBusiness, categories, locations, plans, tags } = useApp();
-  const currentBiz = businesses[0] || {}; // Default to first business
+  const { businesses, updateBusiness, categories, locations, plans, tags, currentUser } = useApp();
+  const currentBiz = businesses.find(b => b.id === currentUser?.businessId) || businesses[0] || {};
 
   const currentPlan = plans.find(p => p.id === currentBiz.planId || p.slug === currentBiz.planName) || plans[1];
   const maxPhotosAllowed = currentPlan?.maxPhotos || 10;
+
+  // Modality determined by plan
+  const planDeterminedMode = currentPlan?.allowStoreCart
+    ? 'tienda'
+    : currentPlan?.allowServices
+    ? 'servicios'
+    : 'aviso';
 
   const [formData, setFormData] = useState({
     name: currentBiz.name || '',
@@ -44,8 +54,8 @@ export default function MerchantProfileView() {
     email: currentBiz.email || '',
     instagram: currentBiz.instagram || '',
     videoUrl: currentBiz.videoUrl || '',
-    openingHours: currentBiz.openingHours || '',
-    businessMode: currentBiz.businessMode || 'tienda', // aviso, tienda, servicios
+    openingHours: currentBiz.openingHours || 'Lunes a Viernes: 08:30 - 13:00 / 16:30 - 20:30\nSábados: 09:00 - 13:30\nDomingos: Cerrado',
+    businessMode: currentBiz.businessMode || planDeterminedMode,
     logoUrl: currentBiz.logoUrl || '',
     coverUrl: currentBiz.coverUrl || '',
     gallery: currentBiz.gallery || [],
@@ -54,7 +64,13 @@ export default function MerchantProfileView() {
       { id: 'z1', name: 'Radio Céntrico (hasta 3km)', price: 1200 },
       { id: 'z2', name: 'Localidades Vecinas (hasta 8km)', price: 2200 }
     ],
-    isFeatured: currentBiz.isFeatured || false
+    isFeatured: currentPlan?.allowFeatured || currentBiz.isFeatured || false,
+    // Banner configuration (for plans with allowBannerAds)
+    bannerAdTitle: currentBiz.bannerAdTitle || currentBiz.name || '',
+    bannerAdSubtitle: currentBiz.bannerAdSubtitle || currentBiz.tagline || '',
+    bannerAdTag: currentBiz.bannerAdTag || 'DESTACADO EN EL CORREDOR',
+    bannerAdImage: currentBiz.bannerAdImage || currentBiz.coverUrl || '',
+    bannerAdCtaText: currentBiz.bannerAdCtaText || 'Ver Propuesta'
   });
 
   const [newZoneName, setNewZoneName] = useState('');
@@ -145,7 +161,7 @@ export default function MerchantProfileView() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         
         {/* Header Summary */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-xs">
           <div>
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold uppercase">
@@ -155,10 +171,10 @@ export default function MerchantProfileView() {
                 Plan: {currentPlan?.name || 'Pro'}
               </span>
             </div>
-            <h1 className="text-lg sm:text-xl font-extrabold text-on-surface mt-1">
+            <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-1">
               Ficha del Negocio & Modalidad de Presencia
             </h1>
-            <p className="text-xs text-on-surface-variant mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               Definí cómo interactúan los vecinos y turistas de Sierras Chicas con tu ficha pública.
             </p>
           </div>
@@ -178,102 +194,102 @@ export default function MerchantProfileView() {
         {/* Profile Settings Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* Business Mode Card */}
-          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle">
-            <div className="flex items-center gap-2">
-              <Layers className="w-5 h-5 text-amber-600" />
-              <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
-                Modalidad del Negocio
-              </h3>
+          {/* Business Mode Card (Determined by Plan as per PDF) */}
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-4 shadow-xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Layers className="w-5 h-5 text-amber-600" />
+                <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
+                  Modalidad de Presencia (Definida por tu Plan)
+                </h3>
+              </div>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">
+                <Lock className="w-3 h-3 text-slate-400" />
+                Fijada por {currentPlan.name}
+              </span>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {/* Opción 1: Aviso */}
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, businessMode: 'aviso' })}
+              <div
                 className={`p-4 rounded-2xl border text-left space-y-1.5 transition-all ${
                   formData.businessMode === 'aviso' || formData.businessMode === 'catalogo'
-                    ? 'bg-amber-50 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
-                    : 'bg-surface border-surface-container-high hover:bg-surface-container'
+                    ? 'bg-amber-50/80 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
+                    : 'bg-slate-50 border-slate-200 opacity-60'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-on-surface">📢 Aviso Publicitario</span>
+                  <span className="text-xs font-extrabold text-slate-900">📢 Aviso Publicitario</span>
                   {(formData.businessMode === 'aviso' || formData.businessMode === 'catalogo') && (
                     <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
                   )}
                 </div>
-                <p className="text-[11px] text-on-surface-variant leading-relaxed">
-                  Para quienes solo quieren publicitar: ficha institucional con fotos, datos y WhatsApp directo sin carrito.
+                <p className="text-[11px] text-slate-500 leading-relaxed">
+                  Ficha institucional con fotos, datos y WhatsApp directo sin carrito de compras.
                 </p>
-              </button>
+              </div>
 
               {/* Opción 2: Tienda */}
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, businessMode: 'tienda' })}
+              <div
                 className={`p-4 rounded-2xl border text-left space-y-1.5 transition-all ${
                   formData.businessMode === 'tienda'
-                    ? 'bg-amber-50 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
-                    : 'bg-surface border-surface-container-high hover:bg-surface-container'
+                    ? 'bg-amber-50/80 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
+                    : 'bg-slate-50 border-slate-200 opacity-60'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-on-surface">🛍️ Tienda Virtual & Carrito</span>
+                  <span className="text-xs font-extrabold text-slate-900">🛍️ Tienda Virtual & Carrito</span>
                   {formData.businessMode === 'tienda' && <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />}
                 </div>
-                <p className="text-[11px] text-on-surface-variant leading-relaxed">
-                  Para gastronomía y comercios: catálogo con precios, carrito lateral y checkout automático por WhatsApp.
+                <p className="text-[11px] text-slate-500 leading-relaxed">
+                  Catálogo interactivo con precios, stock, carrito lateral y checkout automático por WhatsApp.
                 </p>
-              </button>
+              </div>
 
               {/* Opción 3: Servicios */}
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, businessMode: 'servicios' })}
+              <div
                 className={`p-4 rounded-2xl border text-left space-y-1.5 transition-all ${
                   formData.businessMode === 'servicios'
-                    ? 'bg-amber-50 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
-                    : 'bg-surface border-surface-container-high hover:bg-surface-container'
+                    ? 'bg-amber-50/80 border-amber-500 shadow-sm ring-2 ring-amber-500/20'
+                    : 'bg-slate-50 border-slate-200 opacity-60'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-on-surface">🔧 Servicios & Presupuesto</span>
+                  <span className="text-xs font-extrabold text-slate-900">🔧 Servicios & Presupuesto</span>
                   {formData.businessMode === 'servicios' && <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />}
                 </div>
-                <p className="text-[11px] text-on-surface-variant leading-relaxed">
-                  Para profesionales, técnicos y cabañas: cotizador y generador interactivo de presupuestos por WhatsApp.
+                <p className="text-[11px] text-slate-500 leading-relaxed">
+                  Para profesionales y oficios: cotizador y solicitud directa de presupuestos por WhatsApp.
                 </p>
-              </button>
+              </div>
             </div>
           </div>
 
           {/* General Information */}
-          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
-            <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-4 shadow-xs text-xs">
+            <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
               Datos Generales del Comercio
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="font-bold text-on-surface block mb-1">Nombre Comercial *</label>
+                <label className="font-bold text-slate-800 block mb-1">Nombre Comercial *</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-on-surface block mb-1">Lema / Subtítulo Corto</label>
+                <label className="font-bold text-slate-800 block mb-1">Lema / Subtítulo Corto</label>
                 <input
                   type="text"
                   value={formData.tagline}
                   onChange={e => setFormData({ ...formData, tagline: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600"
                 />
               </div>
             </div>
@@ -281,7 +297,7 @@ export default function MerchantProfileView() {
             {/* Category, Subcategory & Location */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="font-bold text-on-surface block mb-1">Rubro / Categoría *</label>
+                <label className="font-bold text-slate-800 block mb-1">Rubro / Categoría Principal *</label>
                 <select
                   value={formData.categoryId}
                   onChange={e => {
@@ -293,7 +309,7 @@ export default function MerchantProfileView() {
                       subcategory: ''
                     });
                   }}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-medium"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600 font-medium"
                 >
                   {categories.map(cat => (
                     <option key={cat.id} value={cat.id}>
@@ -304,11 +320,11 @@ export default function MerchantProfileView() {
               </div>
 
               <div>
-                <label className="font-bold text-on-surface block mb-1">Subcategoría Específica</label>
+                <label className="font-bold text-slate-800 block mb-1">Subcategoría Específica</label>
                 <select
                   value={formData.subcategory}
                   onChange={e => setFormData({ ...formData, subcategory: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-medium"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600 font-medium"
                 >
                   <option value="">Seleccionar subcategoría...</option>
                   {subcategoriesList.map(sub => (
@@ -318,7 +334,7 @@ export default function MerchantProfileView() {
               </div>
 
               <div>
-                <label className="font-bold text-on-surface block mb-1">Localidad en Sierras Chicas *</label>
+                <label className="font-bold text-slate-800 block mb-1">Localidad en Sierras Chicas *</label>
                 <select
                   value={formData.locationName}
                   onChange={e => {
@@ -329,7 +345,7 @@ export default function MerchantProfileView() {
                       locationId: selectedLoc ? selectedLoc.id : formData.locationId
                     });
                   }}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-medium"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600 font-medium"
                 >
                   {locations.map(loc => (
                     <option key={loc.id} value={loc.name}>
@@ -341,47 +357,52 @@ export default function MerchantProfileView() {
             </div>
 
             <div>
-              <label className="font-bold text-on-surface block mb-1">Descripción Completa</label>
+              <label className="font-bold text-slate-800 block mb-1">Descripción Completa</label>
               <textarea
                 rows={3}
                 value={formData.description}
                 onChange={e => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="font-bold text-on-surface block mb-1">Dirección Física</label>
+                <label className="font-bold text-slate-800 block mb-1">Dirección Física</label>
                 <input
                   type="text"
                   value={formData.address}
                   onChange={e => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600"
                 />
               </div>
 
+              {/* Multi-line Opening Hours Editor */}
               <div>
-                <label className="font-bold text-on-surface block mb-1">Horarios de Atención</label>
-                <input
-                  type="text"
+                <label className="font-bold text-slate-800 block mb-1">Horarios de Atención (Múltiples franjas y días)</label>
+                <textarea
+                  rows={3}
                   value={formData.openingHours}
                   onChange={e => setFormData({ ...formData, openingHours: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                  placeholder="Ej:&#10;Lun a Vie: 09:00 - 13:00 / 17:00 - 21:00&#10;Sábados: 09:00 - 13:30&#10;Domingos: Cerrado"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600 font-mono text-xs leading-relaxed"
                 />
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Podés ingresar varios renglones para especificar turnos de mañana, tarde y fines de semana.
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Business Tags / Badges (SC-13) */}
-          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
+          {/* Business Tags / Badges */}
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-4 shadow-xs text-xs">
             <div className="flex items-center gap-2">
               <Tag className="w-5 h-5 text-amber-600" />
-              <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
+              <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
                 Etiquetas & Distintivos Destacados
               </h3>
             </div>
-            <p className="text-on-surface-variant">Seleccioná los distintivos que caracterizan a tu local o servicio:</p>
+            <p className="text-slate-500">Seleccioná los distintivos que caracterizan a tu local o servicio:</p>
 
             <div className="flex flex-wrap gap-2 pt-1">
               {tags.map(tg => {
@@ -394,7 +415,7 @@ export default function MerchantProfileView() {
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                       isSelected
                         ? 'bg-amber-600 text-white shadow-xs'
-                        : 'bg-surface border border-surface-container-high text-on-surface hover:bg-surface-container'
+                        : 'bg-slate-50 border border-slate-200 text-slate-800 hover:bg-slate-100'
                     }`}
                   >
                     <span>{tg.emoji}</span>
@@ -407,282 +428,277 @@ export default function MerchantProfileView() {
           </div>
 
           {/* Contact & WhatsApp */}
-          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
-            <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-4 shadow-xs text-xs">
+            <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
               Canales de Contacto & Redes
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="font-bold text-on-surface block mb-1">Número de WhatsApp (para pedidos) *</label>
+                <label className="font-bold text-slate-800 block mb-1">Número de WhatsApp (para pedidos) *</label>
                 <input
                   type="text"
                   required
                   placeholder="5493543123456"
                   value={formData.whatsapp}
                   onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-mono"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600 font-mono"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-on-surface block mb-1">Instagram (@usuario)</label>
+                <label className="font-bold text-slate-800 block mb-1">Instagram (@usuario)</label>
                 <input
                   type="text"
                   placeholder="@cafesierras.cba"
                   value={formData.instagram}
                   onChange={e => setFormData({ ...formData, instagram: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600"
                 />
               </div>
             </div>
           </div>
 
-          {/* Visual Assets & Photo Upload (SC-19) */}
-          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
+          {/* Visual Assets & Photo Upload */}
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-4 shadow-xs text-xs">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
+                <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
                   Imágenes, Portada & Galería Multimedia
                 </h3>
-                <p className="text-on-surface-variant mt-0.5">
-                  Podés subir imágenes directamente desde tu dispositivo o pegar enlaces web.
+                <p className="text-slate-500 mt-0.5">
+                  Límite según tu plan actual: {maxPhotosAllowed} fotos.
                 </p>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-[11px] font-bold">
-                Límite de tu plan: {maxPhotosAllowed} fotos
-              </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              {/* Logo / Avatar Upload */}
-              <div className="p-4 rounded-2xl bg-surface border border-surface-container-high space-y-3">
-                <label className="font-bold text-on-surface block">Logo o Foto de Perfil (Avatar)</label>
-                {formData.logoUrl && (
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden border border-surface-container-high shadow-xs">
-                    <img src={formData.logoUrl} alt="Logo" className="w-full h-full object-cover" />
-                  </div>
-                )}
-                <div className="flex items-center gap-2">
-                  <label className="px-3 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-xs cursor-pointer flex items-center gap-1.5 transition-colors">
-                    <Upload className="w-3.5 h-3.5" />
-                    <span>Subir desde dispositivo</span>
-                    <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, 'logoUrl')} />
-                  </label>
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="font-bold text-slate-800 block mb-1">Logo / Avatar Comercial (URL)</label>
                 <input
                   type="text"
                   value={formData.logoUrl}
                   onChange={e => setFormData({ ...formData, logoUrl: e.target.value })}
-                  placeholder="O pegar URL del logo..."
-                  className="w-full px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-[11px]"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600"
                 />
               </div>
 
-              {/* Cover Photo Upload */}
-              <div className="p-4 rounded-2xl bg-surface border border-surface-container-high space-y-3">
-                <label className="font-bold text-on-surface block">Foto de Portada Principal</label>
-                {formData.coverUrl && (
-                  <div className="h-16 w-full rounded-xl overflow-hidden border border-surface-container-high shadow-xs">
-                    <img src={formData.coverUrl} alt="Portada" className="w-full h-full object-cover" />
-                  </div>
-                )}
-                <div className="flex items-center gap-2">
-                  <label className="px-3 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-xs cursor-pointer flex items-center gap-1.5 transition-colors">
-                    <Upload className="w-3.5 h-3.5" />
-                    <span>Subir desde dispositivo</span>
-                    <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, 'coverUrl')} />
-                  </label>
-                </div>
+              <div>
+                <label className="font-bold text-slate-800 block mb-1">Foto de Portada Principal (URL)</label>
                 <input
                   type="text"
                   value={formData.coverUrl}
                   onChange={e => setFormData({ ...formData, coverUrl: e.target.value })}
-                  placeholder="O pegar URL de la portada..."
-                  className="w-full px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-[11px]"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-emerald-600"
                 />
               </div>
             </div>
 
-            {/* Gallery Photos List */}
-            <div className="p-4 rounded-2xl bg-surface border border-surface-container-high space-y-3 pt-3">
-              <div className="flex items-center justify-between">
-                <label className="font-bold text-on-surface block">
-                  Galería de Fotos ({formData.gallery.length} / {maxPhotosAllowed})
-                </label>
-                <label className="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs cursor-pointer flex items-center gap-1.5 transition-colors">
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Subir foto a galería</span>
-                  <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, 'gallery')} />
-                </label>
+            {/* Gallery list */}
+            <div className="space-y-2 pt-2">
+              <label className="font-bold text-slate-800 block">Galería de Fotos ({formData.gallery.length} de {maxPhotosAllowed})</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={newGalleryUrl}
+                  onChange={e => setNewGalleryUrl(e.target.value)}
+                  placeholder="Pegar enlace de imagen (https://...)"
+                  className="flex-1 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddGalleryUrl}
+                  className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800"
+                >
+                  Agregar Foto
+                </button>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-                {formData.gallery.map((photoUrl, idx) => (
-                  <div key={idx} className="relative group h-24 rounded-2xl overflow-hidden border border-surface-container-high bg-slate-900">
-                    <img src={photoUrl} alt={`Foto ${idx + 1}`} className="w-full h-full object-cover" />
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-2">
+                {formData.gallery.map((img, idx) => (
+                  <div key={idx} className="relative rounded-xl overflow-hidden aspect-square border border-slate-200 group">
+                    <img src={img} alt="Galería" className="w-full h-full object-cover" />
                     <button
                       type="button"
                       onClick={() => handleRemoveGalleryPhoto(idx)}
-                      className="absolute top-1.5 right-1.5 p-1 rounded-full bg-rose-600 text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
-                      title="Eliminar foto"
+                      className="absolute inset-0 bg-rose-900/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <Trash2 className="w-3 h-3" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Video de Presentación */}
-            <div className="p-4 rounded-2xl bg-surface border border-surface-container-high space-y-3 pt-3">
-              <div className="flex items-center gap-2">
-                <Video className="w-4 h-4 text-amber-600" />
-                <label className="font-bold text-on-surface block">
-                  Video de Presentación del Comercio (YouTube, Vimeo o URL directa)
-                </label>
-              </div>
-              <input
-                type="url"
-                placeholder="https://www.youtube.com/watch?v=... o https://vimeo.com/..."
-                value={formData.videoUrl}
-                onChange={e => setFormData({ ...formData, videoUrl: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface focus:outline-none focus:border-primary text-xs"
-              />
-              <p className="text-[11px] text-on-surface-variant">
-                Se reproducirá de manera interactiva en tu ficha para aumentar las consultas y pedidos de clientes.
-              </p>
-            </div>
           </div>
 
-          {/* Delivery Zones & Shipping Fees (SC-19 / Page 5 & 6) */}
-          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Truck className="w-5 h-5 text-amber-600" />
-                <div>
-                  <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
-                    Zonas y Tarifas de Delivery / Envío
+          {/* Delivery Zones */}
+          {currentPlan?.allowDeliveryZones && (
+            <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-4 shadow-xs text-xs">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Truck className="w-5 h-5 text-teal-600" />
+                  <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
+                    Tarifas & Zonas de Delivery
                   </h3>
-                  <p className="text-on-surface-variant text-[11px]">
-                    Configurá los costos de envío según el barrio o localidad para que se sumen automáticamente en el carrito.
-                  </p>
                 </div>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-bold">
-                {formData.deliveryZones?.length || 0} Zonas Activas
-              </span>
-            </div>
 
-            {/* Add Zone form */}
-            <div className="p-3.5 rounded-2xl bg-surface border border-surface-container-high flex flex-col sm:flex-row items-center gap-3">
-              <div className="flex-1 w-full">
-                <label className="text-[10px] font-bold text-on-surface-variant block mb-1">Nombre de la Zona o Barrio</label>
-                <input
-                  type="text"
-                  placeholder="Ej: Villa Silvina / Mendiolaza Golf"
-                  value={newZoneName}
-                  onChange={e => setNewZoneName(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs"
-                />
-              </div>
-              <div className="w-full sm:w-36">
-                <label className="text-[10px] font-bold text-on-surface-variant block mb-1">Costo de Envío ($)</label>
-                <div className="relative">
-                  <span className="absolute left-2.5 top-1.5 text-xs text-on-surface-variant">$</span>
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                <div className="sm:col-span-7">
+                  <label className="font-bold text-slate-700 block mb-1">Nombre de la Zona</label>
+                  <input
+                    type="text"
+                    placeholder="Ej: Villa Allende Golf, Mendiolaza Centro..."
+                    value={newZoneName}
+                    onChange={e => setNewZoneName(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200"
+                  />
+                </div>
+                <div className="sm:col-span-3">
+                  <label className="font-bold text-slate-700 block mb-1">Costo Flete ($)</label>
                   <input
                     type="number"
                     placeholder="1500"
                     value={newZonePrice}
                     onChange={e => setNewZonePrice(e.target.value)}
-                    className="w-full pl-6 pr-2 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs font-mono font-bold"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200"
+                  />
+                </div>
+                <div className="sm:col-span-2 pt-5">
+                  <button
+                    type="button"
+                    onClick={handleAddZone}
+                    className="w-full py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold"
+                  >
+                    Agregar
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-1">
+                {(formData.deliveryZones || []).map((zone) => (
+                  <div
+                    key={zone.id}
+                    className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200"
+                  >
+                    <div>
+                      <span className="font-bold text-slate-900 block">{zone.name}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-black text-teal-800">${zone.price.toLocaleString('es-AR')}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveZone(zone.id)}
+                        className="text-rose-600 p-1"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Conditional Sponsored Banner Carousel Form (Only if contracted in plan) */}
+          {currentPlan?.allowBannerAds ? (
+            <div className="bg-gradient-to-br from-amber-500/10 via-white to-amber-500/10 p-5 sm:p-6 rounded-3xl border border-amber-300 space-y-4 shadow-sm text-xs">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-amber-600" />
+                <div>
+                  <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
+                    Configuración de Carrusel Publicitario (Pauta Incluida en tu Plan)
+                  </h3>
+                  <p className="text-slate-500">
+                    Completá los datos de tu banner para la vitrina comercial en la portada de Sierras Chicas Digital.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <div>
+                  <label className="font-bold text-slate-800 block mb-1">Título del Banner Publicitario *</label>
+                  <input
+                    type="text"
+                    value={formData.bannerAdTitle}
+                    onChange={e => setFormData({ ...formData, bannerAdTitle: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="font-bold text-slate-800 block mb-1">Etiqueta Superior (Ej: PROMO SERRANA)</label>
+                  <input
+                    type="text"
+                    value={formData.bannerAdTag}
+                    onChange={e => setFormData({ ...formData, bannerAdTag: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold uppercase"
                   />
                 </div>
               </div>
-              <div className="pt-4 sm:pt-4 w-full sm:w-auto">
-                <button
-                  type="button"
-                  onClick={handleAddZone}
-                  className="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center justify-center gap-1 shadow-sm"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Agregar Zona</span>
-                </button>
+
+              <div>
+                <label className="font-bold text-slate-800 block mb-1">Subtítulo / Bajada Atractiva *</label>
+                <input
+                  type="text"
+                  value={formData.bannerAdSubtitle}
+                  onChange={e => setFormData({ ...formData, bannerAdSubtitle: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="font-bold text-slate-800 block mb-1">Foto del Banner (Alta Resolución)</label>
+                  <input
+                    type="text"
+                    value={formData.bannerAdImage}
+                    onChange={e => setFormData({ ...formData, bannerAdImage: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300"
+                  />
+                </div>
+
+                <div>
+                  <label className="font-bold text-slate-800 block mb-1">Texto del Botón CTA (Ej: Ver Carta)</label>
+                  <input
+                    type="text"
+                    value={formData.bannerAdCtaText}
+                    onChange={e => setFormData({ ...formData, bannerAdCtaText: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 font-bold"
+                  />
+                </div>
               </div>
             </div>
+          ) : null}
 
-            {/* Zones List */}
-            <div className="space-y-2 pt-1">
-              {(formData.deliveryZones || []).map((zone) => (
-                <div
-                  key={zone.id}
-                  className="flex items-center justify-between p-3 rounded-2xl bg-surface border border-surface-container-high hover:border-amber-400 transition-colors"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center text-amber-900 font-bold text-xs">
-                      📍
-                    </div>
-                    <div>
-                      <span className="font-bold text-on-surface block text-xs">{zone.name}</span>
-                      <span className="text-[10px] text-on-surface-variant font-mono">ID: {zone.id}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 rounded-xl bg-surface-container-lowest border border-surface-container-high font-mono font-black text-amber-700 text-xs">
-                      ${zone.price.toLocaleString('es-AR')}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveZone(zone.id)}
-                      className="p-1.5 rounded-lg text-outline hover:text-rose-600 hover:bg-rose-50 transition-colors"
-                      title="Eliminar zona"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Featured & Spotlight Settings (SC-20 / Page 5 & 6) */}
-          <div className="bg-surface-container-lowest p-5 sm:p-6 rounded-3xl border border-surface-container-high space-y-4 shadow-subtle text-xs">
+          {/* Posicionamiento Destacado Benefit Indicator */}
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-2 shadow-xs text-xs">
             <div className="flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-amber-600" />
-              <h3 className="text-sm font-extrabold text-on-surface uppercase tracking-wider">
-                Presencia & Posicionamiento Destacado
+              <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
+                Presencia & Posicionamiento en el Corredor
               </h3>
             </div>
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-surface-container to-surface-container-lowest border border-amber-500/30 gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-on-surface text-xs">Aparición en "Tiendas & Comercios Destacados"</span>
-                  {currentPlan?.allowFeatured && (
-                    <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-black uppercase">
-                      Incluido en Plan {currentPlan.name}
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] text-on-surface-variant max-w-xl">
-                  Tu comercio aparecerá con badge verificado ⭐ en la portada principal, el carrusel de novedades y en la parte superior del Radar Serrano.
-                </p>
+            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div>
+                <span className="font-bold text-slate-900 text-xs block">
+                  Estado de Destacado: {currentPlan?.allowFeatured ? '⭐ Destacado Activo' : '⚪ Estándar'}
+                </span>
+                <span className="text-[11px] text-slate-500">
+                  {currentPlan?.allowFeatured 
+                    ? `Incluido en tu plan ${currentPlan.name}. Tu ficha aparece priorizada en búsquedas y radar.`
+                    : 'Para aparecer en las primeras posiciones y en el carrusel de novedades, actualizá a un plan superior.'}
+                </span>
               </div>
-
-              <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                <input
-                  type="checkbox"
-                  checked={formData.isFeatured}
-                  onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-surface-container-high after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
-              </label>
+              <span className={`px-2.5 py-1 rounded-xl text-xs font-bold ${
+                currentPlan?.allowFeatured ? 'bg-emerald-100 text-emerald-900' : 'bg-slate-200 text-slate-700'
+              }`}>
+                {currentPlan?.allowFeatured ? 'Activado por Plan' : 'Plan Estándar'}
+              </span>
             </div>
           </div>
 
-          {/* Bottom Save Button (SC-4) */}
+          {/* Bottom Save Button */}
           <div className="flex justify-end pt-2">
             <button
               type="submit"

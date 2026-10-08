@@ -14,6 +14,8 @@ import AdminLoginView from './views/auth/AdminLoginView';
 
 // Vecino / Turista Views
 import HomeDirectoryView from './views/pwa/HomeDirectoryView';
+import ExploreDirectoryView from './views/pwa/ExploreDirectoryView';
+import LocationDirectoryView from './views/pwa/LocationDirectoryView';
 import ProfessionalProfileView from './views/pwa/ProfessionalProfileView';
 import StoreCartCheckoutView from './views/pwa/StoreCartCheckoutView';
 import NoticeBusinessView from './views/pwa/NoticeBusinessView';
@@ -46,6 +48,8 @@ export default function App() {
         <Routes>
           {/* Public & Vecino / Turista PWA Routes */}
           <Route path="/" element={<HomeDirectoryView />} />
+          <Route path="/explorar" element={<ExploreDirectoryView />} />
+          <Route path="/localidad/:slug" element={<LocationDirectoryView />} />
           <Route path="/aviso/:slug" element={<NoticeBusinessView />} />
           <Route path="/comercio/:slug" element={<ProfessionalProfileView />} />
           <Route path="/tienda/:slug" element={<StoreCartCheckoutView />} />

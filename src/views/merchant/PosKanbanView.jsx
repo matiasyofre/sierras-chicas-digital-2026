@@ -28,7 +28,12 @@ import {
 } from 'lucide-react';
 
 export default function PosKanbanView() {
-  const { orders, updateOrderStatus, updateOrder, generateOrderPaymentLink, addOrder } = useApp();
+  const { orders, updateOrderStatus, updateOrder, generateOrderPaymentLink, addOrder, currentUser, businesses } = useApp();
+
+  const currentBiz = businesses.find(b => b.id === currentUser?.businessId) || businesses[0];
+  
+  // Tenant Isolation: strictly filter orders for currentBiz
+  const merchantOrders = orders.filter(o => o.businessId === currentBiz.id);
 
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'pending', 'preparing', 'ready', 'delivered'
   const [manualModalOpen, setManualModalOpen] = useState(false);
@@ -44,7 +49,7 @@ export default function PosKanbanView() {
   const [manualPayMethod, setManualPayMethod] = useState('Efectivo');
 
   // Selected order for detail modal
-  const selectedOrder = orders.find(o => o.id === selectedOrderId) || null;
+  const selectedOrder = merchantOrders.find(o => o.id === selectedOrderId) || null;
 
   const handleCreateManualOrder = (e) => {
     e.preventDefault();
@@ -54,7 +59,7 @@ export default function PosKanbanView() {
     const fee = parseFloat(custDeliveryFee) || 0;
 
     addOrder({
-      businessId: 'biz-1',
+      businessId: currentBiz.id || 'biz-1',
       customerName: custName,
       customerPhone: '+5493543112233',
       customerAddress: custAddress,
@@ -185,7 +190,7 @@ export default function PosKanbanView() {
             Todas las Columnas
           </button>
           {columns.map(col => {
-            const count = orders.filter(o => o.status === col.id).length;
+            const count = merchantOrders.filter(o => o.status === col.id || (col.id === 'pending' && o.status === 'new')).length;
             return (
               <button
                 key={col.id}
@@ -205,7 +210,7 @@ export default function PosKanbanView() {
         {/* 4-Column Kanban Board */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {columns.map(col => {
-            const colOrders = orders.filter(o => o.status === col.id);
+            const colOrders = merchantOrders.filter(o => o.status === col.id || (col.id === 'pending' && o.status === 'new'));
             const Icon = col.icon;
             const isHiddenMobile = activeTab !== 'all' && activeTab !== col.id;
 
@@ -248,10 +253,18 @@ export default function PosKanbanView() {
                       const isCash = ord.paymentStatus === 'cash_on_delivery' || ord.paymentMethod === 'Efectivo';
                       const isLinkSent = ord.paymentStatus === 'link_sent';
 
+                      const pastelCardBg = col.id === 'pending' 
+                        ? 'bg-amber-50/80 border-amber-200 text-slate-950' 
+                        : col.id === 'preparing' 
+                        ? 'bg-indigo-50/80 border-indigo-200 text-slate-950' 
+                        : col.id === 'ready' 
+                        ? 'bg-teal-50/80 border-teal-200 text-slate-950' 
+                        : 'bg-emerald-50/80 border-emerald-200 text-slate-950';
+
                       return (
                         <div
                           key={ord.id}
-                          className="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-subtle hover:shadow-card transition-all space-y-3 relative group"
+                          className={`${pastelCardBg} p-4 rounded-2xl border shadow-subtle hover:shadow-card transition-all space-y-3 relative group`}
                         >
                           {/* Order Header */}
                           <div className="flex items-center justify-between">

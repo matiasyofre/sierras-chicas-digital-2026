@@ -4,11 +4,27 @@ import { useApp } from '../../context/AppContext';
 import { Tags, Plus, Trash2, ChevronDown, ChevronRight, Tag, Layers, CheckCircle2 } from 'lucide-react';
 
 export default function AdminTaxonomyView() {
-  const { categories, addCategory, deleteCategory, addSubcategory, deleteSubcategory } = useApp();
+  const { categories, addCategory, deleteCategory, addSubcategory, deleteSubcategory, badges, addBadge, deleteBadge } = useApp();
   const [newCatName, setNewCatName] = useState('');
   const [newEmoji, setNewEmoji] = useState('🌟');
   const [expandedCatId, setExpandedCatId] = useState(null);
   const [newSubcatName, setNewSubcatName] = useState({});
+
+  // Badge state
+  const [newBadgeLabel, setNewBadgeLabel] = useState('');
+  const [newBadgeColor, setNewBadgeColor] = useState('emerald');
+  const [newBadgeIcon, setNewBadgeIcon] = useState('Sparkles');
+
+  const handleAddBadge = (e) => {
+    e.preventDefault();
+    if (!newBadgeLabel.trim()) return;
+    addBadge?.({
+      label: newBadgeLabel.trim(),
+      color: newBadgeColor,
+      icon: newBadgeIcon
+    });
+    setNewBadgeLabel('');
+  };
 
   const handleAddCategory = (e) => {
     e.preventDefault();
@@ -225,6 +241,77 @@ export default function AdminTaxonomyView() {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* Badges & Sellos VIP Management Card */}
+        <div className="bg-surface-container-lowest p-5 rounded-3xl border border-surface-container-high shadow-subtle space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
+                <Tags className="w-4 h-4" />
+              </span>
+              <div>
+                <h3 className="text-xs font-extrabold text-on-surface uppercase tracking-wider">
+                  Sellos & Badges Comerciales (Distintivos)
+                </h3>
+                <p className="text-[11px] text-on-surface-variant">
+                  Etiquetas para destacar cualidades especiales de los comercios (Pet Friendly, Vegano, Corredor VIP, etc.)
+                </p>
+              </div>
+            </div>
+            <span className="text-xs font-bold text-outline">{badges?.length || 0} badges configurados</span>
+          </div>
+
+          {/* Form Create Badge */}
+          <form onSubmit={handleAddBadge} className="flex flex-col sm:flex-row gap-2.5 pt-1">
+            <input
+              type="text"
+              required
+              placeholder="Nombre del Badge (ej. 'Pet Friendly', 'Sin TACC', 'Corredor VIP')"
+              value={newBadgeLabel}
+              onChange={e => setNewBadgeLabel(e.target.value)}
+              className="flex-1 px-3.5 py-2 rounded-xl bg-surface border border-surface-container-high text-xs text-on-surface focus:outline-none focus:border-indigo-600 font-medium"
+            />
+            <select
+              value={newBadgeColor}
+              onChange={e => setNewBadgeColor(e.target.value)}
+              className="px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-xs font-bold text-on-surface"
+            >
+              <option value="emerald">🟢 Verde Esmeralda</option>
+              <option value="amber">🟡 Dorado / Ámbar</option>
+              <option value="indigo">🔵 Azul / Índigo</option>
+              <option value="purple">🟣 Púrpura VIP</option>
+              <option value="rose">🔴 Coral / Rosa</option>
+            </select>
+            <button
+              type="submit"
+              className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-transform active:scale-95"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Crear Badge</span>
+            </button>
+          </form>
+
+          {/* Badges List */}
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-surface-container-high/60">
+            {badges?.map(b => (
+              <span
+                key={b.id}
+                className="inline-flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-xl bg-surface border border-surface-container-high text-xs font-bold shadow-xs"
+              >
+                <span>🏷️ {b.label}</span>
+                <span className="text-[10px] font-mono opacity-60">({b.color})</span>
+                <button
+                  type="button"
+                  onClick={() => deleteBadge?.(b.id)}
+                  className="p-1 rounded-md hover:bg-rose-100 hover:text-rose-600 text-outline transition-colors"
+                  title={`Eliminar badge ${b.label}`}
+                >
+                  <Trash2 className="w-3 h-3" />
+                </button>
+              </span>
+            ))}
           </div>
         </div>
 

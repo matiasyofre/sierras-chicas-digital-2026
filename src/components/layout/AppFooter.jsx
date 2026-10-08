@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowUpRight, Instagram, Facebook, MessageCircle, Youtube } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export default function AppFooter() {
-  const { settings, locations, setSelectedLocation } = useApp();
+  const { settings, locations } = useApp();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const supportPhone = settings?.supportWhatsApp || settings?.supportWhatsapp || '5493543123456';
+  const supportPhone = settings?.supportWhatsApp || settings?.supportWhatsapp || '5493543000000';
   const cleanPhone = supportPhone.replace(/[^0-9]/g, '');
 
   const handleNavScroll = (elementId) => {
@@ -31,57 +31,98 @@ export default function AppFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           
-          {/* Brand Col */}
-          <div className="space-y-3">
+          {/* Brand Col & Social Media Buttons */}
+          <div className="space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-800 to-teal-600 text-white flex items-center justify-center">
-                <span className="material-symbols-outlined text-[20px]">landscape</span>
+              <div className="w-10 h-10 rounded-2xl overflow-hidden bg-slate-900 flex items-center justify-center border border-emerald-500/20 shadow-md">
+                <video
+                  src="/videos/logo-animado.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="font-black text-lg text-white tracking-tight">Sierras Chicas Digital</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              El ecosistema digital que conecta a vecinos, turistas y comerciantes de todo el corredor de Sierras Chicas, Córdoba.
+              El ecosistema y guía comercial que conecta a vecinos, turistas y comerciantes de todo el corredor de Sierras Chicas, Córdoba.
             </p>
+
+            {/* Social Media Buttons */}
+            <div className="pt-2">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2">
+                Redes Oficiales:
+              </span>
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                  title="Instagram Sierras Chicas Digital"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                  title="Facebook Oficial"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a
+                  href={`https://wa.me/${cleanPhone}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                  title="WhatsApp Contacto"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://youtube.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                  title="YouTube Sierras Chicas"
+                >
+                  <Youtube className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Localidades */}
           <div className="space-y-2.5">
-            <h4 className="text-xs font-black uppercase tracking-wider text-white">Localidades</h4>
+            <h4 className="text-xs font-black uppercase tracking-wider text-white">Localidades del Corredor</h4>
             <ul className="text-xs space-y-1.5 text-slate-400">
-              <li>Río Ceballos · Dique La Quebrada</li>
-              <li>Unquillo · Ciudad de los Artistas</li>
-              <li>Mendiolaza · El Talar & Centro</li>
-              <li>Villa Allende · Golf & Gastronomía</li>
-              <li>Salsipuedes · Naturaleza & Cabañas</li>
-              <li>La Granja & Agua de Oro</li>
-              <li>La Calera · Portal Serrano</li>
+              {locations.map(loc => (
+                <li key={loc.id}>
+                  <Link to={`/localidad/${loc.slug}`} className="hover:text-amber-400 transition-colors">
+                    📍 {loc.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Accesos Rápidos a cada Sección de la Landing */}
+          {/* Accesos Rápidos */}
           <div className="space-y-2.5">
-            <h4 className="text-xs font-black uppercase tracking-wider text-white">Secciones</h4>
+            <h4 className="text-xs font-black uppercase tracking-wider text-white">Navegación</h4>
             <ul className="text-xs space-y-2 text-slate-400">
               <li>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (location.pathname !== '/') navigate('/');
-                    else window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="hover:text-white transition-colors text-left"
-                >
+                <Link to="/" className="hover:text-white transition-colors">
                   Inicio
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => handleNavScroll('tiendas-destacadas')}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Tiendas & Góndola Online
-                </button>
+                <Link to="/explorar" className="hover:text-amber-400 font-bold transition-colors">
+                  🔍 Explorar Todo el Directorio
+                </Link>
               </li>
               <li>
                 <button
@@ -89,7 +130,7 @@ export default function AppFooter() {
                   onClick={() => handleNavScroll('radar-serrano')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Radar Serrano por Ciudad
+                  Radar por Localidad
                 </button>
               </li>
               <li>
@@ -119,31 +160,22 @@ export default function AppFooter() {
                   Sobre Nosotros
                 </button>
               </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => handleNavScroll('preguntas')}
-                  className="hover:text-white transition-colors text-left"
-                >
-                  Preguntas Frecuentes
-                </button>
-              </li>
             </ul>
           </div>
 
           {/* Contacto & WhatsApp */}
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-black uppercase tracking-wider text-white">Contacto</h4>
+          <div className="space-y-3">
+            <h4 className="text-xs font-black uppercase tracking-wider text-white">Contacto Directo</h4>
             <p className="text-xs text-slate-400">
-              ¿Tenés dudas, consultas o querés sumar tu comercio al portal regional?
+              ¿Querés sumar tu comercio o pautar un banner destacado en tu localidad?
             </p>
             <a
               href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent('Hola Sierras Chicas Digital, quiero más información.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-emerald-100 text-xs font-black transition-all border border-emerald-600/40 shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition-all shadow-sm shadow-emerald-900/30"
             >
-              <Phone className="w-3.5 h-3.5" />
+              <MessageCircle className="w-4 h-4" />
               <span>WhatsApp Directo</span>
             </a>
           </div>
@@ -158,4 +190,3 @@ export default function AppFooter() {
     </footer>
   );
 }
-

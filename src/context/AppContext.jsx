@@ -6,6 +6,7 @@ import {
   INITIAL_PLANS, 
   INITIAL_SETTINGS, 
   INITIAL_TAGS,
+  INITIAL_BADGES,
   INITIAL_SPONSORED_BANNERS,
   INITIAL_SIMULATOR_LEVELS
 } from '../data/mockData';
@@ -33,6 +34,10 @@ export function AppProvider({ children }) {
   const [tags, setTags] = useState(() => {
     const saved = localStorage.getItem('sierras_tags');
     return saved ? JSON.parse(saved) : INITIAL_TAGS;
+  });
+  const [badges, setBadges] = useState(() => {
+    const saved = localStorage.getItem('sierras_badges');
+    return saved ? JSON.parse(saved) : INITIAL_BADGES;
   });
   const [sponsoredBanners, setSponsoredBanners] = useState(() => {
     const saved = localStorage.getItem('sierras_banners');
@@ -81,6 +86,10 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('sierras_banners', JSON.stringify(sponsoredBanners));
   }, [sponsoredBanners]);
+
+  useEffect(() => {
+    localStorage.setItem('sierras_badges', JSON.stringify(badges));
+  }, [badges]);
 
 
   // Sync to local DB
@@ -403,6 +412,20 @@ export function AppProvider({ children }) {
     setSponsoredBanners(prev => prev.filter(b => b.id !== bannerId));
   };
 
+  const addBadge = (newBadge) => {
+    const badgeWithId = { ...newBadge, id: 'badge-' + Date.now() };
+    setBadges(prev => [...prev, badgeWithId]);
+    return badgeWithId;
+  };
+
+  const updateBadge = (id, updated) => {
+    setBadges(prev => prev.map(b => b.id === id ? { ...b, ...updated } : b));
+  };
+
+  const deleteBadge = (id) => {
+    setBadges(prev => prev.filter(b => b.id !== id));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -430,6 +453,10 @@ export function AppProvider({ children }) {
         tags,
         addTag,
         deleteTag,
+        badges,
+        addBadge,
+        updateBadge,
+        deleteBadge,
         sponsoredBanners,
         updateSponsoredBanners,
         addSponsoredBanner,

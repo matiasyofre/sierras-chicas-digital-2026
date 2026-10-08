@@ -21,25 +21,29 @@ import {
 } from 'lucide-react';
 
 export default function GondolaDataGridView() {
-  const { products, updateProduct, addProduct, deleteProduct, tags, categories: adminCategories } = useApp();
+  const { products, updateProduct, addProduct, deleteProduct, tags, categories: adminCategories, currentUser, businesses } = useApp();
   
+  const currentBiz = businesses.find(b => b.id === currentUser?.businessId) || businesses[0];
+  const targetPreviewUrl = currentBiz.businessMode === 'aviso'
+    ? `/aviso/${currentBiz.slug}`
+    : currentBiz.businessMode === 'servicios'
+    ? `/comercio/${currentBiz.slug}`
+    : `/tienda/${currentBiz.slug}`;
+
   const [localProducts, setLocalProducts] = useState(products);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCat, setSelectedCat] = useState('all');
   const [saveSuccess, setSaveSuccess] = useState(false);
   
   // Available categories & subcategories from admin taxonomy
-  const availableCategoriesList = adminCategories.flatMap(c => [
-    c.name,
-    ...(c.subcategories || [])
-  ]);
-  const defaultCategory = availableCategoriesList[0] || 'Gastronomía';
+  const defaultCatObj = adminCategories[0] || { name: 'Gastronomía', subcategories: [] };
 
   // New / Edit Product Modal
   const [modalMode, setModalMode] = useState(null); // 'create' | 'edit' | null
   const [editingId, setEditingId] = useState(null);
   const [formName, setFormName] = useState('');
-  const [formCategory, setFormCategory] = useState(defaultCategory);
+  const [formCategory, setFormCategory] = useState(defaultCatObj.name);
+  const [formSubcategory, setFormSubcategory] = useState(defaultCatObj.subcategories?.[0] || '');
   const [formPrice, setFormPrice] = useState('');
   const [formComparePrice, setFormComparePrice] = useState('');
   const [formStock, setFormStock] = useState('50');
@@ -53,7 +57,10 @@ export default function GondolaDataGridView() {
     setLocalProducts(products);
   }, [products]);
 
-  const existingProductCategories = Array.from(new Set(localProducts.map(p => p.categoryName || defaultCategory)));
+  const selectedCatObject = adminCategories.find(c => c.name === formCategory) || adminCategories[0];
+  const availableSubcategoriesForForm = selectedCatObject?.subcategories || [];
+
+  const existingProductCategories = Array.from(new Set(localProducts.map(p => p.categoryName || defaultCatObj.name)));
 
   const handleInlineChange = (id, field, value) => {
     setLocalProducts(prev => prev.map(p => {
@@ -76,7 +83,9 @@ export default function GondolaDataGridView() {
     setModalMode('create');
     setEditingId(null);
     setFormName('');
-    setFormCategory(defaultCategory);
+    const firstCat = adminCategories[0] || { name: 'Gastronomía', subcategories: [] };
+    setFormCategory(firstCat.name);
+    setFormSubcategory(firstCat.subcategories?.[0] || '');
     setFormPrice('');
     setFormComparePrice('');
     setFormStock('50');
@@ -90,7 +99,9 @@ export default function GondolaDataGridView() {
     setModalMode('edit');
     setEditingId(prod.id);
     setFormName(prod.name);
-    setFormCategory(prod.categoryName || defaultCategory);
+    const foundCat = adminCategories.find(c => c.name === prod.categoryName || (c.subcategories || []).includes(prod.subcategory));
+    setFormCategory(foundCat?.name || adminCategories[0]?.name || 'Gastronomía');
+    setFormSubcategory(prod.subcategory || prod.categoryName || '');
     setFormPrice(prod.price.toString());
     setFormComparePrice(prod.compareAtPrice ? prod.compareAtPrice.toString() : '');
     setFormStock((prod.stock || 0).toString());
@@ -113,9 +124,10 @@ export default function GondolaDataGridView() {
     if (!formName.trim() || !formPrice) return;
 
     const prodData = {
-      businessId: 'biz-1',
+      businessId: currentBiz.id || 'biz-1',
       name: formName.trim(),
       categoryName: formCategory,
+      subcategory: formSubcategory,
       price: parseFloat(formPrice) || 0,
       compareAtPrice: formComparePrice ? parseFloat(formComparePrice) : null,
       stock: formUnlimitedStock ? 9999 : (parseInt(formStock) || 0),
@@ -173,7 +185,17 @@ export default function GondolaDataGridView() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 self-start md:self-auto">
+          <div className="flex items-center gap-2 self-start md:self-auto flex-wrap">
+            <a
+              href={targetPreviewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+            >
+              <Eye className="w-4 h-4 text-emerald-700" />
+              <span>Vista Previa de la Tienda</span>
+            </a>
+
             <button
               type="button"
               onClick={openCreateModal}
@@ -482,26 +504,43 @@ export default function GondolaDataGridView() {
                 />
               </div>
 
-              {/* Category selection (Strictly from Admin taxonomy) */}
-              <div>
-                <label className="font-bold text-on-surface block mb-1">Categoría / Rubro Oficial *</label>
-                <select
-                  value={formCategory}
-                  onChange={e => setFormCategory(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-semibold"
-                >
-                  {adminCategories.map(cat => (
-                    <optgroup key={cat.id} label={`${cat.emoji || '📁'} ${cat.name}`}>
-                      <option value={cat.name}>{cat.name} (Principal)</option>
-                      {(cat.subcategories || []).map((sub, idx) => (
-                        <option key={idx} value={sub}>↳ {sub}</option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
-                <p className="text-[10px] text-outline mt-1">
-                  * La taxonomía de categorías es administrada por la plataforma. Solo podés seleccionar una existente.
-                </p>
+              {/* Category & Subcategory cascading selection */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-on-surface block mb-1">Categoría / Rubro Principal *</label>
+                  <select
+                    value={formCategory}
+                    onChange={e => {
+                      const newCatName = e.target.value;
+                      setFormCategory(newCatName);
+                      const catObj = adminCategories.find(c => c.name === newCatName);
+                      setFormSubcategory(catObj?.subcategories?.[0] || '');
+                    }}
+                    className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-semibold"
+                  >
+                    {adminCategories.map(cat => (
+                      <option key={cat.id} value={cat.name}>
+                        {cat.emoji || '📁'} {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="font-bold text-on-surface block mb-1">Subcategoría / Especialidad *</label>
+                  <select
+                    value={formSubcategory}
+                    onChange={e => setFormSubcategory(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-on-surface focus:outline-none focus:border-primary font-semibold"
+                  >
+                    <option value="">(Sin subcategoría específica)</option>
+                    {availableSubcategoriesForForm.map((sub, idx) => (
+                      <option key={idx} value={sub}>
+                        ↳ {sub}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
